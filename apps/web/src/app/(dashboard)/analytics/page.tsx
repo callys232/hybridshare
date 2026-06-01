@@ -6,16 +6,16 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
 import { api, type ApiResponse } from '@/lib/api';
-import { NodesPattern } from '@/components/ui/BackgroundPattern';
+import { NodesPattern } from '@/component/ui/BackgroundPattern';
 import { cn, formatBytes } from '@/lib/utils';
-import { StorageChart } from '@/components/analytics/StorageChart';
-import { Badge } from '@/components/ui/Badge';
-import { Spinner } from '@/components/ui/Spinner';
+import { StorageChart } from '@/component/analytics/StorageChart';
+import { Badge } from '@/component/ui/Badge';
+import { Spinner } from '@/component/ui/Spinner';
 import {
   MOCK_STORAGE_DATA,
   MOCK_ACTIVITY_TIMELINE,
   MOCK_SYSTEM_STATS,
-} from '@/mock/mockfile';
+} from '@/mocks';
 
 interface ActivityPoint { date: string; uploads: number; bytes: number }
 

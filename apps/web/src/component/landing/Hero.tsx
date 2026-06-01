@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CirclesPattern } from '@/components/ui/BackgroundPattern';
+import { CirclesPattern } from '@/component/ui/BackgroundPattern';
 
 export function Hero() {
   return (

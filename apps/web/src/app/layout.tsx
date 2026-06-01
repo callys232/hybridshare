@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import { ThemeProvider } from '@/components/ui/ThemeProvider';
+import { ThemeProvider } from '@/component/ui/ThemeProvider';
 
 export const metadata: Metadata = {
   title: { default: 'HybridShare', template: '%s · HybridShare' },

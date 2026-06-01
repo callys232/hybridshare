@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Tooltip } from '@/components/ui/Tooltip';
+import { Tooltip } from '@/component/ui/Tooltip';
 
 interface SettingsNavItem {
   href: string;

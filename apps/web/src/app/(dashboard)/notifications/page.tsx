@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useNotificationStore } from '@/store/notification.store';
 import { cn, formatRelativeTime } from '@/lib/utils';
-import { WavesPattern } from '@/components/ui/BackgroundPattern';
+import { WavesPattern } from '@/component/ui/BackgroundPattern';
 
 type Filter = 'all' | 'unread';
 

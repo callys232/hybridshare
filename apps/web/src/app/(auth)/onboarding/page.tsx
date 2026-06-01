@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
-import { ShapesPattern } from '@/components/ui/BackgroundPattern';
+import { ShapesPattern } from '@/component/ui/BackgroundPattern';
 
 const STEPS = ['Your role', 'Use case', 'Finish'] as const;
 type Step = 0 | 1 | 2;

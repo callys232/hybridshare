@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Sidebar } from '@/components/layout/Sidebar';
-import { TopBar } from '@/components/layout/TopBar';
-import { ToastProvider } from '@/components/ui/Toast';
-import { AuthGuard } from '@/components/auth/AuthGuard';
+import { Sidebar } from '@/component/layout/Sidebar';
+import { TopBar } from '@/component/layout/TopBar';
+import { ToastProvider } from '@/component/ui/Toast';
+import { AuthGuard } from '@/component/auth/AuthGuard';
 import { UpgradeProvider } from '@/context/UpgradeContext';
 import { useAuthStore } from '@/store/auth.store';
 import { useWorkspaceStore } from '@/store/workspace.store';

@@ -4,8 +4,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @source "../app/**/*.{tsx,ts,jsx,js}";
-@source "../components/**/*.{tsx,ts,jsx,js}";
+@source "../component/**/*.{tsx,ts,jsx,js}";
 @source "../lib/**/*.{tsx,ts,jsx,js}";
+@source "../utils/**/*.{tsx,ts,jsx,js}";
+@source "../hooks/**/*.{tsx,ts,jsx,js}";
 
 /* ── Design tokens ─────────────────────────────────────────── */
 @theme {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { api } from '@/lib/api';
-import { Avatar } from '@/components/ui/Avatar';
+import { Avatar } from '@/component/ui/Avatar';
 import { FileSizeLabel } from './FileSizeLabel';
 import type { LFSFileVersion } from '@/types/lfs';
 

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
-import { Avatar } from '@/components/ui/Avatar';
+import { Avatar } from '@/component/ui/Avatar';
 import Link from 'next/link';
 import type { LFSComment } from '@/types/lfs';
 

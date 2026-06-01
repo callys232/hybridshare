@@ -1,5 +1,5 @@
-import { SettingsSidebar } from '@/components/settings/SettingsSidebar';
-import { LinesPattern } from '@/components/ui/BackgroundPattern';
+import { SettingsSidebar } from '@/component/settings/SettingsSidebar';
+import { LinesPattern } from '@/component/ui/BackgroundPattern';
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {
   return (

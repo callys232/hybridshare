@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { api, type ApiResponse } from '@/lib/api';
-import { MOCK_FOLDERS } from '@/mock/mockfile';
+import { MOCK_FOLDERS } from '@/mocks';
 import type { Folder } from '@hybridshare/shared/types/file';
 
 interface FolderTreeProps {

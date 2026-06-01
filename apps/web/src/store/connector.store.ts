@@ -1,7 +1,7 @@
 ﻿import { create } from 'zustand';
 import { api, type ApiResponse } from '@/lib/api';
 import type { Connector, NormalizedAsset } from '@hybridshare/shared/types/connector';
-import { getMockConnectors, MOCK_ASSETS } from '@/mock/mockfile';
+import { getMockConnectors, MOCK_ASSETS } from '@/mocks';
 
 interface ConnectorState {
   connectors: Connector[];

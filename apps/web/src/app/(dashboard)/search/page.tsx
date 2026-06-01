@@ -5,11 +5,11 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
 import { api } from '@/lib/api';
-import { FileIcon } from '@/components/lfs/FileIcon';
-import { GridPattern } from '@/components/ui/BackgroundPattern';
-import { FileSizeLabel } from '@/components/lfs/FileSizeLabel';
-import { GuestBanner } from '@/components/lfs/GuestBanner';
-import { Spinner } from '@/components/ui/Spinner';
+import { FileIcon } from '@/component/lfs/FileIcon';
+import { GridPattern } from '@/component/ui/BackgroundPattern';
+import { FileSizeLabel } from '@/component/lfs/FileSizeLabel';
+import { GuestBanner } from '@/component/lfs/GuestBanner';
+import { Spinner } from '@/component/ui/Spinner';
 
 interface SearchHit {
   id: string;

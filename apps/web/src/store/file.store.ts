@@ -1,7 +1,7 @@
 ﻿import { create } from 'zustand';
 import { api, getErrorMessage, type ApiResponse } from '@/lib/api';
 import type { FileMetadata, UploadProgress } from '@hybridshare/shared/types/file';
-import { getMockFiles } from '@/mock/mockfile';
+import { getMockFiles } from '@/mocks';
 
 interface FileState {
   files: FileMetadata[];

@@ -6,10 +6,10 @@ import { useParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
 import { api } from '@/lib/api';
-import { BreadcrumbNav } from '@/components/lfs/BreadcrumbNav';
-import { GuestBanner } from '@/components/lfs/GuestBanner';
-import { StorageBar } from '@/components/lfs/StorageBar';
-import { Spinner } from '@/components/ui/Spinner';
+import { BreadcrumbNav } from '@/component/lfs/BreadcrumbNav';
+import { GuestBanner } from '@/component/lfs/GuestBanner';
+import { StorageBar } from '@/component/lfs/StorageBar';
+import { Spinner } from '@/component/ui/Spinner';
 import type { LFSLibrary, LFSWorkspace, WorkspacePillar } from '@/types/lfs';
 
 const PILLAR_CONFIG: Record<WorkspacePillar, { color: string; bg: string }> = {

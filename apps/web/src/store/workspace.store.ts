@@ -1,7 +1,7 @@
 ﻿import { create } from 'zustand';
 import { api, type ApiResponse } from '@/lib/api';
 import type { Workspace } from '@hybridshare/shared/types/workspace';
-import { getMockWorkspaces } from '@/mock/mockfile';
+import { getMockWorkspaces } from '@/mocks';
 
 interface WorkspaceState {
   workspaces: Workspace[];

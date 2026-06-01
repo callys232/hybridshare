@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { cn, formatRelativeTime, formatBytes } from '@/lib/utils';
 import { api } from '@/lib/api';
-import { Avatar } from '@/components/ui/Avatar';
-import { Spinner } from '@/components/ui/Spinner';
-import { LinesPattern } from '@/components/ui/BackgroundPattern';
+import { Avatar } from '@/component/ui/Avatar';
+import { Spinner } from '@/component/ui/Spinner';
+import { LinesPattern } from '@/component/ui/BackgroundPattern';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

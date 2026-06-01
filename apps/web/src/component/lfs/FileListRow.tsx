@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { FileIcon } from './FileIcon';
 import { FileSizeLabel } from './FileSizeLabel';
-import { Avatar } from '@/components/ui/Avatar';
+import { Avatar } from '@/component/ui/Avatar';
 import type { LFSFile } from '@/types/lfs';
 
 interface Props {

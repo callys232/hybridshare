@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { NodesPattern } from '@/components/ui/BackgroundPattern';
+import { NodesPattern } from '@/component/ui/BackgroundPattern';
 import { FeatureModal, type FeatureDetail } from './FeatureModal';
 
 // ── Icon helpers ──────────────────────────────────────────────────────────────

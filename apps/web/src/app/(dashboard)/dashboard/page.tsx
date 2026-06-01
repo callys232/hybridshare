@@ -6,15 +6,15 @@ import { api, type ApiResponse } from '@/lib/api';
 import { useAuthStore } from '@/store/auth.store';
 import { useFileStore } from '@/store/file.store';
 import { useWorkspaceStore } from '@/store/workspace.store';
-import { StickmanPattern } from '@/components/ui/BackgroundPattern';
+import { StickmanPattern } from '@/component/ui/BackgroundPattern';
 import { cn, formatBytes, formatRelativeTime, storagePercentage } from '@/lib/utils';
-import { Avatar } from '@/components/ui/Avatar';
-import { Button } from '@/components/ui/Button';
-import { FileCard } from '@/components/files/FileCard';
-import { WorkspaceCard } from '@/components/workspace/WorkspaceCard';
-import { FileUploader } from '@/components/files/FileUploader';
-import { LockedButton } from '@/components/ui/PlanGate';
-import { MOCK_SYSTEM_STATS, MOCK_ACTIVITY_TIMELINE } from '@/mock/mockfile';
+import { Avatar } from '@/component/ui/Avatar';
+import { Button } from '@/component/ui/Button';
+import { FileCard } from '@/component/files/FileCard';
+import { WorkspaceCard } from '@/component/workspace/WorkspaceCard';
+import { FileUploader } from '@/component/files/FileUploader';
+import { LockedButton } from '@/component/ui/PlanGate';
+import { MOCK_SYSTEM_STATS, MOCK_ACTIVITY_TIMELINE } from '@/mocks';
 import type { FileMetadata } from '@hybridshare/shared/types/file';
 
 interface DashboardStats {

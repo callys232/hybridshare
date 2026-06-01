@@ -1,6 +1,6 @@
 ﻿import { create } from 'zustand';
 import { api, type ApiResponse } from '@/lib/api';
-import { MOCK_NOTIFICATIONS } from '@/mock/mockfile';
+import { MOCK_NOTIFICATIONS } from '@/mocks';
 
 interface Notification {
   id: string;

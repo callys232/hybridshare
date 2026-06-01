@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
 import { api } from '@/lib/api';
-import { Avatar } from '@/components/ui/Avatar';
-import { GuestBanner } from '@/components/lfs/GuestBanner';
-import { BreadcrumbNav } from '@/components/lfs/BreadcrumbNav';
-import { Spinner } from '@/components/ui/Spinner';
-import { WavesPattern } from '@/components/ui/BackgroundPattern';
+import { Avatar } from '@/component/ui/Avatar';
+import { GuestBanner } from '@/component/lfs/GuestBanner';
+import { BreadcrumbNav } from '@/component/lfs/BreadcrumbNav';
+import { Spinner } from '@/component/ui/Spinner';
+import { WavesPattern } from '@/component/ui/BackgroundPattern';
 import type { LFSAuditLog } from '@/types/lfs';
 
 // ── SVG action icons — no emojis ──────────────────────────────────────────────

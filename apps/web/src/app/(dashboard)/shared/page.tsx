@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { cn, formatDate } from '@/lib/utils';
-import { Avatar } from '@/components/ui/Avatar';
-import { Spinner } from '@/components/ui/Spinner';
-import { CirclesPattern } from '@/components/ui/BackgroundPattern';
+import { Avatar } from '@/component/ui/Avatar';
+import { Spinner } from '@/component/ui/Spinner';
+import { CirclesPattern } from '@/component/ui/BackgroundPattern';
 
 interface SharedItem {
   id: string;

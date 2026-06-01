@@ -1,4 +1,4 @@
-import { LinesPattern } from '@/components/ui/BackgroundPattern';
+import { LinesPattern } from '@/component/ui/BackgroundPattern';
 
 const STEPS = [
   {

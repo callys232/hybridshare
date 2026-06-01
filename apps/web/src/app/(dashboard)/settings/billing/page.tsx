@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Spinner } from '@/components/ui/Spinner';
+import { Spinner } from '@/component/ui/Spinner';
 
 const PLANS = [
   {

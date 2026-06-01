@@ -4,9 +4,9 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { FormField } from '@/components/ui/FormField';
+import { Button } from '@/component/ui/Button';
+import { Input } from '@/component/ui/Input';
+import { FormField } from '@/component/ui/FormField';
 
 // ── SVG animated background ───────────────────────────────────────────────────
 function AdminBackground() {
