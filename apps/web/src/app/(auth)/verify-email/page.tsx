@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
-import { ToastProvider } from '@/component/ui/Toast';
+import { ToastProvider } from '@/components/ui/Toast';
 
 type State = 'pending' | 'verifying' | 'success' | 'error' | 'sent';
 

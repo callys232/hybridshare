@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @source "../app/**/*.{tsx,ts,jsx,js}";
-@source "../component/**/*.{tsx,ts,jsx,js}";
+@source "../components/**/*.{tsx,ts,jsx,js}";
 @source "../lib/**/*.{tsx,ts,jsx,js}";
 @source "../utils/**/*.{tsx,ts,jsx,js}";
 @source "../hooks/**/*.{tsx,ts,jsx,js}";
@@ -64,8 +64,12 @@
   --animate-scale-in:       scaleIn 0.15s ease-out;
   --animate-slide-in-right: slideInRight 0.25s ease-out;
   --animate-pop:            pop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-spring-in:      springIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-bounce-in:      bounceIn 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   --animate-spin-slow:      spin 2s linear infinite;
   --animate-pulse-red:      pulseRed 1.5s ease-in-out infinite;
+  --animate-shimmer:        shimmer 1.5s infinite linear;
+  --animate-float:          float 3s ease-in-out infinite;
 }
 
 /* ── Keyframes ──────────────────────────────────────────────── */
@@ -75,6 +79,10 @@
 @keyframes scaleIn      { from { opacity: 0; transform: scale(0.95) }      to { opacity: 1; transform: scale(1) } }
 @keyframes slideInRight { from { opacity: 0; transform: translateX(16px) } to { opacity: 1; transform: translateX(0) } }
 @keyframes pop          { from { opacity: 0; transform: scale(0.85) }      to { opacity: 1; transform: scale(1) } }
+@keyframes springIn     { from { opacity: 0; transform: scale(0.8) }       to { opacity: 1; transform: scale(1) } }
+@keyframes bounceIn     { 0% { opacity: 0; transform: scale(0.3) } 50% { transform: scale(1.05) } 70% { transform: scale(0.9) } 100% { opacity: 1; transform: scale(1) } }
+@keyframes float        { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+@keyframes shimmer      { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
 @keyframes pulseRed {
   0%, 100% { opacity: 1 }
   50%       { opacity: 0.5; box-shadow: 0 0 0 4px rgba(193,33,41,0.2) }
@@ -116,12 +124,20 @@
            border border-brand-gray dark:border-dark-border
            transition-[transform,box-shadow,border-color] duration-200 ease-out;
   }
-  .card-hover { @apply hover:shadow-card-hover dark:hover:shadow-card-hover-dark hover:-translate-y-0.5; }
+  .card-hover {
+    @apply hover:shadow-card-hover dark:hover:shadow-card-hover-dark
+           hover:-translate-y-1 hover:border-brand-gray-dark dark:hover:border-dark-border-soft;
+  }
+  .card-interactive {
+    @apply card card-hover cursor-pointer
+           active:scale-[0.99] active:translate-y-0;
+  }
   .stat-card  {
     @apply bg-white dark:bg-dark-surface-1 rounded-card shadow-card dark:shadow-card-dark
            border border-brand-gray dark:border-dark-border
            transition-[transform,box-shadow,border-color] duration-200 ease-out
-           hover:shadow-card-hover dark:hover:shadow-card-hover-dark hover:-translate-y-0.5
+           hover:shadow-card-hover dark:hover:shadow-card-hover-dark
+           hover:-translate-y-1 hover:border-brand-gray-dark dark:hover:border-dark-border-soft
            p-5 flex flex-col gap-3;
   }
 
@@ -190,9 +206,12 @@
   .sidebar-item,
   .sidebar-item-active {
     @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
-           text-brand-gray-dark dark:text-dark-text-muted transition-all duration-150
+           text-brand-gray-dark dark:text-dark-text-muted
+           transition-all duration-150 ease-out
            hover:bg-brand-white-soft dark:hover:bg-dark-surface-2
-           hover:text-brand-black dark:hover:text-dark-text cursor-pointer;
+           hover:text-brand-black dark:hover:text-dark-text
+           hover:translate-x-0.5
+           active:scale-[0.98] cursor-pointer;
   }
   .sidebar-item-active {
     @apply bg-brand-white-soft dark:bg-dark-surface-2
@@ -206,9 +225,10 @@
   /* ── Icon button ── */
   .icon-btn {
     @apply p-2 rounded-lg text-brand-gray-dark dark:text-dark-text-muted
-           transition-all duration-150
+           transition-all duration-150 ease-out
            hover:bg-brand-white-soft dark:hover:bg-dark-surface-2
            hover:text-brand-black dark:hover:text-dark-text
+           hover:scale-110
            active:scale-95 cursor-pointer focus:outline-none
            focus-visible:ring-2 focus-visible:ring-brand-red;
   }
@@ -217,13 +237,14 @@
   .dropdown-menu {
     @apply absolute z-50 min-w-48 bg-white dark:bg-dark-surface-1 rounded-card
            shadow-dropdown dark:shadow-card-dark border border-brand-gray dark:border-dark-border
-           animate-scale-in py-1;
+           animate-pop py-1;
   }
   .dropdown-item,
   .dropdown-item-danger {
     @apply flex items-center gap-2.5 px-3 py-2 text-sm text-brand-black dark:text-dark-text
-           cursor-pointer transition-colors duration-100
-           hover:bg-brand-white-soft dark:hover:bg-dark-surface-2;
+           cursor-pointer transition-all duration-100 ease-out rounded-md mx-1
+           hover:bg-brand-white-soft dark:hover:bg-dark-surface-2
+           hover:translate-x-0.5 active:scale-[0.98];
   }
   .dropdown-item-danger { @apply text-brand-red hover:bg-brand-red-muted dark:hover:bg-brand-red/10; }
 
@@ -253,4 +274,43 @@
     overflow: hidden;
   }
   .ring-brand { --tw-ring-color: rgba(193,33,41,0.5); }
+
+  /* ── Skeleton shimmer ── */
+  .skeleton {
+    background: linear-gradient(90deg, var(--color-brand-gray) 25%, var(--color-brand-gray-mid) 50%, var(--color-brand-gray) 75%);
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+    @apply rounded;
+  }
+  .dark .skeleton {
+    background: linear-gradient(90deg, var(--color-dark-surface-2) 25%, var(--color-dark-surface-3) 50%, var(--color-dark-surface-2) 75%);
+    background-size: 200% 100%;
+  }
+
+  /* ── Pop badge ── */
+  .badge-pop {
+    @apply transition-transform duration-150 hover:scale-110 active:scale-95 cursor-default;
+  }
+
+  /* ── Interactive hover lift ── */
+  .hover-lift {
+    @apply transition-all duration-200 ease-out hover:-translate-y-1
+           hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] dark:hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)];
+  }
+
+  /* ── Glow ring on focus ── */
+  .glow-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/60
+           focus-visible:shadow-[0_0_0_4px_rgba(193,33,41,0.12)];
+  }
+
+  /* ── Press effect ── */
+  .press { @apply active:scale-95 active:brightness-95 transition-all duration-100; }
+
+  /* ── Floating label for inputs ── */
+  .input-float {
+    @apply w-full border-b-2 border-brand-gray bg-transparent pt-5 pb-1 text-sm text-brand-black
+           dark:text-dark-text focus:outline-none focus:border-brand-black dark:focus:border-white
+           transition-colors duration-200;
+  }
 }

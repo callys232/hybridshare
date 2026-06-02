@@ -4,9 +4,9 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
-import { Button } from '@/component/ui/Button';
-import { ToastProvider, useToast } from '@/component/ui/Toast';
-import { CirclesPattern } from '@/component/ui/BackgroundPattern';
+import { Button } from '@/components/ui/Button';
+import { ToastProvider, useToast } from '@/components/ui/Toast';
+import { CirclesPattern } from '@/components/ui/BackgroundPattern';
 
 function LoginForm() {
   const router = useRouter();

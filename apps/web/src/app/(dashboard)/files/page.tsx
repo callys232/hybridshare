@@ -4,16 +4,16 @@ import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
-import { GridPattern } from '@/component/ui/BackgroundPattern';
-import { LockedButton } from '@/component/ui/PlanGate';
+import { GridPattern } from '@/components/ui/BackgroundPattern';
+import { LockedButton } from '@/components/ui/PlanGate';
 import { api } from '@/lib/api';
-import { FileGridCard } from '@/component/lfs/FileGridCard';
-import { FileListRow } from '@/component/lfs/FileListRow';
-import { UploadDropzone } from '@/component/lfs/UploadDropzone';
-import { UploadQueue } from '@/component/lfs/UploadQueue';
-import { BreadcrumbNav } from '@/component/lfs/BreadcrumbNav';
-import { GuestBanner } from '@/component/lfs/GuestBanner';
-import { Spinner } from '@/component/ui/Spinner';
+import { FileGridCard } from '@/components/lfs/FileGridCard';
+import { FileListRow } from '@/components/lfs/FileListRow';
+import { UploadDropzone } from '@/components/lfs/UploadDropzone';
+import { UploadQueue } from '@/components/lfs/UploadQueue';
+import { BreadcrumbNav } from '@/components/lfs/BreadcrumbNav';
+import { GuestBanner } from '@/components/lfs/GuestBanner';
+import { Spinner } from '@/components/ui/Spinner';
 import type { LFSFile, LFSUploadJob, LibraryView, SortField, SortDir } from '@/types/lfs';
 
 const MOCK_FILES: LFSFile[] = [

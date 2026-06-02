@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { cn, formatDate } from '@/lib/utils';
 import { api, type ApiResponse } from '@/lib/api';
-import { Button } from '@/component/ui/Button';
-import { Modal } from '@/component/ui/Modal';
-import { Avatar } from '@/component/ui/Avatar';
-import { LinesPattern } from '@/component/ui/BackgroundPattern';
-import { Badge } from '@/component/ui/Badge';
-import { useToast } from '@/component/ui/Toast';
+import { Button } from '@/components/ui/Button';
+import { Modal } from '@/components/ui/Modal';
+import { Avatar } from '@/components/ui/Avatar';
+import { LinesPattern } from '@/components/ui/BackgroundPattern';
+import { Badge } from '@/components/ui/Badge';
+import { useToast } from '@/components/ui/Toast';
 
 interface Task {
   id: string;

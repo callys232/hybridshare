@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { cn, formatRelativeTime } from '@/lib/utils';
 import { api, type ApiResponse } from '@/lib/api';
-import { WavesPattern } from '@/component/ui/BackgroundPattern';
-import { Button } from '@/component/ui/Button';
-import { Badge, StatusBadge } from '@/component/ui/Badge';
-import { Modal } from '@/component/ui/Modal';
-import { Spinner } from '@/component/ui/Spinner';
-import { useToast } from '@/component/ui/Toast';
+import { WavesPattern } from '@/components/ui/BackgroundPattern';
+import { Button } from '@/components/ui/Button';
+import { Badge, StatusBadge } from '@/components/ui/Badge';
+import { Modal } from '@/components/ui/Modal';
+import { Spinner } from '@/components/ui/Spinner';
+import { useToast } from '@/components/ui/Toast';
 import { MOCK_SOCIAL_POSTS } from '@/mocks';
 
 const PLATFORMS = [

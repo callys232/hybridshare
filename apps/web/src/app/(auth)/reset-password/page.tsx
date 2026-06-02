@@ -4,8 +4,8 @@ import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
-import { Button } from '@/component/ui/Button';
-import { ToastProvider, useToast } from '@/component/ui/Toast';
+import { Button } from '@/components/ui/Button';
+import { ToastProvider, useToast } from '@/components/ui/Toast';
 
 function ResetPasswordForm() {
   const router = useRouter();

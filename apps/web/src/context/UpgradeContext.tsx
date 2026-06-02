@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useState } from 'react';
-import { UpgradeModal } from '@/component/ui/UpgradeModal';
+import { UpgradeModal } from '@/components/ui/UpgradeModal';
 import type { FeatureKey } from '@/hooks/usePlan';
 import type { PlanType } from '@hybridshare/shared/types/user';
 

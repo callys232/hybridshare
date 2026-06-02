@@ -6,11 +6,11 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
 import { api, type ApiResponse } from '@/lib/api';
-import { NodesPattern } from '@/component/ui/BackgroundPattern';
+import { NodesPattern } from '@/components/ui/BackgroundPattern';
 import { cn, formatBytes } from '@/lib/utils';
-import { StorageChart } from '@/component/analytics/StorageChart';
-import { Badge } from '@/component/ui/Badge';
-import { Spinner } from '@/component/ui/Spinner';
+import { StorageChart } from '@/components/analytics/StorageChart';
+import { Badge } from '@/components/ui/Badge';
+import { Spinner } from '@/components/ui/Spinner';
 import {
   MOCK_STORAGE_DATA,
   MOCK_ACTIVITY_TIMELINE,

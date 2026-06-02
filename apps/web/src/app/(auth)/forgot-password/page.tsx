@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/auth.store';
-import { Button } from '@/component/ui/Button';
-import { ToastProvider, useToast } from '@/component/ui/Toast';
+import { Button } from '@/components/ui/Button';
+import { ToastProvider, useToast } from '@/components/ui/Toast';
 
 function ForgotPasswordForm() {
   const { forgotPassword } = useAuthStore();

@@ -2,15 +2,15 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { LandingNavbar } from '@/component/layout/LandingNavbar';
-import { LandingFooter } from '@/component/layout/LandingFooter';
-import { Hero }          from '@/component/landing/Hero';
-import { Stats }         from '@/component/landing/Stats';
-import { Features }      from '@/component/landing/Features';
-import { HowItWorks }   from '@/component/landing/HowItWorks';
-import { Pricing }       from '@/component/landing/Pricing';
-import { Testimonials }  from '@/component/landing/Testimonials';
-import { CtaBanner }     from '@/component/landing/CtaBanner';
+import { LandingNavbar } from '@/components/layout/LandingNavbar';
+import { LandingFooter } from '@/components/layout/LandingFooter';
+import { Hero }          from '@/components/landing/Hero';
+import { Stats }         from '@/components/landing/Stats';
+import { Features }      from '@/components/landing/Features';
+import { HowItWorks }   from '@/components/landing/HowItWorks';
+import { Pricing }       from '@/components/landing/Pricing';
+import { Testimonials }  from '@/components/landing/Testimonials';
+import { CtaBanner }     from '@/components/landing/CtaBanner';
 
 export default function LandingPage() {
   const router = useRouter();

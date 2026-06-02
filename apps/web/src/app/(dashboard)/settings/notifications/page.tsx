@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/component/ui/Button';
-import { Tabs } from '@/component/ui/Tabs';
-import { ToastProvider, useToast } from '@/component/ui/Toast';
+import { Button } from '@/components/ui/Button';
+import { Tabs } from '@/components/ui/Tabs';
+import { ToastProvider, useToast } from '@/components/ui/Toast';
 import { cn } from '@/lib/utils';
 import { api } from '@/lib/api';
 

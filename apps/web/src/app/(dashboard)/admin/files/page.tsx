@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import { cn, formatBytes, formatRelativeTime } from '@/lib/utils';
 import { api } from '@/lib/api';
-import { Avatar } from '@/component/ui/Avatar';
-import { Spinner } from '@/component/ui/Spinner';
-import { GridPattern } from '@/component/ui/BackgroundPattern';
-import { Tabs } from '@/component/ui/Tabs';
+import { Avatar } from '@/components/ui/Avatar';
+import { Spinner } from '@/components/ui/Spinner';
+import { GridPattern } from '@/components/ui/BackgroundPattern';
+import { Tabs } from '@/components/ui/Tabs';
 
 const VIEW_TABS = [
   { id: 'all'     as const, label: 'All Files'   },

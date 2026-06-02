@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/component/ui/Button';
-import { Input } from '@/component/ui/Input';
-import { FormField } from '@/component/ui/FormField';
-import { Tabs } from '@/component/ui/Tabs';
-import { Tooltip } from '@/component/ui/Tooltip';
-import { ToastProvider, useToast } from '@/component/ui/Toast';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { FormField } from '@/components/ui/FormField';
+import { Tabs } from '@/components/ui/Tabs';
+import { Tooltip } from '@/components/ui/Tooltip';
+import { ToastProvider, useToast } from '@/components/ui/Toast';
 import { cn } from '@/lib/utils';
 import { api } from '@/lib/api';
 

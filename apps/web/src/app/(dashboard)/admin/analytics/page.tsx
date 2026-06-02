@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Spinner } from '@/component/ui/Spinner';
+import { Spinner } from '@/components/ui/Spinner';
 
 // Simple mini chart component (no external dep)
 function SparkLine({ data, color = '#c12129', height = 40 }: { data: number[]; color?: string; height?: number }) {

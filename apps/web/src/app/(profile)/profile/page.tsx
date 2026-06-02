@@ -6,11 +6,11 @@ import Link from 'next/link';
 import { cn, formatBytes, formatRelativeTime, storagePercentage } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
 import { api } from '@/lib/api';
-import { Avatar } from '@/component/ui/Avatar';
-import { ProfileCard } from '@/component/profile/ProfileCard';
-import { ToastProvider } from '@/component/ui/Toast';
-import { LinesPattern } from '@/component/ui/BackgroundPattern';
-import { Spinner } from '@/component/ui/Spinner';
+import { Avatar } from '@/components/ui/Avatar';
+import { ProfileCard } from '@/components/profile/ProfileCard';
+import { ToastProvider } from '@/components/ui/Toast';
+import { LinesPattern } from '@/components/ui/BackgroundPattern';
+import { Spinner } from '@/components/ui/Spinner';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

@@ -3,13 +3,13 @@
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useConnectorStore } from '@/store/connector.store';
-import { NodesPattern } from '@/component/ui/BackgroundPattern';
-import { ConnectorCard } from '@/component/connectors/ConnectorCard';
-import { ConnectorSetup } from '@/component/connectors/ConnectorSetup';
-import { Button } from '@/component/ui/Button';
-import { Badge } from '@/component/ui/Badge';
-import { Spinner } from '@/component/ui/Spinner';
-import { LockedButton } from '@/component/ui/PlanGate';
+import { NodesPattern } from '@/components/ui/BackgroundPattern';
+import { ConnectorCard } from '@/components/connectors/ConnectorCard';
+import { ConnectorSetup } from '@/components/connectors/ConnectorSetup';
+import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/Badge';
+import { Spinner } from '@/components/ui/Spinner';
+import { LockedButton } from '@/components/ui/PlanGate';
 import { CONNECTOR_METADATA } from '@/lib/connector-metadata';
 
 export default function ConnectorsPage() {

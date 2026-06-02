@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
 import { api } from '@/lib/api';
-import { GuestBanner } from '@/component/lfs/GuestBanner';
-import { ShapesPattern } from '@/component/ui/BackgroundPattern';
-import { Spinner } from '@/component/ui/Spinner';
-import { LockedButton } from '@/component/ui/PlanGate';
+import { GuestBanner } from '@/components/lfs/GuestBanner';
+import { ShapesPattern } from '@/components/ui/BackgroundPattern';
+import { Spinner } from '@/components/ui/Spinner';
+import { LockedButton } from '@/components/ui/PlanGate';
 import type { LFSWorkspace, WorkspacePillar } from '@/types/lfs';
 
 const PILLAR_ICONS: Record<WorkspacePillar, React.ReactNode> = {

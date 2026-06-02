@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { useAuthStore } from '@/store/auth.store';
-import { useToast, ToastProvider } from '@/component/ui/Toast';
-import { StepIndicator } from '@/component/ui/StepIndicator';
-import { ProfileInfoForm }  from '@/component/profile/ProfileInfoForm';
-import { AvatarUpload }     from '@/component/profile/AvatarUpload';
-import { ContactForm }      from '@/component/profile/ContactForm';
-import { ProfilePreview }   from '@/component/profile/ProfilePreview';
+import { useToast, ToastProvider } from '@/components/ui/Toast';
+import { StepIndicator } from '@/components/ui/StepIndicator';
+import { ProfileInfoForm }  from '@/components/profile/ProfileInfoForm';
+import { AvatarUpload }     from '@/components/profile/AvatarUpload';
+import { ContactForm }      from '@/components/profile/ContactForm';
+import { ProfilePreview }   from '@/components/profile/ProfilePreview';
 import { cn } from '@/lib/utils';
 
 const STEPS = [
