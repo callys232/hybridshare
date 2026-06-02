@@ -42,3 +42,9 @@ prisma/migrations/dev.db
 # ─── Misc ─────────────────────────────────────────────────────────────────────
 .cache/
 *.tsbuildinfo
+
+# ─── Shared type compiled output (source .ts files are kept) ──────────────────
+src/shared/**/*.js
+src/shared/**/*.js.map
+src/shared/**/*.d.ts
+src/shared/**/*.d.ts.map
