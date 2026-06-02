@@ -129,8 +129,12 @@
            hover:-translate-y-1 hover:border-brand-gray-dark dark:hover:border-dark-border-soft;
   }
   .card-interactive {
-    @apply card card-hover cursor-pointer
-           active:scale-[0.99] active:translate-y-0;
+    @apply bg-white dark:bg-dark-surface-1 rounded-card shadow-card dark:shadow-card-dark
+           border border-brand-gray dark:border-dark-border
+           transition-[transform,box-shadow,border-color] duration-200 ease-out
+           hover:shadow-card-hover dark:hover:shadow-card-hover-dark
+           hover:-translate-y-1 hover:border-brand-gray-dark dark:hover:border-dark-border-soft
+           cursor-pointer active:scale-[0.99] active:translate-y-0;
   }
   .stat-card  {
     @apply bg-white dark:bg-dark-surface-1 rounded-card shadow-card dark:shadow-card-dark

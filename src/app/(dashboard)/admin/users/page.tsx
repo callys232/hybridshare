@@ -5,6 +5,7 @@ import { cn, formatRelativeTime, formatBytes } from '@/lib/utils';
 import { api } from '@/lib/api';
 import { Avatar } from '@/components/ui/Avatar';
 import { Spinner } from '@/components/ui/Spinner';
+import { ConfirmModal } from '@/components/ui/Modal';
 import { LinesPattern } from '@/components/ui/BackgroundPattern';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -398,6 +399,8 @@ export default function AdminUsersPage() {
   const [showInvite, setShowInvite] = useState(false);
   const [editUser, setEditUser] = useState<AdminUser | null>(null);
   const [permUser, setPermUser] = useState<AdminUser | null>(null);
+  const [deleteUser, setDeleteUser] = useState<AdminUser | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const [page, setPage] = useState(1);
   const PER_PAGE = 10;
 
@@ -413,9 +416,18 @@ export default function AdminUsersPage() {
     api.patch(`/admin/users/${id}/status`, {}).catch(() => null);
   };
 
-  const handleDelete = (id: string) => {
-    setUsers((p) => p.filter((u) => u.id !== id));
-    api.delete(`/admin/users/${id}`).catch(() => null);
+  const handleDelete = async () => {
+    if (!deleteUser) return;
+    setDeleting(true);
+    try {
+      await api.delete(`/admin/users/${deleteUser.id}`);
+      setUsers((p) => p.filter((u) => u.id !== deleteUser.id));
+    } catch {
+      // keep user in list if API fails
+    } finally {
+      setDeleting(false);
+      setDeleteUser(null);
+    }
   };
 
   const handleRoleSave = (id: string, role: PlatformRole) => {
@@ -440,6 +452,17 @@ export default function AdminUsersPage() {
       {showInvite && <InviteModal onClose={() => setShowInvite(false)} />}
       {editUser  && <EditRoleModal user={editUser} onClose={() => setEditUser(null)} onSave={handleRoleSave} />}
       {permUser  && <PermissionsPanel user={permUser} onClose={() => setPermUser(null)} />}
+
+      <ConfirmModal
+        open={!!deleteUser}
+        onClose={() => setDeleteUser(null)}
+        onConfirm={handleDelete}
+        title="Delete user"
+        message={`Permanently delete ${deleteUser?.name ?? 'this user'}? This removes all their files, workspaces, and data and cannot be undone.`}
+        confirmLabel="Delete permanently"
+        danger
+        loading={deleting}
+      />
 
       {/* Header */}
       <div className="relative z-10 flex items-start justify-between flex-wrap gap-4">
@@ -588,7 +611,7 @@ export default function AdminUsersPage() {
                     }
                   </button>
                   {/* Delete */}
-                  <button type="button" onClick={() => handleDelete(u.id)}
+                  <button type="button" onClick={() => setDeleteUser(u)}
                     className="icon-btn w-7 h-7 p-0 text-red-600 hover:bg-red-50" title="Delete user">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

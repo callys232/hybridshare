@@ -150,8 +150,8 @@ export default function ActivityPage() {
 
   useEffect(() => {
     api.get('/activity')
-      .then((r) => setLogs((r.data as { data: LFSAuditLog[] }).data ?? MOCK_LOGS))
-      .catch(() => setLogs(MOCK_LOGS))
+      .then((r) => setLogs((r.data as { data: LFSAuditLog[] }).data ?? (process.env.NODE_ENV === 'development' ? MOCK_LOGS : [])))
+      .catch(() => { if (process.env.NODE_ENV === 'development') setLogs(MOCK_LOGS); else setLogs([]); })
       .finally(() => setIsLoading(false));
   }, []);
 

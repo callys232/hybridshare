@@ -69,9 +69,11 @@ function SearchContent() {
     router.replace(`/search?q=${encodeURIComponent(q)}`, { scroll: false });
     try {
       const res = await api.get(`/search?q=${encodeURIComponent(q)}&type=${typeFilter}`);
-      setResults((res.data as { data: SearchHit[] }).data ?? MOCK_HITS);
+      setResults((res.data as { data: SearchHit[] }).data ?? (process.env.NODE_ENV === 'development' ? MOCK_HITS : []));
     } catch {
-      setResults(MOCK_HITS.filter((h) => h.name.toLowerCase().includes(q.toLowerCase()) || h.highlight?.toLowerCase().includes(q.toLowerCase())));
+      setResults(process.env.NODE_ENV === 'development'
+        ? MOCK_HITS.filter((h) => h.name.toLowerCase().includes(q.toLowerCase()) || h.highlight?.toLowerCase().includes(q.toLowerCase()))
+        : []);
     } finally {
       setIsSearching(false);
     }

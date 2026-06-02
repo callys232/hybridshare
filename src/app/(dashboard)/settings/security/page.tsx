@@ -233,7 +233,9 @@ const MOCK_SESSIONS = [
 
 function SessionsSection() {
   const { success: toastSuccess } = useToast();
-  const [sessions, setSessions] = useState(MOCK_SESSIONS);
+  const [sessions, setSessions] = useState<typeof MOCK_SESSIONS>(
+    process.env.NODE_ENV === 'development' ? MOCK_SESSIONS : []
+  );
   const [revoking, setRevoking] = useState<string | null>(null);
 
   const revoke = async (id: string) => {

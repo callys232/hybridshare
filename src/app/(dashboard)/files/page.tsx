@@ -47,15 +47,15 @@ export default function FilesPage() {
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState('All');
   const [sortField, setSortField] = useState<SortField>('updatedAt');
-  const [sortDir] = useState<SortDir>('desc');
+  const [sortDir, setSortDir] = useState<SortDir>('desc');
   const [uploadJobs, setUploadJobs] = useState<LFSUploadJob[]>([]);
   const [showUpload, setShowUpload] = useState(false);
   const [starredOnly, setStarredOnly] = useState(false);
 
   useEffect(() => {
     api.get('/files')
-      .then((r) => setFiles((r.data as { data: LFSFile[] }).data ?? MOCK_FILES))
-      .catch(() => setFiles(MOCK_FILES))
+      .then((r) => setFiles((r.data as { data: LFSFile[] }).data ?? (process.env.NODE_ENV === 'development' ? MOCK_FILES : [])))
+      .catch(() => { if (process.env.NODE_ENV === 'development') setFiles(MOCK_FILES); else setFiles([]); })
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -153,9 +153,14 @@ export default function FilesPage() {
               <button key={t} type="button" onClick={() => setTypeFilter(t)} className={cn('px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all border flex-shrink-0', typeFilter === t ? 'bg-brand-black text-white border-brand-black' : 'bg-white text-brand-gray-dark border-brand-gray hover:border-brand-black')}>{t}</button>
             ))}
           </div>
-          <select aria-label="Sort files" value={sortField} onChange={(e) => setSortField(e.target.value as SortField)} className="text-sm border border-brand-gray rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-brand-black">
-            {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-          </select>
+          <div className="flex items-center gap-1">
+            <select aria-label="Sort files" value={sortField} onChange={(e) => setSortField(e.target.value as SortField)} className="text-sm border border-brand-gray rounded-lg px-3 py-2 bg-white focus:outline-none focus:border-brand-black">
+              {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+            <button type="button" aria-label={`Sort ${sortDir === 'asc' ? 'ascending' : 'descending'}`} onClick={() => setSortDir((d) => d === 'asc' ? 'desc' : 'asc')} className="p-2 border border-brand-gray rounded-lg bg-white hover:border-brand-black transition-colors">
+              <svg className={cn('w-4 h-4 text-brand-gray-dark transition-transform', sortDir === 'asc' && 'rotate-180')} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" /></svg>
+            </button>
+          </div>
           <button type="button" aria-label="Toggle starred" onClick={() => setStarredOnly((v) => !v)} className={cn('p-2 rounded-lg border transition-all', starredOnly ? 'bg-amber-50 border-amber-400 text-amber-500' : 'bg-white border-brand-gray text-brand-gray-dark hover:border-brand-black')}>
             <svg className="w-4 h-4" fill={starredOnly ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
           </button>

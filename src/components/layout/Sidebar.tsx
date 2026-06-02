@@ -90,6 +90,24 @@ const PLATFORM_ITEMS: NavItem[] = [
     ),
   },
   {
+    href: '/tasks',
+    label: 'Tasks',
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+      </svg>
+    ),
+  },
+  {
+    href: '/social',
+    label: 'Social',
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+      </svg>
+    ),
+  },
+  {
     href: '/recycle-bin',
     label: 'Recycle Bin',
     icon: (
@@ -256,6 +274,25 @@ export function Sidebar() {
           </div>
         )}
       </nav>
+
+      {/* Upgrade CTA */}
+      <div className="px-3 pb-2">
+        <Link
+          href="/upgrade"
+          className={cn(
+            'flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold w-full',
+            'bg-gradient-to-r from-brand-red/10 to-brand-red/5',
+            'border border-brand-red/20 text-brand-red',
+            'hover:from-brand-red/20 hover:to-brand-red/10 hover:border-brand-red/40',
+            'transition-all duration-150 group'
+          )}
+        >
+          <svg className="w-3.5 h-3.5 flex-shrink-0 transition-transform duration-150 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          Upgrade Plan
+        </Link>
+      </div>
 
       {/* Storage meter */}
       <div className="px-4 py-3 border-t border-brand-gray">

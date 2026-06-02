@@ -42,8 +42,8 @@ export default function RecycleBinPage() {
 
   useEffect(() => {
     api.get('/recycle-bin')
-      .then((r) => setItems((r.data as { data: DeletedFile[] }).data ?? MOCK_DELETED))
-      .catch(() => setItems(MOCK_DELETED))
+      .then((r) => setItems((r.data as { data: DeletedFile[] }).data ?? (process.env.NODE_ENV === 'development' ? MOCK_DELETED : [])))
+      .catch(() => { if (process.env.NODE_ENV === 'development') setItems(MOCK_DELETED); else setItems([]); })
       .finally(() => setIsLoading(false));
   }, []);
 

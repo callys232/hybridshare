@@ -52,10 +52,10 @@ function NewKeyModal({ onClose, onCreate }: { onClose: () => void; onCreate: (na
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="bg-zinc-950 border border-zinc-800 rounded-2xl w-full max-w-lg shadow-2xl">
-        <div className="flex items-center justify-between p-5 border-b border-zinc-800">
+      <div className="bg-zinc-950 border border-brand-gray dark:border-dark-border rounded-2xl w-full max-w-lg shadow-2xl">
+        <div className="flex items-center justify-between p-5 border-b border-brand-gray dark:border-dark-border">
           <h2 className="text-base font-bold text-white">Create API Key</h2>
-          <button type="button" onClick={onClose} className="text-zinc-400 hover:text-white p-1.5 rounded-lg hover:bg-zinc-800 transition-all">
+          <button type="button" onClick={onClose} className="text-brand-gray-dark dark:text-dark-text-muted hover:text-white p-1.5 rounded-lg hover:bg-brand-white-soft dark:bg-dark-surface-2 transition-all">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -65,24 +65,24 @@ function NewKeyModal({ onClose, onCreate }: { onClose: () => void; onCreate: (na
         {step === 'form' ? (
           <div className="p-5 space-y-5">
             <div>
-              <label className="block text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">Key Name</label>
+              <label className="block text-xs font-semibold text-brand-gray-dark dark:text-dark-text-muted uppercase tracking-wide mb-1.5">Key Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Production Integration"
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-brand-red transition-colors"
+                className="w-full bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-brand-gray-dark dark:text-dark-text-muted focus:outline-none focus:border-brand-red transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-2">Scopes</label>
+              <label className="block text-xs font-semibold text-brand-gray-dark dark:text-dark-text-muted uppercase tracking-wide mb-2">Scopes</label>
               <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
                 {ALL_SCOPES.map((scope) => (
-                  <label key={scope.value} className="flex items-start gap-3 cursor-pointer group p-2 rounded-lg hover:bg-zinc-900 transition-colors">
+                  <label key={scope.value} className="flex items-start gap-3 cursor-pointer group p-2 rounded-lg hover:bg-white dark:bg-dark-surface-1 transition-colors">
                     <div className={cn(
                       'w-4 h-4 rounded border-2 mt-0.5 shrink-0 flex items-center justify-center transition-all',
-                      selectedScopes.includes(scope.value) ? 'bg-brand-red border-brand-red' : 'border-zinc-600 group-hover:border-zinc-500'
+                      selectedScopes.includes(scope.value) ? 'bg-brand-red border-brand-red' : 'border-brand-gray-mid dark:border-dark-border-soft group-hover:border-brand-gray-dark dark:border-dark-border-soft'
                     )}>
                       {selectedScopes.includes(scope.value) && (
                         <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -93,7 +93,7 @@ function NewKeyModal({ onClose, onCreate }: { onClose: () => void; onCreate: (na
                     <input type="checkbox" className="sr-only" checked={selectedScopes.includes(scope.value)} onChange={() => toggleScope(scope.value)} />
                     <div>
                       <p className="text-sm font-medium text-white">{scope.label}</p>
-                      <p className="text-xs text-zinc-500">{scope.description}</p>
+                      <p className="text-xs text-brand-gray-dark dark:text-dark-text-muted">{scope.description}</p>
                     </div>
                   </label>
                 ))}
@@ -101,20 +101,20 @@ function NewKeyModal({ onClose, onCreate }: { onClose: () => void; onCreate: (na
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">
-                Expiry <span className="text-zinc-600 normal-case font-normal">(optional)</span>
+              <label className="block text-xs font-semibold text-brand-gray-dark dark:text-dark-text-muted uppercase tracking-wide mb-1.5">
+                Expiry <span className="text-brand-gray-dark dark:text-dark-text-muted normal-case font-normal">(optional)</span>
               </label>
               <input
                 type="date"
                 value={expiresAt}
                 onChange={(e) => setExpiresAt(e.target.value)}
                 min={new Date().toISOString().split('T')[0]}
-                className="bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-red transition-colors"
+                className="bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-red transition-colors"
               />
             </div>
 
             <div className="flex gap-3 pt-2">
-              <button type="button" onClick={onClose} className="flex-1 py-2.5 bg-zinc-800 text-white text-sm rounded-lg hover:bg-zinc-700 transition-all font-medium">
+              <button type="button" onClick={onClose} className="flex-1 py-2.5 bg-brand-white-soft dark:bg-dark-surface-2 text-white text-sm rounded-lg hover:bg-brand-gray dark:bg-dark-surface-3 transition-all font-medium">
                 Cancel
               </button>
               <button
@@ -140,11 +140,11 @@ function NewKeyModal({ onClose, onCreate }: { onClose: () => void; onCreate: (na
               </div>
             </div>
 
-            <div className="bg-zinc-900 border border-zinc-700 rounded-lg p-3 flex items-center gap-2">
+            <div className="bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-lg p-3 flex items-center gap-2">
               <code className="flex-1 text-sm text-green-400 font-mono break-all">
                 hs_live_{Math.random().toString(36).substring(2, 14)}{Math.random().toString(36).substring(2, 14)}
               </code>
-              <button type="button" className="p-2 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white transition-all shrink-0">
+              <button type="button" className="p-2 rounded hover:bg-brand-white-soft dark:bg-dark-surface-2 text-brand-gray-dark dark:text-dark-text-muted hover:text-white transition-all shrink-0">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
@@ -191,7 +191,7 @@ export default function ApiKeysPage() {
       <div className="flex items-start justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-white">API Keys</h1>
-          <p className="text-zinc-400 text-sm mt-1">Authenticate your integrations with scoped API keys</p>
+          <p className="text-brand-gray-dark dark:text-dark-text-muted text-sm mt-1">Authenticate your integrations with scoped API keys</p>
         </div>
         <button
           type="button"
@@ -206,31 +206,31 @@ export default function ApiKeysPage() {
       </div>
 
       {/* Security notice */}
-      <div className="flex items-start gap-3 p-4 bg-zinc-900 border border-zinc-800 rounded-xl mb-6">
-        <svg className="w-5 h-5 text-zinc-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="flex items-start gap-3 p-4 bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-xl mb-6">
+        <svg className="w-5 h-5 text-brand-gray-dark dark:text-dark-text-muted shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>
         <div>
           <p className="text-sm font-medium text-white">Treat API keys like passwords</p>
-          <p className="text-xs text-zinc-400 mt-0.5">Never share keys in public repos, logs, or client-side code. Use environment variables or secrets managers.</p>
+          <p className="text-xs text-brand-gray-dark dark:text-dark-text-muted mt-0.5">Never share keys in public repos, logs, or client-side code. Use environment variables or secrets managers.</p>
         </div>
       </div>
 
       {/* Keys list */}
       <div className="space-y-3">
         {apiKeys.length === 0 ? (
-          <div className="text-center py-16 bg-zinc-900 border border-zinc-800 rounded-xl">
-            <svg className="w-12 h-12 text-zinc-700 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="text-center py-16 bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-xl">
+            <svg className="w-12 h-12 text-brand-gray-dark dark:text-dark-text-muted mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
             </svg>
-            <p className="text-zinc-400 font-medium">No API keys yet</p>
-            <p className="text-zinc-600 text-sm mt-1">Create a key to start integrating with the API</p>
+            <p className="text-brand-gray-dark dark:text-dark-text-muted font-medium">No API keys yet</p>
+            <p className="text-brand-gray-dark dark:text-dark-text-muted text-sm mt-1">Create a key to start integrating with the API</p>
           </div>
         ) : (
           apiKeys.map((key) => (
             <div
               key={key.id}
-              className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 hover:border-zinc-700 transition-all duration-200"
+              className="bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-xl p-4 hover:border-brand-gray dark:border-dark-border transition-all duration-200"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
@@ -240,15 +240,15 @@ export default function ApiKeysPage() {
                       <span className="text-xs bg-red-950/40 text-brand-red border border-brand-red/30 px-1.5 py-0.5 rounded-full">Expired</span>
                     )}
                   </div>
-                  <code className="text-xs text-zinc-400 font-mono">{key.prefix}â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢</code>
-                  <div className="flex items-center gap-3 mt-2 text-xs text-zinc-500">
+                  <code className="text-xs text-brand-gray-dark dark:text-dark-text-muted font-mono">{key.prefix}â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢</code>
+                  <div className="flex items-center gap-3 mt-2 text-xs text-brand-gray-dark dark:text-dark-text-muted">
                     <span>Created {timeAgo(key.createdAt)}</span>
                     {key.lastUsedAt && <span>· Last used {timeAgo(key.lastUsedAt)}</span>}
                     {key.expiresAt && <span>· Expires {new Date(key.expiresAt).toLocaleDateString()}</span>}
                   </div>
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {key.scopes.map((scope) => (
-                      <span key={scope} className="text-xs bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full border border-zinc-700">
+                      <span key={scope} className="text-xs bg-brand-white-soft dark:bg-dark-surface-2 text-brand-gray-dark dark:text-dark-text-muted px-2 py-0.5 rounded-full border border-brand-gray dark:border-dark-border">
                         {scope}
                       </span>
                     ))}
@@ -269,12 +269,12 @@ export default function ApiKeysPage() {
       </div>
 
       {/* Docs link */}
-      <div className="mt-8 p-4 bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-between">
+      <div className="mt-8 p-4 bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-xl flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-white">API Reference</p>
-          <p className="text-xs text-zinc-400 mt-0.5">Full REST API documentation with code examples</p>
+          <p className="text-xs text-brand-gray-dark dark:text-dark-text-muted mt-0.5">Full REST API documentation with code examples</p>
         </div>
-        <a href="/docs/api" className="px-4 py-2 text-sm text-zinc-300 border border-zinc-700 rounded-lg hover:border-zinc-500 hover:text-white transition-all duration-150 font-medium">
+        <a href="/docs/api" className="px-4 py-2 text-sm text-zinc-300 border border-brand-gray dark:border-dark-border rounded-lg hover:border-brand-gray-dark dark:border-dark-border-soft hover:text-white transition-all duration-150 font-medium">
           View Docs â†’
         </a>
       </div>

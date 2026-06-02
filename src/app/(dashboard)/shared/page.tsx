@@ -45,8 +45,8 @@ export default function SharedPage() {
 
   useEffect(() => {
     api.get('/shared')
-      .then((r) => setItems((r.data as { data: SharedItem[] }).data ?? MOCK_SHARED))
-      .catch(() => setItems(MOCK_SHARED))
+      .then((r) => setItems((r.data as { data: SharedItem[] }).data ?? (process.env.NODE_ENV === 'development' ? MOCK_SHARED : [])))
+      .catch(() => { if (process.env.NODE_ENV === 'development') setItems(MOCK_SHARED); else setItems([]); })
       .finally(() => setIsLoading(false));
   }, []);
 

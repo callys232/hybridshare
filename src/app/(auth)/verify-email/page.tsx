@@ -66,7 +66,7 @@ function VerifyEmailContent() {
                   href="/login"
                   className="block w-full py-2.5 px-4 bg-brand-black text-white text-sm font-semibold rounded-button hover:bg-brand-red transition-colors duration-150"
                 >
-                  I&apos;ll verify later â€” sign in
+                  I&apos;ll verify later — sign in
                 </Link>
               </div>
             </>
@@ -78,7 +78,7 @@ function VerifyEmailContent() {
               <div className="w-14 h-14 bg-brand-white-soft border border-brand-gray rounded-full flex items-center justify-center mx-auto mb-4">
                 <div className="w-6 h-6 border-2 border-brand-red border-t-transparent rounded-full animate-spin" />
               </div>
-              <h1 className="text-xl font-bold text-brand-black mb-2">Verifying your emailâ€¦</h1>
+              <h1 className="text-xl font-bold text-brand-black mb-2">Verifying your email…</h1>
               <p className="text-sm text-brand-gray-dark">Just a moment.</p>
             </>
           )}
@@ -92,7 +92,7 @@ function VerifyEmailContent() {
                 </svg>
               </div>
               <h1 className="text-xl font-bold text-brand-black mb-2">Email verified!</h1>
-              <p className="text-sm text-brand-gray-dark mb-4">Your account is active. Taking you to setupâ€¦</p>
+              <p className="text-sm text-brand-gray-dark mb-4">Your account is active. Taking you to setup…</p>
               <div className="w-full h-1 bg-brand-gray rounded-full overflow-hidden">
                 <div className="h-full bg-emerald-500 rounded-full animate-[grow_2.5s_linear_forwards]" />
               </div>
