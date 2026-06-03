@@ -109,7 +109,7 @@ export default function WorkspacesPage() {
         )}
 
         <div className="flex gap-2 flex-wrap">
-          {(['ALL', ...Object.keys(PILLAR_CONFIG)] as const).map((p) => (
+          {(['ALL', ...Object.keys(PILLAR_CONFIG)] as ('ALL' | WorkspacePillar)[]).map((p) => (
             <button key={p} type="button" onClick={() => setFilter(p)} className={cn('px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all', filter === p ? 'bg-brand-black text-white border-brand-black' : 'bg-white text-brand-gray-dark border-brand-gray hover:border-brand-black')}>
               {p === 'ALL' ? `All (${workspaces.length})` : `${PILLAR_CONFIG[p as WorkspacePillar].label} (${workspaces.filter((w) => w.pillar === p).length})`}
             </button>

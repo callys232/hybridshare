@@ -1,6 +1,7 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosError } from 'axios';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+// Empty string → relative /api/* (Next.js route handlers on the same origin)
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -32,7 +33,7 @@ function processQueue(error: unknown, token: string | null = null): void {
 
 export function createApiClient(): AxiosInstance {
   const client = axios.create({
-    baseURL: `${BASE_URL}/api`,
+    baseURL: BASE_URL ? `${BASE_URL}/api` : '/api',
     headers: { 'Content-Type': 'application/json' },
     timeout: 30000,
     withCredentials: true,
@@ -81,8 +82,9 @@ export function createApiClient(): AxiosInstance {
         }
 
         try {
+          const refreshBase = BASE_URL ? `${BASE_URL}/api` : '/api';
           const response = await axios.post<ApiResponse<{ accessToken: string; refreshToken: string }>>(
-            `${BASE_URL}/api/auth/refresh`,
+            `${refreshBase}/auth/refresh`,
             { refreshToken }
           );
 

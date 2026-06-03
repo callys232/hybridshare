@@ -1,0 +1,495 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  MANAGER
+  MEMBER
+  VIEWER
+  GUEST
+}
+
+enum AuthProvider {
+  LOCAL
+  GOOGLE
+  MICROSOFT
+  LDAP
+}
+
+enum PlanType {
+  FREE
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELLED
+  PAUSED
+  INCOMPLETE
+  EXPIRED
+}
+
+enum FileStatus {
+  ACTIVE
+  DELETED
+  PROCESSING
+  INFECTED
+}
+
+enum WorkspaceType {
+  PERSONAL
+  TEAM
+  PROJECT
+  DEPARTMENT
+}
+
+enum WorkspaceRole {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+  COMMENTER
+}
+
+enum SharePermission {
+  VIEW
+  DOWNLOAD
+  COMMENT
+  EDIT
+}
+
+enum StorageProvider {
+  LOCAL
+  S3
+  R2
+  GCS
+}
+
+// ─── User & Auth ──────────────────────────────────────────────────────────────
+
+model User {
+  id                 String              @id @default(cuid())
+  email              String              @unique
+  name               String
+  passwordHash       String?
+  avatar             String?
+  role               UserRole            @default(MEMBER)
+  provider           AuthProvider        @default(LOCAL)
+  isEmailVerified    Boolean             @default(false)
+  isTwoFactorEnabled Boolean             @default(false)
+  isActive           Boolean             @default(true)
+  lastLoginAt        DateTime?
+  storageUsed        BigInt              @default(0)
+  storageQuota       BigInt              @default(5368709120)
+  bio                String?
+  jobTitle           String?
+  website            String?
+  linkedinUrl        String?
+  twitterHandle      String?
+  timezone           String              @default("UTC")
+  language           String              @default("en")
+  planType           PlanType            @default(FREE)
+  subscriptionStatus SubscriptionStatus?
+  xpPoints           Int                 @default(0)
+  streakDays         Int                 @default(0)
+  longestStreak      Int                 @default(0)
+  stripeCustomerId   String?             @unique
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  refreshTokens        RefreshToken[]
+  emailVerifications   EmailVerification[]
+  passwordResets       PasswordReset[]
+  twoFactorSecret      TwoFactorSecret?
+  subscription         Subscription?
+  cloudAddon           CloudAddon?
+  files                File[]
+  folders              Folder[]
+  fileVersions         FileVersion[]
+  comments             Comment[]
+  shareLinks           ShareLink[]
+  workspaceMemberships WorkspaceMember[]
+  ownedWorkspaces      Workspace[]         @relation("WorkspaceOwner")
+  activities           ActivityLog[]
+  apiKeys              ApiKey[]
+  webhooks             Webhook[]
+  notifications        Notification[]
+  auditLogs            AuditLog[]
+  connectors           Connector[]
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  isRevoked Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model EmailVerification {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PasswordReset {
+  id        String    @id @default(cuid())
+  userId    String
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TwoFactorSecret {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  secret      String
+  isEnabled   Boolean  @default(false)
+  backupCodes String[]
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── Billing ──────────────────────────────────────────────────────────────────
+
+model Subscription {
+  id                 String             @id @default(cuid())
+  userId             String             @unique
+  planType           PlanType
+  status             SubscriptionStatus
+  stripeSubId        String?            @unique
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  trialStart         DateTime?
+  trialEnd           DateTime?
+  cancelAtPeriodEnd  Boolean            @default(false)
+  cancelledAt        DateTime?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoices           Invoice[]
+}
+
+model Invoice {
+  id              String        @id @default(cuid())
+  subscriptionId  String?
+  userId          String
+  amount          Int
+  currency        String        @default("usd")
+  status          String
+  stripeInvoiceId String?       @unique
+  pdfUrl          String?
+  paidAt          DateTime?
+  dueDate         DateTime?
+  createdAt       DateTime      @default(now())
+  subscription    Subscription? @relation(fields: [subscriptionId], references: [id])
+}
+
+// Cloud Storage add-on — purchasable on any plan tier
+model CloudAddon {
+  id           String          @id @default(cuid())
+  userId       String          @unique
+  isEnabled    Boolean         @default(true)
+  provider     StorageProvider @default(S3)
+  storageQuota BigInt
+  storageUsed  BigInt          @default(0)
+  bucketName   String?
+  region       String?
+  stripeSubId  String?         @unique
+  status       String          @default("ACTIVE")
+  enabledAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── Files ────────────────────────────────────────────────────────────────────
+
+model File {
+  id               String          @id @default(cuid())
+  name             String
+  originalName     String
+  mimeType         String
+  size             BigInt
+  extension        String
+  storagePath      String
+  storageProvider  StorageProvider @default(LOCAL)
+  cloudUrl         String?
+  thumbnailPath    String?
+  checksum         String
+  status           FileStatus      @default(ACTIVE)
+  isStarred        Boolean         @default(false)
+  workspaceId      String?
+  folderId         String?
+  uploadedById     String
+  tags             String[]
+  description      String?
+  versionCount     Int             @default(1)
+  currentVersionId String?
+  deletedAt        DateTime?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  workspace  Workspace?    @relation(fields: [workspaceId], references: [id])
+  folder     Folder?       @relation(fields: [folderId], references: [id])
+  uploader   User          @relation(fields: [uploadedById], references: [id])
+  versions   FileVersion[]
+  shareLinks ShareLink[]
+  comments   Comment[]
+
+  @@index([uploadedById])
+  @@index([workspaceId])
+  @@index([folderId])
+  @@index([status])
+}
+
+model FileVersion {
+  id              String          @id @default(cuid())
+  fileId          String
+  version         Int
+  storagePath     String
+  storageProvider StorageProvider @default(LOCAL)
+  size            BigInt
+  checksum        String
+  uploadedById    String
+  comment         String?
+  createdAt       DateTime        @default(now())
+  file            File            @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  uploader        User            @relation(fields: [uploadedById], references: [id])
+
+  @@unique([fileId, version])
+}
+
+model Folder {
+  id          String    @id @default(cuid())
+  name        String
+  parentId    String?
+  workspaceId String?
+  createdById String
+  path        String
+  isDeleted   Boolean   @default(false)
+  deletedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  parent    Folder?    @relation("FolderTree", fields: [parentId], references: [id])
+  children  Folder[]   @relation("FolderTree")
+  workspace Workspace? @relation(fields: [workspaceId], references: [id])
+  creator   User       @relation(fields: [createdById], references: [id])
+  files     File[]
+
+  @@index([workspaceId])
+  @@index([parentId])
+}
+
+// ─── Sharing ──────────────────────────────────────────────────────────────────
+
+model ShareLink {
+  id           String            @id @default(cuid())
+  token        String            @unique @default(cuid())
+  fileId       String?
+  workspaceId  String?
+  createdById  String
+  permissions  SharePermission[]
+  passwordHash String?
+  expiresAt    DateTime?
+  maxViews     Int?
+  viewCount    Int               @default(0)
+  isActive     Boolean           @default(true)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  file      File?          @relation(fields: [fileId], references: [id])
+  creator   User           @relation(fields: [createdById], references: [id])
+  views     ShareLinkView[]
+}
+
+model ShareLinkView {
+  id          String    @id @default(cuid())
+  shareLinkId String
+  ipAddress   String?
+  userAgent   String?
+  referrer    String?
+  viewedAt    DateTime  @default(now())
+  shareLink   ShareLink @relation(fields: [shareLinkId], references: [id], onDelete: Cascade)
+}
+
+// ─── Workspaces ───────────────────────────────────────────────────────────────
+
+model Workspace {
+  id           String        @id @default(cuid())
+  name         String
+  description  String?
+  type         WorkspaceType @default(TEAM)
+  iconUrl      String?
+  color        String        @default("#3B82F6")
+  isPublic     Boolean       @default(false)
+  storageQuota BigInt        @default(10737418240)
+  storageUsed  BigInt        @default(0)
+  ownerId      String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  owner      User              @relation("WorkspaceOwner", fields: [ownerId], references: [id])
+  members    WorkspaceMember[]
+  files      File[]
+  folders    Folder[]
+  activities ActivityLog[]
+}
+
+model WorkspaceMember {
+  id          String        @id @default(cuid())
+  workspaceId String
+  userId      String
+  role        WorkspaceRole @default(VIEWER)
+  joinedAt    DateTime      @default(now())
+  invitedById String?
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, userId])
+}
+
+// ─── Comments ─────────────────────────────────────────────────────────────────
+
+model Comment {
+  id        String   @id @default(cuid())
+  fileId    String
+  userId    String
+  content   String
+  parentId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  file    File     @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id])
+  parent  Comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("CommentReplies")
+}
+
+// ─── Activity & Audit ─────────────────────────────────────────────────────────
+
+model ActivityLog {
+  id           String    @id @default(cuid())
+  workspaceId  String?
+  userId       String
+  action       String
+  resourceType String
+  resourceId   String
+  resourceName String
+  metadata     Json      @default("{}")
+  createdAt    DateTime  @default(now())
+
+  workspace Workspace? @relation(fields: [workspaceId], references: [id])
+  user      User       @relation(fields: [userId], references: [id])
+
+  @@index([workspaceId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  resource   String
+  resourceId String?
+  ipAddress  String?
+  userAgent  String?
+  metadata   Json     @default("{}")
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+// ─── Notifications ────────────────────────────────────────────────────────────
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  message   String
+  data      Json     @default("{}")
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isRead])
+}
+
+// ─── API Keys & Webhooks ──────────────────────────────────────────────────────
+
+model ApiKey {
+  id         String    @id @default(cuid())
+  userId     String
+  name       String
+  keyHash    String    @unique
+  prefix     String
+  scopes     String[]
+  lastUsedAt DateTime?
+  expiresAt  DateTime?
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Webhook {
+  id           String    @id @default(cuid())
+  userId       String
+  name         String
+  url          String
+  events       String[]
+  secret       String
+  isActive     Boolean   @default(true)
+  lastCalledAt DateTime?
+  failureCount Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── Connectors ───────────────────────────────────────────────────────────────
+
+model Connector {
+  id           String    @id @default(cuid())
+  userId       String
+  type         String
+  name         String
+  accessToken  String
+  refreshToken String?
+  expiresAt    DateTime?
+  config       Json      @default("{}")
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

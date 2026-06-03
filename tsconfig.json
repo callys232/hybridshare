@@ -12,6 +12,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "target": "es2017",
+    "downlevelIteration": true,
     "plugins": [{ "name": "next" }],
     "baseUrl": ".",
     "paths": {
@@ -19,5 +21,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "prisma/seed.ts", "src/__tests__"]
 }

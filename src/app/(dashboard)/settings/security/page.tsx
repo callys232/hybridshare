@@ -84,14 +84,14 @@ function PasswordSection() {
         <Input type={show ? 'text' : 'password'} value={form.current}
           onChange={(e) => setForm((p) => ({ ...p, current: e.target.value }))}
           placeholder="Enter current password" autoComplete="current-password"
-          suffix={<EyeToggle />} error={!!errors.current} />
+          rightAddon={<EyeToggle />} error={!!errors.current} />
       </FormField>
 
       <FormField label="New password" error={errors.next}>
         <Input type={show ? 'text' : 'password'} value={form.next}
           onChange={(e) => setForm((p) => ({ ...p, next: e.target.value }))}
           placeholder="Min. 8 characters" autoComplete="new-password"
-          suffix={<EyeToggle />} error={!!errors.next} />
+          rightAddon={<EyeToggle />} error={!!errors.next} />
         {form.next.length > 0 && (
           <div className="mt-2 space-y-1">
             <div className="flex gap-1">

@@ -7,7 +7,6 @@ import { usePlan, type FeatureKey, PLAN_LABELS } from '@/hooks/usePlan';
 // Lazy import to avoid circular deps — UpgradeContext imports UpgradeModal which imports usePlan
 function useUpgradeModal() {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { useUpgrade } = require('@/context/UpgradeContext') as { useUpgrade: () => { openUpgrade: (opts?: { feature?: FeatureKey }) => void } };
     return useUpgrade();
   } catch {

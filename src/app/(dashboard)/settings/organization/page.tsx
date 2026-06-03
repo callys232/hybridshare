@@ -48,7 +48,7 @@ export default function OrganizationPage() {
   const [orgForm, setOrgForm] = useState({ name: '', domain: '' });
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState('MEMBER');
-  const [ssoForm, setSsoForm] = useState({ provider: 'SAML', isEnabled: false, metadataUrl: '', clientId: '', domain: '' });
+  const [ssoForm, setSsoForm] = useState<{ provider: 'SAML' | 'OIDC' | 'LDAP'; isEnabled: boolean; metadataUrl: string; clientId: string; domain: string }>({ provider: 'SAML', isEnabled: false, metadataUrl: '', clientId: '', domain: '' });
   const [brandingForm, setBrandingForm] = useState({ primaryColor: '#c12129', customDomain: '', emailFromName: '' });
   const [webhookForm, setWebhookForm] = useState({ url: '', events: [] as string[] });
   const [showWebhookForm, setShowWebhookForm] = useState(false);
@@ -67,7 +67,6 @@ export default function OrganizationPage() {
 
   const handleSave = async () => {
     setIsSaving(true);
-    await new Promise((r) => setTimeout(r, 500));
     if (activeTab === 'General') await updateOrganization(orgForm).catch(() => {});
     if (activeTab === 'SSO') await upsertSSO(ssoForm).catch(() => {});
     if (activeTab === 'Branding') await upsertWhiteLabel(brandingForm).catch(() => {});
@@ -127,6 +126,7 @@ export default function OrganizationPage() {
             <label className="block text-xs font-semibold text-brand-gray-dark dark:text-dark-text-muted uppercase tracking-wide mb-1.5">Organization Name</label>
             <input
               type="text"
+              aria-label="Organization Name"
               value={orgForm.name}
               onChange={(e) => setOrgForm((f) => ({ ...f, name: e.target.value }))}
               className="w-full bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-red transition-colors"
@@ -197,6 +197,7 @@ export default function OrganizationPage() {
                   {member.role !== 'OWNER' && (
                     <button
                       type="button"
+                      aria-label={`Remove ${member.name}`}
                       onClick={() => removeMember(member.id)}
                       className="text-zinc-600 hover:text-brand-red transition-colors p-1 rounded hover:bg-brand-white-soft dark:bg-dark-surface-2"
                     >
@@ -222,6 +223,7 @@ export default function OrganizationPage() {
             </div>
             <button
               type="button"
+              aria-label={`${ssoForm.isEnabled ? 'Disable' : 'Enable'} Single Sign-On`}
               onClick={() => setSsoForm((f) => ({ ...f, isEnabled: !f.isEnabled }))}
               className={cn(
                 'relative inline-flex h-5 w-9 rounded-full border-2 border-transparent transition-colors duration-200',
@@ -237,7 +239,7 @@ export default function OrganizationPage() {
               <div>
                 <label className="block text-xs font-semibold text-brand-gray-dark dark:text-dark-text-muted uppercase tracking-wide mb-1.5">Provider</label>
                 <div className="flex gap-2">
-                  {['SAML', 'OIDC', 'LDAP'].map((p) => (
+                  {(['SAML', 'OIDC', 'LDAP'] as const).map((p) => (
                     <button
                       key={p}
                       type="button"
@@ -272,6 +274,8 @@ export default function OrganizationPage() {
                     <label className="block text-xs font-semibold text-brand-gray-dark dark:text-dark-text-muted uppercase tracking-wide mb-1.5">Client ID</label>
                     <input
                       type="text"
+                      aria-label="OIDC Client ID"
+                      placeholder="client-id-here"
                       value={ssoForm.clientId}
                       onChange={(e) => setSsoForm((f) => ({ ...f, clientId: e.target.value }))}
                       className="w-full bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-red transition-colors"
@@ -306,12 +310,15 @@ export default function OrganizationPage() {
             <div className="flex items-center gap-3">
               <input
                 type="color"
+                aria-label="Primary color picker"
                 value={brandingForm.primaryColor}
                 onChange={(e) => setBrandingForm((f) => ({ ...f, primaryColor: e.target.value }))}
                 className="w-10 h-10 rounded-lg cursor-pointer bg-transparent border-0"
               />
               <input
                 type="text"
+                aria-label="Primary color hex value"
+                placeholder="#c12129"
                 value={brandingForm.primaryColor}
                 onChange={(e) => setBrandingForm((f) => ({ ...f, primaryColor: e.target.value }))}
                 className="bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-lg px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-brand-red transition-colors w-32"
@@ -412,6 +419,7 @@ export default function OrganizationPage() {
                 </div>
                 <button
                   type="button"
+                  aria-label="Delete webhook"
                   onClick={() => deleteWebhook(wh.id)}
                   className="p-1.5 text-zinc-600 hover:text-brand-red hover:bg-brand-white-soft dark:bg-dark-surface-2 rounded transition-all shrink-0"
                 >
