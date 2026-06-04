@@ -1,0 +1,9 @@
+#!/bin/sh
+# Block any .env file from being committed
+if git diff --cached --name-only | grep -qE '(^|\/)\.env(\.|$)'; then
+  echo ""
+  echo "  COMMIT BLOCKED: .env file detected in staged changes."
+  echo "  Remove it with: git reset HEAD <file>"
+  echo ""
+  exit 1
+fi
