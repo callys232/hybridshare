@@ -19,7 +19,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.700.0",
     "@aws-sdk/s3-request-presigner": "^3.700.0",
-    "@prisma/client": "^5.22.0",
+    "@prisma/client": "file:../../AppData/Local/Temp/npm-tarballs/prisma-client-7.8.0.tgz",
     "axios": "^1.6.5",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.0",
@@ -52,7 +52,7 @@
     "eslint": "^8.56.0",
     "eslint-config-next": "14.1.0",
     "postcss": "^8.4.33",
-    "prisma": "^5.22.0",
+    "prisma": "file:../../AppData/Local/Temp/npm-tarballs/prisma-7.8.0.tgz",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.3.3",
     "vitest": "^2.1.8"

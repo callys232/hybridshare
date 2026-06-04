@@ -3,7 +3,11 @@ import { stripe } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
 import { PLANS, CLOUD_ADDONS } from '@/lib/stripe';
 
-type StripeEvent = { type: string; data: { object: Record<string, unknown> } };
+// Minimal local types for Stripe event objects — no `stripe` package required
+type StripeEvent = { type: string; data: { object: unknown } };
+type SessionObj  = { metadata?: Record<string, string>; subscription?: string };
+type SubObj      = { id: string; status: string; cancel_at_period_end: boolean; metadata?: Record<string, string> };
+type InvoiceObj  = { id: string; amount_paid: number; currency: string; invoice_pdf?: string; subscription_details?: { metadata?: Record<string, string> } };
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -19,29 +23,22 @@ export async function POST(request: NextRequest) {
   try {
     switch (event.type) {
       case 'checkout.session.completed': {
-        const session = event.data.object as Stripe.Checkout.Session;
+        const session = event.data.object as SessionObj;
         const userId    = session.metadata?.userId;
         const planType  = session.metadata?.planType as keyof typeof PLANS | undefined;
         const addonType = session.metadata?.addonType;
-        const stripeSubId = session.subscription as string;
+        const stripeSubId = session.subscription ?? '';
 
         if (!userId) break;
 
         if (addonType === 'CLOUD') {
           const user = await prisma.user.findUnique({ where: { id: userId } });
           if (!user) break;
-          const config = CLOUD_ADDONS[user.planType];
+          const config = CLOUD_ADDONS[user.planType as keyof typeof CLOUD_ADDONS];
           await prisma.cloudAddon.upsert({
             where:  { userId },
             update: { isEnabled: true, stripeSubId, storageQuota: config.storageQuota, status: 'ACTIVE' },
-            create: {
-              userId,
-              isEnabled:    true,
-              provider:     'S3',
-              storageQuota: config.storageQuota,
-              stripeSubId,
-              status:       'ACTIVE',
-            },
+            create: { userId, isEnabled: true, provider: 'S3', storageQuota: config.storageQuota, stripeSubId, status: 'ACTIVE' },
           });
           await prisma.notification.create({
             data: { userId, type: 'CLOUD_ENABLED', title: 'Cloud storage enabled', message: `Your ${config.label} add-on is now active.` },
@@ -63,34 +60,31 @@ export async function POST(request: NextRequest) {
       }
 
       case 'customer.subscription.updated': {
-        const sub = event.data.object as Stripe.Subscription;
+        const sub = event.data.object as SubObj;
         const userId = sub.metadata?.userId;
         if (!userId) break;
 
-        const status = sub.status === 'active' ? 'ACTIVE'
-          : sub.status === 'trialing'           ? 'TRIALING'
-          : sub.status === 'past_due'           ? 'PAST_DUE'
-          : sub.status === 'canceled'           ? 'CANCELLED'
+        const status = sub.status === 'active'   ? 'ACTIVE'
+          : sub.status === 'trialing'            ? 'TRIALING'
+          : sub.status === 'past_due'            ? 'PAST_DUE'
+          : sub.status === 'canceled'            ? 'CANCELLED'
           : 'ACTIVE';
 
         await prisma.subscription.updateMany({
           where: { stripeSubId: sub.id },
-          data:  { status: status as never, cancelAtPeriodEnd: sub.cancel_at_period_end },
+          data:  { status, cancelAtPeriodEnd: sub.cancel_at_period_end },
         });
         break;
       }
 
       case 'customer.subscription.deleted': {
-        const sub = event.data.object as Stripe.Subscription;
+        const sub = event.data.object as SubObj;
         const addonRecord = await prisma.cloudAddon.findUnique({ where: { stripeSubId: sub.id } });
 
         if (addonRecord) {
           await prisma.cloudAddon.update({ where: { id: addonRecord.id }, data: { isEnabled: false, status: 'CANCELLED' } });
         } else {
-          await prisma.subscription.updateMany({
-            where: { stripeSubId: sub.id },
-            data:  { status: 'CANCELLED' },
-          });
+          await prisma.subscription.updateMany({ where: { stripeSubId: sub.id }, data: { status: 'CANCELLED' } });
           const userId = sub.metadata?.userId;
           if (userId) {
             await prisma.user.update({ where: { id: userId }, data: { planType: 'FREE', subscriptionStatus: 'CANCELLED' } });
@@ -100,9 +94,8 @@ export async function POST(request: NextRequest) {
       }
 
       case 'invoice.payment_succeeded': {
-        const invoice = event.data.object as Stripe.Invoice;
-        const userId = (invoice as { subscription_details?: { metadata?: { userId?: string } } })
-          .subscription_details?.metadata?.userId;
+        const invoice = event.data.object as InvoiceObj;
+        const userId = invoice.subscription_details?.metadata?.userId;
         if (!userId) break;
         await prisma.invoice.create({
           data: {

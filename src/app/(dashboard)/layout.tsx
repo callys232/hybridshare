@@ -19,7 +19,8 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     fetchWorkspaces();
     fetchNotifications();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // intentionally run once on mount
 
   useEffect(() => {
     const token = accessToken || localStorage.getItem('accessToken');

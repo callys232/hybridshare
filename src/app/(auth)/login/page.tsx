@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
@@ -10,8 +10,13 @@ import { CirclesPattern } from '@/components/ui/BackgroundPattern';
 
 function LoginForm() {
   const router = useRouter();
-  const { login } = useAuthStore();
+  const { login, isAuthenticated } = useAuthStore();
   const { error: toastError } = useToast();
+
+  // Redirect already-authenticated users away from the login page
+  useEffect(() => {
+    if (isAuthenticated) router.replace('/dashboard');
+  }, [isAuthenticated, router]);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

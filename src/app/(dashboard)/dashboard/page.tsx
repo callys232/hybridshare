@@ -119,6 +119,9 @@ export default function DashboardPage() {
   const [isLoadingStats, setIsLoadingStats] = useState(true);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [showUploader, setShowUploader] = useState(false);
+  // Initialise to '' so SSR and first client render match, then set on mount
+  const [greeting, setGreeting] = useState('');
+  useEffect(() => { setGreeting(getGreeting()); }, []);
 
   useEffect(() => {
     fetchFiles({ limit: '8', sortBy: 'createdAt', sortOrder: 'desc' });
@@ -177,7 +180,7 @@ export default function DashboardPage() {
       <div className="relative z-10 flex items-start justify-between flex-wrap gap-4">
         <div>
           <h1 className="page-title">
-            Good {getGreeting()},{' '}
+            Good {greeting},{' '}
             <span className="text-brand-red">{user?.name?.split(' ')[0] ?? 'there'}</span>
           </h1>
           <p className="text-sm text-brand-gray-dark mt-1">

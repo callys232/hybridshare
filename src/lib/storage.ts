@@ -141,7 +141,7 @@ async function s3Upload(buffer: Buffer, key: string, mimeType: string, provider:
   await fetch(url, {
     method: 'PUT',
     headers: { 'Content-Type': mimeType, 'Content-Length': String(buffer.length) },
-    body: buffer,
+    body: buffer as unknown as BodyInit,
   });
   const cloudUrl = provider === 'R2' && cfg.endpoint ? `${cfg.endpoint}/${cfg.bucket}/${key}` : url;
   return { storagePath: key, storageProvider: provider, cloudUrl };
