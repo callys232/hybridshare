@@ -8,6 +8,35 @@ import { Button } from '@/components/ui/Button';
 import { ToastProvider, useToast } from '@/components/ui/Toast';
 import { CirclesPattern } from '@/components/ui/BackgroundPattern';
 
+const DEMO_ACCOUNTS = [
+  {
+    role: 'Admin',
+    email: 'admin@hybridshare.io',
+    password: 'Admin@1234!',
+    description: 'Full platform access, user management, analytics',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+    ),
+    accent: 'border-brand-red/30 hover:border-brand-red bg-red-50/40 hover:bg-red-50',
+    iconBg: 'bg-brand-red/10 text-brand-red',
+  },
+  {
+    role: 'Member',
+    email: 'member@hybridshare.io',
+    password: 'Member@1234!',
+    description: 'Standard workspace access, files, notifications',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+      </svg>
+    ),
+    accent: 'border-zinc-300 hover:border-zinc-500 bg-zinc-50/40 hover:bg-zinc-50',
+    iconBg: 'bg-zinc-200 text-zinc-600',
+  },
+] as const;
+
 function LoginForm() {
   const router = useRouter();
   const { login, isAuthenticated } = useAuthStore();
@@ -25,6 +54,7 @@ function LoginForm() {
   const [userId, setUserId] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [demoLoading, setDemoLoading] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,6 +77,16 @@ function LoginForm() {
     }
   };
 
+  const handleDemoLogin = async (accountEmail: string, accountPassword: string, role: string) => {
+    setDemoLoading(role);
+    try {
+      await login(accountEmail, accountPassword);
+      router.push('/dashboard');
+    } catch {
+      setDemoLoading(null);
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-brand-white-off flex items-center justify-center p-4 overflow-hidden">
       <CirclesPattern opacity={0.6} />
@@ -61,29 +101,32 @@ function LoginForm() {
           </Link>
         </div>
 
-        {/* Dev credentials banner — remove before production */}
+        {/* Demo account picker */}
         {process.env.NODE_ENV === 'development' && (
-          <div className="mb-4 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs">
-            <p className="font-bold text-amber-800 mb-2 flex items-center gap-1.5">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Dev credentials (remove in production)
+          <div className="mb-5 rounded-2xl border border-brand-gray bg-white p-4 shadow-sm">
+            <p className="text-[11px] font-bold text-brand-gray-dark uppercase tracking-widest mb-3 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Preview — choose a demo account
             </p>
-            <div className="grid grid-cols-2 gap-2">
-              {[
-                { role: 'Admin',   email: 'admin@hybridshare.io',  password: 'Admin@1234!' },
-                { role: 'Member',  email: 'member@hybridshare.io', password: 'Member@1234!' },
-              ].map(({ role, email, password }) => (
+            <div className="grid grid-cols-2 gap-2.5">
+              {DEMO_ACCOUNTS.map((account) => (
                 <button
-                  key={role}
+                  key={account.role}
                   type="button"
-                  onClick={() => { setEmail(email); setPassword(password); }}
-                  className="text-left px-2.5 py-2 rounded-lg bg-white border border-amber-200 hover:border-amber-400 hover:bg-amber-50/50 transition-colors"
+                  disabled={demoLoading !== null}
+                  onClick={() => handleDemoLogin(account.email, account.password, account.role)}
+                  className={`relative text-left px-3 py-3 rounded-xl border transition-all duration-150 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed ${account.accent}`}
                 >
-                  <p className="font-bold text-amber-900 text-[10px] uppercase tracking-wider">{role}</p>
-                  <p className="text-amber-700 text-[10px] truncate">{email}</p>
-                  <p className="text-amber-500 text-[10px] font-mono">{password}</p>
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-2 ${account.iconBg}`}>
+                    {demoLoading === account.role ? (
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                    ) : account.icon}
+                  </div>
+                  <p className="text-xs font-bold text-brand-black">{account.role}</p>
+                  <p className="text-[10px] text-brand-gray-dark leading-relaxed mt-0.5">{account.description}</p>
                 </button>
               ))}
             </div>
