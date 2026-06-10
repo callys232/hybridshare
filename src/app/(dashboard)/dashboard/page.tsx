@@ -14,7 +14,7 @@ import { FileCard } from '@/components/files/FileCard';
 import { WorkspaceCard } from '@/components/workspace/WorkspaceCard';
 import { FileUploader } from '@/components/files/FileUploader';
 import { LockedButton } from '@/components/ui/PlanGate';
-import { MOCK_SYSTEM_STATS, MOCK_ACTIVITY_TIMELINE } from '@/mocks';
+import { isMockMode, MOCK_SYSTEM_STATS, MOCK_ACTIVITY_TIMELINE } from '@/mocks';
 import type { FileMetadata } from '@/shared/file';
 
 interface DashboardStats {
@@ -126,6 +126,13 @@ export default function DashboardPage() {
   useEffect(() => {
     fetchFiles({ limit: '8', sortBy: 'createdAt', sortOrder: 'desc' });
     fetchWorkspaces();
+
+    if (isMockMode()) {
+      setStats(MOCK_SYSTEM_STATS);
+      setActivity([]);
+      setIsLoadingStats(false);
+      return;
+    }
 
     api.get<ApiResponse<DashboardStats>>('/analytics/storage')
       .then((r) => setStats(r.data.data ?? null))

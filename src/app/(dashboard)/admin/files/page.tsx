@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { cn, formatBytes, formatRelativeTime } from '@/lib/utils';
 import { api } from '@/lib/api';
+import { isMockMode, MOCK_ADMIN_FILES } from '@/mocks';
+import type { MockAdminFile } from '@/mocks';
 import { Avatar } from '@/components/ui/Avatar';
 import { Spinner } from '@/components/ui/Spinner';
 import { GridPattern } from '@/components/ui/BackgroundPattern';
@@ -32,30 +34,7 @@ function mimeColor(mime: string): string {
   return 'bg-zinc-50 text-zinc-600 border-zinc-200';
 }
 
-interface AdminFile {
-  id: string;
-  name: string;
-  mimeType: string;
-  size: number;
-  workspaceName: string;
-  uploaderName: string;
-  uploaderAvatar?: string;
-  isShared: boolean;
-  isDeleted: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-const MOCK_FILES: AdminFile[] = [
-  { id: 'f1', name: 'Q4 Brand Guidelines.pdf',        mimeType: 'application/pdf',   size: 8_388_608,   workspaceName: 'Marketing Team',    uploaderName: 'Amara Okonkwo',  isShared: true,  isDeleted: false, createdAt: new Date(Date.now() - 86400000 * 3).toISOString(),  updatedAt: new Date(Date.now() - 86400000).toISOString() },
-  { id: 'f2', name: 'Product Roadmap 2026.xlsx',       mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', size: 2_097_152, workspaceName: 'Engineering Docs',  uploaderName: 'Chidi Eze',       isShared: false, isDeleted: false, createdAt: new Date(Date.now() - 86400000 * 7).toISOString(),  updatedAt: new Date(Date.now() - 3600000 * 2).toISOString() },
-  { id: 'f3', name: 'Investor Pitch Deck.pptx',        mimeType: 'application/vnd.ms-powerpoint', size: 22_020_096, workspaceName: 'Q4 Product Launch', uploaderName: 'Amara Okonkwo',  isShared: true,  isDeleted: false, createdAt: new Date(Date.now() - 86400000 * 1).toISOString(),  updatedAt: new Date(Date.now() - 3600000).toISOString() },
-  { id: 'f4', name: 'Onboarding Video.mp4',            mimeType: 'video/mp4',         size: 185_000_000, workspaceName: 'HR Workspace',      uploaderName: 'Ngozi Adaora',   isShared: false, isDeleted: false, createdAt: new Date(Date.now() - 86400000 * 10).toISOString(), updatedAt: new Date(Date.now() - 86400000 * 5).toISOString() },
-  { id: 'f5', name: 'Service Agreement — Acme.docx',   mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', size: 540_000, workspaceName: 'Finance & Legal', uploaderName: 'Emeka Obi', isShared: true, isDeleted: false, createdAt: new Date(Date.now() - 86400000 * 2).toISOString(), updatedAt: new Date(Date.now() - 86400000).toISOString() },
-  { id: 'f6', name: 'Old Marketing Brief.docx',        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', size: 340_000, workspaceName: 'Marketing Team',    uploaderName: 'Amara Okonkwo',  isShared: false, isDeleted: true,  createdAt: new Date(Date.now() - 86400000 * 30).toISOString(), updatedAt: new Date(Date.now() - 86400000 * 5).toISOString() },
-  { id: 'f7', name: 'Architecture Diagram v3.png',     mimeType: 'image/png',         size: 1_800_000,   workspaceName: 'Engineering Docs',  uploaderName: 'Chidi Eze',       isShared: false, isDeleted: false, createdAt: new Date(Date.now() - 86400000 * 6).toISOString(),  updatedAt: new Date(Date.now() - 86400000 * 2).toISOString() },
-  { id: 'f8', name: 'Analytics Export May 2026.csv',   mimeType: 'text/csv',          size: 120_000,     workspaceName: 'Engineering Docs',  uploaderName: 'Ngozi Adaora',   isShared: false, isDeleted: false, createdAt: new Date(Date.now() - 86400000 * 1).toISOString(),  updatedAt: new Date(Date.now() - 3600000).toISOString() },
-];
+type AdminFile = MockAdminFile;
 
 function ext(name: string) {
   return name.split('.').pop()?.toUpperCase() ?? '?';
@@ -69,9 +48,14 @@ export default function AdminFilesPage() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   useEffect(() => {
+    if (isMockMode()) {
+      setFiles(MOCK_ADMIN_FILES);
+      setIsLoading(false);
+      return;
+    }
     api.get('/admin/files')
-      .then((r) => setFiles(r.data.data ?? MOCK_FILES))
-      .catch(() => setFiles(MOCK_FILES))
+      .then((r) => setFiles(r.data.data ?? MOCK_ADMIN_FILES))
+      .catch(() => setFiles(MOCK_ADMIN_FILES))
       .finally(() => setIsLoading(false));
   }, []);
 

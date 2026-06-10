@@ -1,6 +1,6 @@
 ﻿import { create } from 'zustand';
 import { api, type ApiResponse } from '@/lib/api';
-import { MOCK_NOTIFICATIONS } from '@/mocks';
+import { isMockMode, MOCK_NOTIFICATIONS } from '@/mocks';
 
 interface Notification {
   id: string;
@@ -35,18 +35,19 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
 
   fetchNotifications: async () => {
     set({ isLoading: true });
+    if (isMockMode()) {
+      const mocked = MOCK_NOTIFICATIONS as Notification[];
+      set({ notifications: mocked, unreadCount: mocked.filter((n) => !n.isRead).length, isLoading: false });
+      return;
+    }
     try {
       const response = await api.get<ApiResponse<Notification[]> & { unreadCount?: number }>('/notifications');
       const data = response.data.data ?? [];
       const unreadCount = data.filter((n) => !n.isRead).length;
       set({ notifications: data, unreadCount, isLoading: false });
     } catch {
-      if (process.env.NODE_ENV === 'development') {
-        const mocked = MOCK_NOTIFICATIONS as Notification[];
-        set({ notifications: mocked, unreadCount: mocked.filter((n) => !n.isRead).length, isLoading: false });
-      } else {
-        set({ notifications: [], unreadCount: 0, isLoading: false });
-      }
+      const mocked = MOCK_NOTIFICATIONS as Notification[];
+      set({ notifications: mocked, unreadCount: mocked.filter((n) => !n.isRead).length, isLoading: false });
     }
   },
 

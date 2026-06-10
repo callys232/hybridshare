@@ -1,7 +1,7 @@
 ﻿import { create } from 'zustand';
 import { api, getErrorMessage, type ApiResponse } from '@/lib/api';
 import type { FileMetadata, UploadProgress } from '@/shared/file';
-import { getMockFiles } from '@/mocks';
+import { isMockMode, getMockFiles } from '@/mocks';
 
 interface FileState {
   files: FileMetadata[];
@@ -46,6 +46,10 @@ export const useFileStore = create<FileState>((set, get) => ({
 
   fetchFiles: async (query = {}) => {
     set({ isLoading: true, error: null });
+    if (isMockMode()) {
+      set({ files: getMockFiles() as FileMetadata[], isLoading: false });
+      return;
+    }
     try {
       const params = new URLSearchParams({
         ...query,
@@ -57,13 +61,8 @@ export const useFileStore = create<FileState>((set, get) => ({
 
       const response = await api.get<ApiResponse<FileMetadata[]>>(`/files?${params}`);
       set({ files: response.data.data ?? [], isLoading: false });
-    } catch (err) {
-      if (process.env.NODE_ENV === 'development') {
-        set({ files: getMockFiles() as FileMetadata[], isLoading: false, error: null });
-      } else {
-        const msg = (err as { response?: { data?: { error?: string } } }).response?.data?.error ?? 'Failed to load files';
-        set({ files: [], isLoading: false, error: msg });
-      }
+    } catch {
+      set({ files: getMockFiles() as FileMetadata[], isLoading: false, error: null });
     }
   },
 

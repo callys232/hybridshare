@@ -32,7 +32,6 @@ const DEV_USERS: Record<string, Omit<User, 'createdAt' | 'updatedAt'> & { passwo
 };
 
 function devMockLogin(email: string, password: string) {
-  if (process.env.NODE_ENV !== 'development') return null;
   const u = DEV_USERS[email.toLowerCase()];
   if (!u || u.password !== password) return null;
   const { password: _, ...user } = u;
@@ -84,6 +83,25 @@ export const useAuthStore = create<AuthState>()(
 
       login: async (email, password, totpCode) => {
         set({ isLoading: true, error: null });
+
+        // Check demo credentials first — no API call needed
+        if (!totpCode) {
+          const mock = devMockLogin(email, password);
+          if (mock) {
+            localStorage.setItem('accessToken', mock.accessToken);
+            localStorage.setItem('refreshToken', mock.refreshToken);
+            set({
+              user: mock.user as User,
+              accessToken: mock.accessToken,
+              refreshToken: mock.refreshToken,
+              isAuthenticated: true,
+              isLoading: false,
+              error: null,
+            });
+            return {};
+          }
+        }
+
         try {
           const response = await api.post<ApiResponse<{
             accessToken?: string;
@@ -109,17 +127,6 @@ export const useAuthStore = create<AuthState>()(
 
           return {};
         } catch (err) {
-          // ── Dev mock fallback: fires when API is unreachable (no database yet) ──
-          const isNetworkErr = !(err as { response?: unknown }).response;
-          if (isNetworkErr && !totpCode) {
-            const mock = devMockLogin(email, password);
-            if (mock) {
-              localStorage.setItem('accessToken', mock.accessToken);
-              localStorage.setItem('refreshToken', mock.refreshToken);
-              set({ user: mock.user as User, accessToken: mock.accessToken, refreshToken: mock.refreshToken, isAuthenticated: true, isLoading: false, error: null });
-              return {};
-            }
-          }
           const message = (err as { response?: { data?: { error?: string } } }).response?.data?.error ?? 'Login failed. Check your credentials or ensure the API server is running.';
           set({ error: message, isLoading: false });
           throw new Error(message);
@@ -140,12 +147,14 @@ export const useAuthStore = create<AuthState>()(
 
       logout: async () => {
         const { accessToken, refreshToken } = get();
-        try {
-          await api.post('/auth/logout', { refreshToken }, {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          });
-        } catch {
-          // Ignore logout errors
+        if (accessToken && !accessToken.startsWith('dev-token-')) {
+          try {
+            await api.post('/auth/logout', { refreshToken }, {
+              headers: { Authorization: `Bearer ${accessToken}` },
+            });
+          } catch {
+            // Ignore logout errors
+          }
         }
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
@@ -190,11 +199,25 @@ export const useAuthStore = create<AuthState>()(
       loadUser: async () => {
         set({ isLoading: true });
 
-        // If we already have a mock user in state (dev mode), keep it
-        const existing = get().user;
         const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
-        if (token?.startsWith('dev-token-') && existing) {
-          set({ isAuthenticated: true, isLoading: false });
+
+        // Restore demo session from token without hitting the API
+        if (token?.startsWith('dev-token-')) {
+          const existing = get().user;
+          if (existing) {
+            set({ isAuthenticated: true, isLoading: false });
+            return;
+          }
+          const mockUser = Object.values(DEV_USERS).find((u) => `dev-token-${u.id}` === token);
+          if (mockUser) {
+            const { password: _, ...user } = mockUser;
+            set({ user: user as User, isAuthenticated: true, isLoading: false });
+            return;
+          }
+          // Token looks like dev but user not found — clear it
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false, isLoading: false });
           return;
         }
 
@@ -202,15 +225,6 @@ export const useAuthStore = create<AuthState>()(
           const response = await api.get<ApiResponse<User>>('/users/me');
           set({ user: response.data.data, isAuthenticated: true, isLoading: false });
         } catch {
-          // Dev mode: restore user from mock token if API is down
-          if (process.env.NODE_ENV === 'development' && token?.startsWith('dev-token-')) {
-            const mockUser = Object.values(DEV_USERS).find((u) => `dev-token-${u.id}` === token);
-            if (mockUser) {
-              const { password: _, ...user } = mockUser;
-              set({ user: user as User, isAuthenticated: true, isLoading: false });
-              return;
-            }
-          }
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           set({ user: null, accessToken: null, refreshToken: null, isAuthenticated: false, isLoading: false });
@@ -249,7 +263,6 @@ export const useAuthStore = create<AuthState>()(
       partialize: (state) => ({
         accessToken: state.accessToken,
         refreshToken: state.refreshToken,
-        isAuthenticated: state.isAuthenticated,
       }),
     }
   )

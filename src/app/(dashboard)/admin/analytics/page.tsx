@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/components/ui/Spinner';
 import { api, type ApiResponse } from '@/lib/api';
+import { isMockMode, MOCK_ADMIN_ANALYTICS } from '@/mocks';
 
 interface SparkLineProps { data: number[]; color?: string; height?: number }
 function SparkLine({ data, color = '#c12129', height = 40 }: SparkLineProps) {
@@ -92,29 +93,7 @@ interface AnalyticsData {
   summary: { totalUsers: number; totalEnrollments: number; totalRevenue: number; avgCompletion: number };
 }
 
-const FALLBACK: AnalyticsData = {
-  enrollmentTimeline: [120,145,132,178,165,210,198,245,230,278,265,310,298,340,325,380,365,420,408,455,443,490,478,520,510,545,530,580,565,612],
-  revenueTimeline:    [2400,2800,2650,3200,3050,3800,3600,4200,4050,4800,4650,5200,5050,5800,5650,6200,6050,6800,6650,7200,7050,7800,7650,8200,8050,8800,8650,9200,9050,9800],
-  enrollmentByDay:    [48,62,54,73,69,42,35],
-  completionByDay:    [12,18,15,22,19,11,8],
-  revenueByMonth:     [18400,22500,19800,28900,32100,27600,35200,38900,41200,45600,48900,52300],
-  topCourses: [
-    { title: 'Complete React Developer',   enrollments: 1204, completionRate: 72, revenue: 28900 },
-    { title: 'Full-Stack Node.js',         enrollments: 987,  completionRate: 68, revenue: 23700 },
-    { title: 'TypeScript Masterclass',     enrollments: 843,  completionRate: 81, revenue: 20200 },
-    { title: 'System Design',             enrollments: 756,  completionRate: 65, revenue: 18100 },
-    { title: 'Advanced Python & ML',       enrollments: 698,  completionRate: 74, revenue: 16700 },
-  ],
-  funnelSteps: [
-    { label: 'Course Page Viewed',   value: 24820, pct: 100 },
-    { label: 'Enrollment Started',   value: 8947,  pct: 36  },
-    { label: 'Checkout Initiated',   value: 4201,  pct: 17  },
-    { label: 'Payment Completed',    value: 3105,  pct: 13  },
-    { label: 'First Lesson Watched', value: 2878,  pct: 12  },
-    { label: 'Course Completed',     value: 1842,  pct: 7   },
-  ],
-  summary: { totalUsers: 4820, totalEnrollments: 18247, totalRevenue: 284900, avgCompletion: 68 },
-};
+const FALLBACK: AnalyticsData = MOCK_ADMIN_ANALYTICS;
 
 export default function AnalyticsDashboard() {
   const [range, setRange] = useState<Range>('30d');
@@ -124,6 +103,10 @@ export default function AnalyticsDashboard() {
 
   useEffect(() => {
     setIsLoading(true);
+    if (isMockMode()) {
+      setIsLoading(false);
+      return;
+    }
     api.get<ApiResponse<AnalyticsData>>(`/analytics/admin?range=${range}`)
       .then((r) => { if (r.data.data) setData(r.data.data); })
       .catch(() => {})

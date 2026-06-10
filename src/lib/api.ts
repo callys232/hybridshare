@@ -55,6 +55,12 @@ export function createApiClient(): AxiosInstance {
       const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
 
       if (error.response?.status === 401 && !originalRequest._retry) {
+        // Dev tokens are not real JWTs — skip refresh entirely, just reject
+        const currentToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+        if (currentToken?.startsWith('dev-token-')) {
+          return Promise.reject(error);
+        }
+
         if (isRefreshing) {
           return new Promise((resolve, reject) => {
             failedQueue.push({ resolve, reject });

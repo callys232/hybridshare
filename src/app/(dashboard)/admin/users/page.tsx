@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { cn, formatRelativeTime, formatBytes } from '@/lib/utils';
 import { api } from '@/lib/api';
+import { isMockMode, MOCK_ADMIN_USERS, MOCK_ADMIN_WORKSPACES } from '@/mocks';
+import type { MockAdminUser } from '@/mocks';
 import { Avatar } from '@/components/ui/Avatar';
 import { Spinner } from '@/components/ui/Spinner';
 import { ConfirmModal } from '@/components/ui/Modal';
@@ -13,19 +15,6 @@ import { LinesPattern } from '@/components/ui/BackgroundPattern';
 type PlatformRole = 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'MEMBER' | 'VIEWER' | 'GUEST';
 type UserStatus   = 'ACTIVE' | 'SUSPENDED' | 'PENDING';
 type WorkspaceRole= 'OWNER' | 'ADMIN' | 'EDITOR' | 'COMMENTER' | 'VIEWER' | 'NONE';
-
-interface AdminUser {
-  id: string;
-  name: string;
-  email: string;
-  role: PlatformRole;
-  status: UserStatus;
-  avatar?: string;
-  storageUsed: number;
-  storageQuota: number;
-  createdAt: string;
-  lastLoginAt?: string;
-}
 
 interface WorkspaceAccess {
   workspaceId: string;
@@ -52,25 +41,7 @@ const STATUS_CONFIG: Record<UserStatus, { label: string; dot: string }> = {
 
 const WS_ROLES: WorkspaceRole[] = ['NONE', 'VIEWER', 'COMMENTER', 'EDITOR', 'ADMIN', 'OWNER'];
 
-// ── Mock data ─────────────────────────────────────────────────────────────────
-
-const MOCK_USERS: AdminUser[] = [
-  { id: '1', name: 'Amara Okonkwo',         email: 'amara@example.com',   role: 'ADMIN',   status: 'ACTIVE',    storageUsed: 4_294_967_296,   storageQuota: 53_687_091_200, createdAt: new Date(Date.now() - 86400000 * 90).toISOString(), lastLoginAt: new Date(Date.now() - 3600000).toISOString() },
-  { id: '2', name: 'Chidi Eze',             email: 'chidi@example.com',   role: 'MANAGER', status: 'ACTIVE',    storageUsed: 2_147_483_648,   storageQuota: 10_737_418_240, createdAt: new Date(Date.now() - 86400000 * 30).toISOString(), lastLoginAt: new Date(Date.now() - 86400000).toISOString() },
-  { id: '3', name: 'Ngozi Adaora',          email: 'ngozi@example.com',   role: 'MEMBER',  status: 'PENDING',   storageUsed: 0,               storageQuota: 10_737_418_240, createdAt: new Date(Date.now() - 3600000 * 2).toISOString() },
-  { id: '4', name: 'Emeka Obi',             email: 'emeka@example.com',   role: 'MEMBER',  status: 'ACTIVE',    storageUsed: 805_306_368,     storageQuota: 10_737_418_240, createdAt: new Date(Date.now() - 86400000 * 14).toISOString(), lastLoginAt: new Date(Date.now() - 86400000 * 2).toISOString() },
-  { id: '5', name: 'Funmilayo Ransome-Kuti',email: 'funmi@example.com',   role: 'VIEWER',  status: 'SUSPENDED', storageUsed: 1_073_741_824,   storageQuota: 5_368_709_120,  createdAt: new Date(Date.now() - 86400000 * 60).toISOString(), lastLoginAt: new Date(Date.now() - 86400000 * 14).toISOString() },
-  { id: '6', name: 'Adebayo Falola',        email: 'adebayo@example.com', role: 'MEMBER',  status: 'ACTIVE',    storageUsed: 3_221_225_472,   storageQuota: 10_737_418_240, createdAt: new Date(Date.now() - 86400000 * 15).toISOString(), lastLoginAt: new Date(Date.now() - 7200000).toISOString() },
-  { id: '7', name: 'Ifeoma Nwosu',          email: 'ifeoma@example.com',  role: 'MEMBER',  status: 'ACTIVE',    storageUsed: 524_288_000,     storageQuota: 10_737_418_240, createdAt: new Date(Date.now() - 86400000 * 7).toISOString(),  lastLoginAt: new Date(Date.now() - 1800000).toISOString() },
-  { id: '8', name: 'Babatunde Lawal',       email: 'babs@example.com',    role: 'GUEST',   status: 'ACTIVE',    storageUsed: 0,               storageQuota: 1_073_741_824,  createdAt: new Date(Date.now() - 86400000 * 3).toISOString() },
-];
-
-const MOCK_WORKSPACES: { id: string; name: string }[] = [
-  { id: 'ws1', name: 'Marketing Team' },
-  { id: 'ws2', name: 'Engineering Docs' },
-  { id: 'ws3', name: 'Q4 Product Launch' },
-  { id: 'ws4', name: 'Finance & Legal' },
-];
+type AdminUser = MockAdminUser;
 
 // ── Invite modal ──────────────────────────────────────────────────────────────
 
@@ -141,6 +112,8 @@ function InviteModal({ onClose }: { onClose: () => void }) {
                 </label>
                 <input type="number" min="1" max="1000" value={quota}
                   onChange={(e) => setQuota(e.target.value)}
+                  placeholder="10"
+                  aria-label="Storage quota in GB"
                   className="w-full border border-brand-gray dark:border-dark-border rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-dark-surface-2 dark:text-white focus:outline-none focus:border-brand-black transition-colors" />
               </div>
             </div>
@@ -163,7 +136,7 @@ function InviteModal({ onClose }: { onClose: () => void }) {
 
 function PermissionsPanel({ user, onClose }: { user: AdminUser; onClose: () => void }) {
   const [accesses, setAccesses] = useState<WorkspaceAccess[]>(
-    MOCK_WORKSPACES.map((ws) => ({ workspaceId: ws.id, workspaceName: ws.name, role: 'VIEWER' }))
+    MOCK_ADMIN_WORKSPACES.map((ws) => ({ workspaceId: ws.id, workspaceName: ws.name, role: 'VIEWER' }))
   );
   const [quota, setQuota] = useState(Math.round(user.storageQuota / 1_073_741_824).toString());
   const [saving, setSaving] = useState(false);
@@ -405,9 +378,14 @@ export default function AdminUsersPage() {
   const PER_PAGE = 10;
 
   useEffect(() => {
+    if (isMockMode()) {
+      setUsers(MOCK_ADMIN_USERS as AdminUser[]);
+      setIsLoading(false);
+      return;
+    }
     api.get('/admin/users')
-      .then((r) => setUsers(r.data.data ?? MOCK_USERS))
-      .catch(() => setUsers(MOCK_USERS))
+      .then((r) => setUsers(r.data.data ?? MOCK_ADMIN_USERS))
+      .catch(() => setUsers(MOCK_ADMIN_USERS as AdminUser[]))
       .finally(() => setIsLoading(false));
   }, []);
 

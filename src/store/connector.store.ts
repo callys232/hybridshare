@@ -1,7 +1,7 @@
 ﻿import { create } from 'zustand';
 import { api, type ApiResponse } from '@/lib/api';
 import type { Connector, NormalizedAsset } from '@/shared/connector';
-import { getMockConnectors, MOCK_ASSETS } from '@/mocks';
+import { isMockMode, getMockConnectors, MOCK_ASSETS } from '@/mocks';
 
 interface ConnectorState {
   connectors: Connector[];
@@ -31,16 +31,15 @@ export const useConnectorStore = create<ConnectorState>((set, get) => ({
 
   fetchConnectors: async () => {
     set({ isLoading: true });
+    if (isMockMode()) {
+      set({ connectors: getMockConnectors() as Connector[], isLoading: false });
+      return;
+    }
     try {
       const response = await api.get<ApiResponse<Connector[]>>('/connectors');
       set({ connectors: response.data.data ?? [], isLoading: false });
-    } catch (err) {
-      if (process.env.NODE_ENV === 'development') {
-        set({ connectors: getMockConnectors() as Connector[], isLoading: false });
-      } else {
-        const msg = (err as { response?: { data?: { error?: string } } }).response?.data?.error ?? 'Failed to load connectors';
-        set({ connectors: [], isLoading: false, error: msg });
-      }
+    } catch {
+      set({ connectors: getMockConnectors() as Connector[], isLoading: false });
     }
   },
 

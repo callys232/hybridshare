@@ -1,26 +1,12 @@
-﻿import { create } from 'zustand';
+import { create } from 'zustand';
 import { api, type ApiResponse } from '@/lib/api';
+import { isMockMode, MOCK_ORG, MOCK_ORG_MEMBERS, MOCK_API_KEYS, MOCK_WEBHOOKS } from '@/mocks';
+import type { MockOrganization, MockOrgMember, MockApiKey, MockWebhook } from '@/mocks';
 
-interface Organization {
-  id: string;
-  name: string;
-  slug: string;
-  logoUrl: string | null;
-  domain: string | null;
-  plan: string;
-  memberCount: number;
-  createdAt: string;
-}
-
-interface OrgMember {
-  id: string;
-  userId: string;
-  name: string;
-  email: string;
-  avatar: string | null;
-  role: 'OWNER' | 'ADMIN' | 'MEMBER' | 'VIEWER';
-  joinedAt: string;
-}
+type Organization    = MockOrganization;
+type OrgMember       = MockOrgMember;
+type ApiKey          = MockApiKey;
+type Webhook         = MockWebhook;
 
 interface SSOConfig {
   id: string;
@@ -38,26 +24,6 @@ interface WhiteLabel {
   faviconUrl: string | null;
   customDomain: string | null;
   emailFromName: string | null;
-}
-
-interface ApiKey {
-  id: string;
-  name: string;
-  prefix: string;
-  scopes: string[];
-  lastUsedAt: string | null;
-  expiresAt: string | null;
-  createdAt: string;
-}
-
-interface Webhook {
-  id: string;
-  url: string;
-  events: string[];
-  isActive: boolean;
-  failureCount: number;
-  lastTriggeredAt: string | null;
-  createdAt: string;
 }
 
 interface WebhookDelivery {
@@ -104,33 +70,6 @@ interface OrganizationState {
   clearError: () => void;
 }
 
-const MOCK_ORG: Organization = {
-  id: 'org-1',
-  name: 'HybridShare Academy',
-  slug: 'hybridshare',
-  logoUrl: null,
-  domain: 'hybridshare.io',
-  plan: 'ENTERPRISE',
-  memberCount: 24,
-  createdAt: new Date('2024-01-01').toISOString(),
-};
-
-const MOCK_MEMBERS: OrgMember[] = [
-  { id: 'om-1', userId: 'user-1', name: 'Alex Carter', email: 'alex@hybridshare.io', avatar: null, role: 'OWNER', joinedAt: new Date('2024-01-01').toISOString() },
-  { id: 'om-2', userId: 'user-2', name: 'Jane Smith', email: 'jane@hybridshare.io', avatar: null, role: 'ADMIN', joinedAt: new Date('2024-02-01').toISOString() },
-  { id: 'om-3', userId: 'user-3', name: 'Bob Johnson', email: 'bob@hybridshare.io', avatar: null, role: 'MEMBER', joinedAt: new Date('2024-03-01').toISOString() },
-];
-
-const MOCK_API_KEYS: ApiKey[] = [
-  { id: 'key-1', name: 'Production API', prefix: 'hs_live_abc1', scopes: ['files:read', 'workspaces:read', 'analytics:read'], lastUsedAt: new Date(Date.now() - 3600000).toISOString(), expiresAt: null, createdAt: new Date('2024-01-15').toISOString() },
-  { id: 'key-2', name: 'Analytics Integration', prefix: 'hs_live_def2', scopes: ['analytics:read', 'shares:read'], lastUsedAt: new Date(Date.now() - 86400000).toISOString(), expiresAt: new Date('2025-01-01').toISOString(), createdAt: new Date('2024-03-01').toISOString() },
-];
-
-const MOCK_WEBHOOKS: Webhook[] = [
-  { id: 'wh-1', url: 'https://hooks.zapier.com/hooks/catch/12345', events: ['file.uploaded', 'file.shared', 'workspace.created'], isActive: true, failureCount: 0, lastTriggeredAt: new Date(Date.now() - 7200000).toISOString(), createdAt: new Date('2024-02-01').toISOString() },
-  { id: 'wh-2', url: 'https://api.slack.com/webhooks/T123/B456/xyz', events: ['file.uploaded', 'connector.error'], isActive: true, failureCount: 2, lastTriggeredAt: new Date(Date.now() - 3600000).toISOString(), createdAt: new Date('2024-03-15').toISOString() },
-];
-
 export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   organization: null,
   members: [],
@@ -144,6 +83,10 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
 
   fetchOrganization: async () => {
     set({ isLoading: true });
+    if (isMockMode()) {
+      set({ organization: MOCK_ORG, isLoading: false });
+      return;
+    }
     try {
       const res = await api.get<ApiResponse<Organization>>('/organizations/my');
       set({ organization: res.data.data!, isLoading: false });
@@ -153,17 +96,25 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   fetchMembers: async () => {
+    if (isMockMode()) {
+      set({ members: MOCK_ORG_MEMBERS });
+      return;
+    }
     try {
       const org = get().organization;
       if (!org) return;
       const res = await api.get<ApiResponse<OrgMember[]>>(`/organizations/${org.id}/members`);
       set({ members: res.data.data! });
     } catch {
-      set({ members: MOCK_MEMBERS });
+      set({ members: MOCK_ORG_MEMBERS });
     }
   },
 
   fetchSSO: async () => {
+    if (isMockMode()) {
+      set({ ssoConfig: null });
+      return;
+    }
     try {
       const org = get().organization;
       if (!org) return;
@@ -175,6 +126,10 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   fetchWhiteLabel: async () => {
+    if (isMockMode()) {
+      set({ whiteLabel: null });
+      return;
+    }
     try {
       const org = get().organization;
       if (!org) return;
@@ -186,6 +141,10 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   fetchApiKeys: async () => {
+    if (isMockMode()) {
+      set({ apiKeys: MOCK_API_KEYS });
+      return;
+    }
     try {
       const org = get().organization;
       if (!org) return;
@@ -197,6 +156,10 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   fetchWebhooks: async () => {
+    if (isMockMode()) {
+      set({ webhooks: MOCK_WEBHOOKS });
+      return;
+    }
     try {
       const org = get().organization;
       if (!org) return;
@@ -208,6 +171,7 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   fetchWebhookDeliveries: async (webhookId) => {
+    if (isMockMode()) return;
     try {
       const org = get().organization;
       if (!org) return;
@@ -219,11 +183,19 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   createOrganization: async (data) => {
+    if (isMockMode()) {
+      set({ organization: { ...MOCK_ORG, ...data } });
+      return;
+    }
     const res = await api.post<ApiResponse<Organization>>('/organizations', data);
     set({ organization: res.data.data! });
   },
 
   updateOrganization: async (data) => {
+    if (isMockMode()) {
+      set((s) => ({ organization: s.organization ? { ...s.organization, ...data } : null }));
+      return;
+    }
     const org = get().organization;
     if (!org) return;
     const res = await api.put<ApiResponse<Organization>>(`/organizations/${org.id}`, data);
@@ -231,6 +203,15 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   inviteMember: async (email, role) => {
+    if (isMockMode()) {
+      const newMember: OrgMember = {
+        id: `om-${Date.now()}`, userId: `user-${Date.now()}`,
+        name: email.split('@')[0], email, avatar: null,
+        role: role as OrgMember['role'], joinedAt: new Date().toISOString(),
+      };
+      set((s) => ({ members: [...s.members, newMember] }));
+      return;
+    }
     const org = get().organization;
     if (!org) return;
     const res = await api.post<ApiResponse<OrgMember>>(`/organizations/${org.id}/members`, { email, role });
@@ -238,6 +219,10 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   removeMember: async (memberId) => {
+    if (isMockMode()) {
+      set((s) => ({ members: s.members.filter((m) => m.id !== memberId) }));
+      return;
+    }
     const org = get().organization;
     if (!org) return;
     await api.delete(`/organizations/${org.id}/members/${memberId}`);
@@ -245,6 +230,10 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   updateMemberRole: async (memberId, role) => {
+    if (isMockMode()) {
+      set((s) => ({ members: s.members.map((m) => m.id === memberId ? { ...m, role: role as OrgMember['role'] } : m) }));
+      return;
+    }
     const org = get().organization;
     if (!org) return;
     const res = await api.put<ApiResponse<OrgMember>>(`/organizations/${org.id}/members/${memberId}`, { role });
@@ -252,6 +241,10 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   upsertSSO: async (data) => {
+    if (isMockMode()) {
+      set((s) => ({ ssoConfig: s.ssoConfig ? { ...s.ssoConfig, ...data } : null }));
+      return;
+    }
     const org = get().organization;
     if (!org) return;
     const res = await api.put<ApiResponse<SSOConfig>>(`/organizations/${org.id}/sso`, data);
@@ -259,6 +252,10 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   upsertWhiteLabel: async (data) => {
+    if (isMockMode()) {
+      set((s) => ({ whiteLabel: s.whiteLabel ? { ...s.whiteLabel, ...data } : null }));
+      return;
+    }
     const org = get().organization;
     if (!org) return;
     const res = await api.put<ApiResponse<WhiteLabel>>(`/organizations/${org.id}/branding`, data);
@@ -266,6 +263,14 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   createApiKey: async (name, scopes, expiresAt) => {
+    if (isMockMode()) {
+      const key: ApiKey = {
+        id: `key-${Date.now()}`, name, prefix: `hs_mock_${Math.random().toString(36).slice(2, 8)}`,
+        scopes, lastUsedAt: null, expiresAt: expiresAt ?? null, createdAt: new Date().toISOString(),
+      };
+      set((s) => ({ apiKeys: [...s.apiKeys, key] }));
+      return { rawKey: `hs_mock_${Math.random().toString(36).slice(2, 30)}` };
+    }
     const org = get().organization;
     if (!org) throw new Error('No organization');
     const res = await api.post<ApiResponse<ApiKey & { rawKey: string }>>(`/organizations/${org.id}/api-keys`, { name, scopes, expiresAt });
@@ -275,6 +280,10 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   revokeApiKey: async (keyId) => {
+    if (isMockMode()) {
+      set((s) => ({ apiKeys: s.apiKeys.filter((k) => k.id !== keyId) }));
+      return;
+    }
     const org = get().organization;
     if (!org) return;
     await api.delete(`/organizations/${org.id}/api-keys/${keyId}`);
@@ -282,6 +291,14 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   createWebhook: async (data) => {
+    if (isMockMode()) {
+      const wh: Webhook = {
+        id: `wh-${Date.now()}`, url: data.url, events: data.events,
+        isActive: true, failureCount: 0, lastTriggeredAt: null, createdAt: new Date().toISOString(),
+      };
+      set((s) => ({ webhooks: [...s.webhooks, wh] }));
+      return;
+    }
     const org = get().organization;
     if (!org) return;
     const res = await api.post<ApiResponse<Webhook>>(`/organizations/${org.id}/webhooks`, data);
@@ -289,6 +306,10 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   updateWebhook: async (webhookId, data) => {
+    if (isMockMode()) {
+      set((s) => ({ webhooks: s.webhooks.map((w) => w.id === webhookId ? { ...w, ...data } : w) }));
+      return;
+    }
     const org = get().organization;
     if (!org) return;
     const res = await api.put<ApiResponse<Webhook>>(`/organizations/${org.id}/webhooks/${webhookId}`, data);
@@ -296,6 +317,10 @@ export const useOrganizationStore = create<OrganizationState>((set, get) => ({
   },
 
   deleteWebhook: async (webhookId) => {
+    if (isMockMode()) {
+      set((s) => ({ webhooks: s.webhooks.filter((w) => w.id !== webhookId) }));
+      return;
+    }
     const org = get().organization;
     if (!org) return;
     await api.delete(`/organizations/${org.id}/webhooks/${webhookId}`);
