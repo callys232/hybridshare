@@ -19,8 +19,6 @@ const DEMO_ACCOUNTS = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
     ),
-    accent: 'border-brand-red/30 hover:border-brand-red bg-red-50/40 hover:bg-red-50',
-    iconBg: 'bg-brand-red/10 text-brand-red',
   },
   {
     role: 'Member',
@@ -32,8 +30,6 @@ const DEMO_ACCOUNTS = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
       </svg>
     ),
-    accent: 'border-zinc-300 hover:border-zinc-500 bg-zinc-50/40 hover:bg-zinc-50',
-    iconBg: 'bg-zinc-200 text-zinc-600',
   },
 ] as const;
 
@@ -103,8 +99,8 @@ function LoginForm() {
 
         {/* Demo account picker */}
         {process.env.NODE_ENV === 'development' && (
-          <div className="mb-5 rounded-2xl border border-brand-gray bg-white p-4 shadow-sm">
-            <p className="text-[11px] font-bold text-brand-gray-dark uppercase tracking-widest mb-3 flex items-center gap-1.5">
+          <div className="demo-card-flicker mb-5 rounded-2xl border p-4 shadow-lg">
+            <p className="text-[11px] font-bold text-white/70 uppercase tracking-widest mb-3 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               Preview — choose a demo account
             </p>
@@ -115,9 +111,9 @@ function LoginForm() {
                   type="button"
                   disabled={demoLoading !== null}
                   onClick={() => handleDemoLogin(account.email, account.password, account.role)}
-                  className={`relative text-left px-3 py-3 rounded-xl border transition-all duration-150 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed ${account.accent}`}
+                  className="relative text-left px-3 py-3 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 hover:border-white/40 transition-all duration-200 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-2 ${account.iconBg}`}>
+                  <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center mb-2 text-white">
                     {demoLoading === account.role ? (
                       <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -125,8 +121,8 @@ function LoginForm() {
                       </svg>
                     ) : account.icon}
                   </div>
-                  <p className="text-xs font-bold text-brand-black">{account.role}</p>
-                  <p className="text-[10px] text-brand-gray-dark leading-relaxed mt-0.5">{account.description}</p>
+                  <p className="text-xs font-bold text-white">{account.role}</p>
+                  <p className="text-[10px] text-white/60 leading-relaxed mt-0.5">{account.description}</p>
                 </button>
               ))}
             </div>

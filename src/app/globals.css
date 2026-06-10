@@ -88,6 +88,24 @@
   50%       { opacity: 0.5; box-shadow: 0 0 0 4px rgba(193,33,41,0.2) }
 }
 
+/* ── Pattern ink tokens (light / dark) ─────────────────────── */
+:root {
+  --pat-ink:    #111111;
+  --pat-red:    #c12129;
+  --pat-blue:   #3b82f6;
+  --pat-purple: #8b5cf6;
+  --pat-green:  #10b981;
+  --pat-amber:  #f59e0b;
+}
+.dark {
+  --pat-ink:    #cccccc;
+  --pat-red:    #e84852;
+  --pat-blue:   #60a5fa;
+  --pat-purple: #a78bfa;
+  --pat-green:  #34d399;
+  --pat-amber:  #fbbf24;
+}
+
 /* ── Base ───────────────────────────────────────────────────── */
 @layer base {
   * { box-sizing: border-box; }
@@ -223,7 +241,19 @@
   }
 
   .page-header   { @apply flex items-center justify-between mb-6; }
-  .page-title    { @apply text-2xl font-bold text-brand-black dark:text-dark-text tracking-tight; }
+  .page-title {
+    @apply text-2xl font-bold tracking-tight;
+    background-image: linear-gradient(90deg, #c12129 0%, #8b0d13 20%, #ff4b55 38%, #ffffff 50%, #ff4b55 62%, #8b0d13 78%, #000000 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: shimmer 3s infinite linear;
+  }
+  .dark .page-title {
+    background-image: linear-gradient(90deg, #e84852 0%, #c12129 20%, #ff6b73 38%, #ffffff 50%, #ff6b73 62%, #c12129 78%, #8b0d13 100%);
+  }
   .section-title { @apply text-lg font-semibold text-brand-black dark:text-dark-text; }
 
   /* ── Icon button ── */
@@ -279,7 +309,7 @@
   }
   .ring-brand { --tw-ring-color: rgba(193,33,41,0.5); }
 
-  /* ── Gradient shimmer heading (pricing) ── */
+  /* ── Gradient shimmer heading (pricing + page titles) ── */
   .gradient-shimmer-heading {
     background-image: linear-gradient(90deg, #c12129 0%, #8b0d13 20%, #ff4b55 38%, #ffffff 50%, #ff4b55 62%, #8b0d13 78%, #000000 100%);
     background-size: 200% auto;
@@ -288,6 +318,26 @@
     -webkit-text-fill-color: transparent;
     color: transparent;
     animation: shimmer 3s infinite linear;
+  }
+  .dark .gradient-shimmer-heading {
+    background-image: linear-gradient(90deg, #e84852 0%, #c12129 20%, #ff6b73 38%, #ffffff 50%, #ff6b73 62%, #c12129 78%, #8b0d13 100%);
+  }
+
+  /* ── Demo account card — red/black flicker gradient ── */
+  .demo-card-flicker {
+    background-image: linear-gradient(120deg, #000000 0%, #1a0205 25%, #c12129 48%, #ff3040 52%, #c12129 56%, #1a0205 75%, #000000 100%);
+    background-size: 250% auto;
+    animation: shimmer 4s infinite linear;
+    border-color: #c12129;
+    color: #ffffff;
+  }
+  .demo-card-flicker:hover {
+    border-color: #ff3040;
+    animation-duration: 2s;
+  }
+  .demo-card-flicker:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   /* ── Skeleton shimmer ── */
