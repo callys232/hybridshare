@@ -163,7 +163,7 @@ export function Pricing() {
         {/* Header */}
         <div className="text-center mb-12">
           <span className="text-xs font-bold text-brand-red uppercase tracking-widest">Pricing</span>
-          <h2 className="text-3xl sm:text-4xl font-black text-brand-black mt-2 mb-3">
+          <h2 className="text-3xl sm:text-4xl font-black mt-2 mb-3 gradient-shimmer-heading">
             Simple, transparent pricing
           </h2>
           <p className="text-brand-gray-dark text-lg max-w-xl mx-auto">

@@ -14,6 +14,7 @@ import { UploadQueue } from '@/components/lfs/UploadQueue';
 import { BreadcrumbNav } from '@/components/lfs/BreadcrumbNav';
 import { GuestBanner } from '@/components/lfs/GuestBanner';
 import { Spinner } from '@/components/ui/Spinner';
+import { isMockMode, MOCK_LFS_FILES } from '@/mocks';
 import type { LFSFile, LFSUploadJob, LibraryView, SortField, SortDir } from '@/types/lfs';
 
 const SORT_OPTIONS: { value: SortField; label: string }[] = [
@@ -43,6 +44,11 @@ export default function FilesPage() {
   const [isBulkLoading, setIsBulkLoading] = useState(false);
 
   useEffect(() => {
+    if (isMockMode()) {
+      setFiles(MOCK_LFS_FILES);
+      setIsLoading(false);
+      return;
+    }
     api.get('/files')
       .then((r) => setFiles((r.data as { data: LFSFile[] }).data ?? []))
       .catch(() => setFiles([]))

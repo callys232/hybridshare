@@ -9,6 +9,7 @@ import { GuestBanner } from '@/components/lfs/GuestBanner';
 import { ShapesPattern } from '@/components/ui/BackgroundPattern';
 import { Spinner } from '@/components/ui/Spinner';
 import { LockedButton } from '@/components/ui/PlanGate';
+import { isMockMode } from '@/mocks';
 import type { LFSWorkspace, WorkspacePillar } from '@/types/lfs';
 
 const PILLAR_ICONS: Record<WorkspacePillar, React.ReactNode> = {
@@ -46,6 +47,11 @@ export default function WorkspacesPage() {
   const [newPillar, setNewPillar] = useState<WorkspacePillar>('BIZ');
 
   useEffect(() => {
+    if (isMockMode()) {
+      setWorkspaces(MOCK_WORKSPACES);
+      setIsLoading(false);
+      return;
+    }
     api.get('/workspaces')
       .then((r) => setWorkspaces((r.data as { data: LFSWorkspace[] }).data ?? MOCK_WORKSPACES))
       .catch(() => setWorkspaces(MOCK_WORKSPACES))

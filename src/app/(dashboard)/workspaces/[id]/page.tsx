@@ -10,6 +10,7 @@ import { BreadcrumbNav } from '@/components/lfs/BreadcrumbNav';
 import { GuestBanner } from '@/components/lfs/GuestBanner';
 import { StorageBar } from '@/components/lfs/StorageBar';
 import { Spinner } from '@/components/ui/Spinner';
+import { isMockMode } from '@/mocks';
 import type { LFSLibrary, LFSWorkspace, WorkspacePillar } from '@/types/lfs';
 
 const PILLAR_CONFIG: Record<WorkspacePillar, { color: string; bg: string }> = {
@@ -51,6 +52,12 @@ export default function WorkspaceDetailPage() {
   const [view, setView] = useState<'grid' | 'list'>('grid');
 
   useEffect(() => {
+    if (isMockMode()) {
+      setWorkspace(MOCK_WS);
+      setLibraries(MOCK_LIBS);
+      setIsLoading(false);
+      return;
+    }
     Promise.all([
       api.get(`/workspaces/${id}`),
       api.get(`/workspaces/${id}/libraries`),

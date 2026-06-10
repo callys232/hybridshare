@@ -40,6 +40,11 @@ function verifyJwtSync(token: string): boolean {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Dev/mock mode: skip cookie auth — tokens live in localStorage, not cookies
+  if (process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+    return NextResponse.next();
+  }
+
   if (isPublic(pathname)) return NextResponse.next();
   if (pathname.startsWith('/api/') && isPublicApi(pathname)) return NextResponse.next();
   if (pathname.startsWith('/api/')) return NextResponse.next(); // API routes self-validate Bearer tokens
