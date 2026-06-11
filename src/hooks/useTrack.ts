@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useCallback, useRef } from 'react';
 import { api } from '@/lib/api';
 
@@ -86,7 +86,7 @@ function buildContentUrl(event: TrackEventName, ctx: Record<string, string | und
 }
 
 /**
- * useTrack â€” fire-and-forget analytics event tracker.
+ * useTrack — fire-and-forget analytics event tracker.
  *
  * Usage:
  *   const track = useTrack();
@@ -94,7 +94,7 @@ function buildContentUrl(event: TrackEventName, ctx: Record<string, string | und
  *
  * All events include a contentUrl pointing to the relevant product page.
  * Events are batched in a queue and flushed every 2 seconds or when the
- * batch reaches 10 events â€” whichever comes first.
+ * batch reaches 10 events — whichever comes first.
  */
 export function useTrack() {
   const queue = useRef<Array<{ event: TrackEventName; properties: TrackPayload; timestamp: string }>>([]);
@@ -106,7 +106,7 @@ export function useTrack() {
     try {
       await api.post('/events/batch', { events: batch });
     } catch {
-      // Best-effort â€” don't surface tracking failures to the user
+      // Best-effort — don't surface tracking failures to the user
     }
   }, []);
 

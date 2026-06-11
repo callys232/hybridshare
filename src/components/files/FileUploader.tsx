@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useRef, useCallback } from 'react';
 import { cn, formatBytes } from '@/lib/utils';
@@ -230,7 +230,7 @@ export function FileUploader({ onClose, onSuccess, workspaceId, folderId }: File
 
         {allDone && doneCount > 0 && (
           <div className="bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-3 text-sm text-emerald-700 font-medium">
-            âœ“ {doneCount} file{doneCount > 1 ? 's' : ''} uploaded successfully
+            ✓ {doneCount} file{doneCount > 1 ? 's' : ''} uploaded successfully
           </div>
         )}
       </div>

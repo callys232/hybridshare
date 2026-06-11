@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
@@ -211,7 +211,7 @@ export function TopBar({ title }: { title?: string }) {
                 className="block w-full text-center py-2.5 text-xs font-semibold text-brand-red hover:text-red-700 border-t border-brand-gray transition-colors"
                 onClick={() => setNotifOpen(false)}
               >
-                View all notifications â†’
+                View all notifications →
               </Link>
             </div>
           )}

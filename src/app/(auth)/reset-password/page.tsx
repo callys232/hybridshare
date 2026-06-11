@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, Suspense } from 'react';
 import Link from 'next/link';
@@ -80,7 +80,7 @@ function ResetPasswordForm() {
               <h1 className="text-xl font-bold text-brand-black mb-2">Password updated</h1>
               <p className="text-sm text-brand-gray-dark mb-6">Redirecting you to sign in…</p>
               <Link href="/login" className="text-brand-red text-sm font-semibold hover:underline">
-                Go to sign in â†’
+                Go to sign in →
               </Link>
             </div>
           ) : (

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -138,7 +138,7 @@ export function ConnectorSetup({ onClose, onSuccess }: ConnectorSetupProps) {
                   (step === 2 && !connectorName)
                 }
               >
-                Continue â†’
+                Continue →
               </Button>
             )}
             {step === 5 && (
@@ -161,7 +161,7 @@ export function ConnectorSetup({ onClose, onSuccess }: ConnectorSetupProps) {
                 step > s.n ? 'bg-brand-red text-white' :
                 'bg-brand-gray text-brand-gray-dark'
               )}>
-                {step > s.n ? 'âœ“' : s.n}
+                {step > s.n ? '✓' : s.n}
               </div>
               <span className={cn(
                 'text-[10px] font-medium ml-1.5 hidden sm:block',
@@ -179,7 +179,7 @@ export function ConnectorSetup({ onClose, onSuccess }: ConnectorSetupProps) {
           ))}
         </div>
 
-        {/* Step 1 â€” Type */}
+        {/* Step 1 — Type */}
         {step === 1 && (
           <div className="space-y-4">
             <p className="text-sm font-semibold text-brand-black">Select a connector type</p>
@@ -219,7 +219,7 @@ export function ConnectorSetup({ onClose, onSuccess }: ConnectorSetupProps) {
           </div>
         )}
 
-        {/* Step 2 â€” Credentials */}
+        {/* Step 2 — Credentials */}
         {step === 2 && selectedMeta && (
           <div className="space-y-4">
             <div>
@@ -263,7 +263,7 @@ export function ConnectorSetup({ onClose, onSuccess }: ConnectorSetupProps) {
           </div>
         )}
 
-        {/* Step 3 â€” Sync */}
+        {/* Step 3 — Sync */}
         {step === 3 && (
           <div className="space-y-4">
             <p className="text-sm font-semibold text-brand-black">Configure sync mode</p>
@@ -311,7 +311,7 @@ export function ConnectorSetup({ onClose, onSuccess }: ConnectorSetupProps) {
           </div>
         )}
 
-        {/* Step 4 â€” Test */}
+        {/* Step 4 — Test */}
         {step === 4 && (
           <div className="space-y-4 text-center">
             <p className="text-sm font-semibold text-brand-black">Test connection</p>
@@ -325,7 +325,7 @@ export function ConnectorSetup({ onClose, onSuccess }: ConnectorSetupProps) {
                 testResult.healthy ? 'bg-emerald-50 border-emerald-200' : 'bg-brand-red-muted border-brand-red/20'
               )}>
                 <p className={cn('text-sm font-semibold', testResult.healthy ? 'text-emerald-700' : 'text-brand-red')}>
-                  {testResult.healthy ? 'âœ“ Connection successful' : 'âœ— Connection failed'}
+                  {testResult.healthy ? '✓ Connection successful' : '✗ Connection failed'}
                 </p>
                 <p className="text-xs mt-1 text-brand-gray-dark">{testResult.message}</p>
               </div>
@@ -342,7 +342,7 @@ export function ConnectorSetup({ onClose, onSuccess }: ConnectorSetupProps) {
           </div>
         )}
 
-        {/* Step 5 â€” Confirm */}
+        {/* Step 5 — Confirm */}
         {step === 5 && (
           <div className="space-y-4">
             <p className="text-sm font-semibold text-brand-black">Review & confirm</p>

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import { cn, formatRelativeTime } from '@/lib/utils';
@@ -12,12 +12,34 @@ interface ConnectorCardProps {
   connector: Connector;
 }
 
-const categoryIcons: Record<string, string> = {
-  CLOUD: 'â˜️',
-  DATABASE: 'ðŸ—„️',
-  CRM: 'ðŸ“Š',
-  CUSTOM: 'ðŸ”—',
+const categoryIcons: Record<string, React.ReactNode> = {
+  CLOUD: (
+    <svg className="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+    </svg>
+  ),
+  DATABASE: (
+    <svg className="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+    </svg>
+  ),
+  CRM: (
+    <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>
+  ),
+  CUSTOM: (
+    <svg className="w-5 h-5 text-brand-gray-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+    </svg>
+  ),
 };
+
+const fallbackIcon = (
+  <svg className="w-5 h-5 text-brand-gray-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+  </svg>
+);
 
 export function ConnectorCard({ connector }: ConnectorCardProps) {
   const { syncConnector, deleteConnector, testConnector, isSyncing } = useConnectorStore();
@@ -66,8 +88,8 @@ export function ConnectorCard({ connector }: ConnectorCardProps) {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-brand-white-soft rounded-lg flex items-center justify-center text-xl flex-shrink-0 border border-brand-gray group-hover:border-brand-gray-dark transition-colors duration-150">
-            {categoryIcons[connector.category] ?? 'ðŸ”—'}
+          <div className="w-10 h-10 bg-brand-white-soft rounded-lg flex items-center justify-center flex-shrink-0 border border-brand-gray group-hover:border-brand-gray-dark transition-colors duration-150">
+            {categoryIcons[connector.category] ?? fallbackIcon}
           </div>
           <div>
             <p className="text-sm font-bold text-brand-black">{connector.name}</p>
@@ -146,7 +168,7 @@ export function ConnectorCard({ connector }: ConnectorCardProps) {
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
-          {syncing ? 'Syncingâ€¦' : 'Sync'}
+          {syncing ? 'Syncing...' : 'Sync'}
         </button>
       </div>
     </div>

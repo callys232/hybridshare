@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { useOrganizationStore } from '@/store/organization.store';
@@ -446,7 +446,7 @@ export default function OrganizationPage() {
               isSaving && 'opacity-60 cursor-not-allowed'
             )}
           >
-            {saved ? 'âœ“ Saved' : isSaving ? 'Saving...' : 'Save Changes'}
+            {saved ? '✓ Saved' : isSaving ? 'Saving...' : 'Save Changes'}
           </button>
         </div>
       )}
