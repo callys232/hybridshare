@@ -4,6 +4,8 @@ import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth';
 import { ok, err, noContent, handleError } from '@/lib/api-helpers';
 
+export const dynamic = 'force-dynamic';
+
 type Ctx = { params: Promise<{ id: string }> };
 
 const updateSchema = z.object({
