@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { cn, formatBytes, storagePercentage } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
 import { useWorkspaceStore } from '@/store/workspace.store';
+import { useMessageStore } from '@/store/message.store';
 import { Avatar } from '../ui/Avatar';
 import { Tooltip } from '../ui/Tooltip';
 
@@ -104,6 +105,15 @@ const PLATFORM_ITEMS: NavItem[] = [
     icon: (
       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+      </svg>
+    ),
+  },
+  {
+    href: '/messages',
+    label: 'Messages',
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
       </svg>
     ),
   },
@@ -209,6 +219,7 @@ export function Sidebar() {
   const router = useRouter();
   const { user, logout } = useAuthStore();
   const { workspaces } = useWorkspaceStore();
+  const { totalUnread: msgUnread } = useMessageStore();
   const [signingOut, setSigningOut] = useState(false);
 
   const handleLogout = async () => {
@@ -244,7 +255,11 @@ export function Sidebar() {
           Platform
         </p>
         {PLATFORM_ITEMS.map((item) => (
-          <NavLink key={item.href} item={item} pathname={pathname} />
+          <NavLink
+            key={item.href}
+            item={item.href === '/messages' ? { ...item, badge: msgUnread } : item}
+            pathname={pathname}
+          />
         ))}
 
         {/* Admin section */}

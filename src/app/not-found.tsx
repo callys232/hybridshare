@@ -8,7 +8,7 @@ export default function NotFound() {
           <div className="w-10 h-10 bg-brand-black dark:bg-white rounded-xl flex items-center justify-center">
             <div className="w-4 h-4 bg-brand-red rounded-sm" />
           </div>
-          <span className="font-bold text-xl text-brand-black dark:text-dark-text tracking-tight">HybridShare</span>
+          <span className="font-bold text-xl text-brand-black dark:text-dark-text tracking-tight">Lamid FileShare</span>
         </Link>
 
         <p className="text-8xl font-black text-brand-black dark:text-dark-text mb-4">404</p>

@@ -56,7 +56,7 @@ export default function OnboardingPage() {
             <div className="w-10 h-10 bg-brand-black rounded-xl flex items-center justify-center shadow-button">
               <div className="w-4 h-4 bg-brand-red rounded-sm" />
             </div>
-            <span className="font-bold text-xl text-brand-black tracking-tight">HybridShare</span>
+            <span className="font-bold text-xl text-brand-black tracking-tight">Lamid FileShare</span>
           </div>
         </div>
 
@@ -103,7 +103,7 @@ export default function OnboardingPage() {
           {/* Step 1 — Use cases */}
           {step === 1 && (
             <>
-              <h1 className="text-xl font-bold text-brand-black mb-1">How will you use HybridShare?</h1>
+              <h1 className="text-xl font-bold text-brand-black mb-1">How will you use Lamid FileShare?</h1>
               <p className="text-sm text-brand-gray-dark mb-4">Select all that apply.</p>
               <div className="grid grid-cols-2 gap-2 mb-5">
                 {USE_CASES.map((u) => {

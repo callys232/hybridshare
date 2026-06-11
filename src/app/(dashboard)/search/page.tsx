@@ -40,7 +40,12 @@ const MOCK_HITS: SearchHit[] = [
   { id: 'f3', type: 'file', name: 'Investor Pitch Deck.pptx', extension: 'pptx', sizeBytes: 22000000, location: 'Acme Business Hub / Proposals', updatedAt: new Date(Date.now() - 3600000 * 4).toISOString(), highlight: 'Series A <mark>pitch deck</mark> for investor presentation, Q4 2026.' },
 ];
 
-const TYPE_ICONS: Record<string, string> = { file: '📄', workspace: '🏢', library: '📚', course: '🎓' };
+const TYPE_SVG: Record<string, React.ReactNode> = {
+  file: <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
+  workspace: <svg className="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>,
+  library: <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>,
+  course: <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 14l9-5-9-5-9 5 9 5z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>,
+};
 
 function SearchContent() {
   const { user } = useAuthStore();
@@ -126,7 +131,7 @@ function SearchContent() {
               <div className="flex gap-2 flex-wrap">
                 {(['all', 'file', 'workspace', 'library', 'course'] as const).map((t) => (
                   <button key={t} type="button" onClick={() => setTypeFilter(t)} className={cn('px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all capitalize', typeFilter === t ? 'bg-brand-black dark:bg-white text-white dark:text-brand-black border-brand-black dark:border-white' : 'bg-white dark:bg-dark-surface-2 text-brand-gray-dark dark:text-dark-text-muted border-brand-gray dark:border-dark-border hover:border-brand-black dark:hover:border-dark-border-soft')}>
-                    {t === 'all' ? `All (${results.length})` : `${TYPE_ICONS[t]} ${t} (${typeCounts[t] ?? 0})`}
+                    {t === 'all' ? `All (${results.length})` : `${t} (${typeCounts[t] ?? 0})`}
                   </button>
                 ))}
               </div>
@@ -134,7 +139,7 @@ function SearchContent() {
 
             {filtered.length === 0 ? (
               <div className="text-center py-16">
-                <p className="text-4xl mb-3">🔍</p>
+                <div className="w-12 h-12 rounded-full bg-brand-white-soft dark:bg-dark-surface-2 border border-brand-gray dark:border-dark-border flex items-center justify-center mx-auto mb-3"><svg className="w-6 h-6 text-brand-gray-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></div>
                 <p className="font-semibold text-brand-black dark:text-dark-text">No results found</p>
                 <p className="text-sm text-brand-gray-dark dark:text-dark-text-muted mt-1">Try different keywords or remove filters</p>
               </div>
@@ -145,7 +150,7 @@ function SearchContent() {
                     {hit.extension ? (
                       <FileIcon extension={hit.extension} size="md" className="flex-shrink-0 mt-0.5" />
                     ) : (
-                      <div className="w-10 h-10 rounded-lg bg-brand-white-soft dark:bg-dark-surface-2 border border-brand-gray dark:border-dark-border flex items-center justify-center text-lg flex-shrink-0">{TYPE_ICONS[hit.type]}</div>
+                      <div className="w-10 h-10 rounded-lg bg-brand-white-soft dark:bg-dark-surface-2 border border-brand-gray dark:border-dark-border flex items-center justify-center flex-shrink-0">{TYPE_SVG[hit.type]}</div>
                     )}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
@@ -172,7 +177,7 @@ function SearchContent() {
 
         {!searched && (
           <div className="text-center py-20">
-            <p className="text-5xl mb-4">🔍</p>
+            <div className="w-14 h-14 rounded-full bg-brand-white-soft dark:bg-dark-surface-2 border border-brand-gray dark:border-dark-border flex items-center justify-center mx-auto mb-4"><svg className="w-7 h-7 text-brand-gray-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg></div>
             <p className="font-semibold text-brand-black dark:text-dark-text mb-2">Search everything</p>
             <p className="text-sm text-brand-gray-dark dark:text-dark-text-muted max-w-sm mx-auto">Find files, workspaces, libraries, and courses — all from one place. Supports full-text search inside documents.</p>
           </div>

@@ -26,24 +26,21 @@ interface SharedFile {
 
 type Status = 'loading' | 'email-gate' | 'verify-code' | 'nda-gate' | 'ready' | 'expired' | 'error';
 
-const MIME_ICON: Record<string, string> = {
-  'image/':        '🖼️',
-  'video/':        '🎬',
-  'audio/':        '🎵',
-  'application/pdf': '📄',
-  'application/zip': '🗜️',
-  'text/':         '📝',
-  'application/vnd.ms-excel': '📊',
-  'application/vnd.openxmlformats-officedocument.spreadsheetml': '📊',
-  'application/vnd.ms-powerpoint': '📊',
-  'application/msword': '📝',
-};
-
-function getIcon(mime: string): string {
-  for (const [prefix, icon] of Object.entries(MIME_ICON)) {
-    if (mime.startsWith(prefix)) return icon;
-  }
-  return '📁';
+function getIcon(mime: string): React.ReactNode {
+  const cls = 'w-16 h-16 text-brand-gray-dark';
+  if (mime.startsWith('image/'))
+    return <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.25} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>;
+  if (mime.startsWith('video/'))
+    return <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.25} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>;
+  if (mime.startsWith('audio/'))
+    return <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.25} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>;
+  if (mime === 'application/pdf')
+    return <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.25} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>;
+  if (mime.includes('zip') || mime.includes('archive'))
+    return <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.25} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>;
+  if (mime.includes('spreadsheet') || mime.includes('excel') || mime.includes('csv'))
+    return <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.25} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>;
+  return <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.25} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>;
 }
 
 function formatBytes(bytes: number): string {
@@ -513,7 +510,7 @@ export default function SharedFilePage({ params }: { params: { token: string } }
               </div>
             ) : (
               <div className="relative w-full aspect-video bg-gradient-to-br from-brand-white-soft to-brand-gray flex flex-col items-center justify-center gap-3">
-                <span className="text-7xl">{icon}</span>
+                <div className="opacity-40">{icon}</div>
                 {canPreview && (
                   <button
                     type="button"

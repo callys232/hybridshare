@@ -388,19 +388,19 @@ export default function FilesPage() {
                   name: 'DocuSign',
                   desc: 'Industry-leading e-signature platform',
                   color: 'bg-yellow-50 border-yellow-200 hover:border-yellow-400',
-                  icon: '✍️',
+                  icon: <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>,
                 },
                 {
                   name: 'HelloSign',
                   desc: 'Simple, fast e-signatures by Dropbox',
                   color: 'bg-blue-50 border-blue-200 hover:border-blue-400',
-                  icon: '📝',
+                  icon: <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
                 },
                 {
                   name: 'Adobe Sign',
                   desc: 'Enterprise e-signatures from Adobe',
                   color: 'bg-red-50 border-red-200 hover:border-red-400',
-                  icon: '📄',
+                  icon: <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>,
                 },
               ].map((provider) => (
                 <button
@@ -415,7 +415,7 @@ export default function FilesPage() {
                     provider.color
                   )}
                 >
-                  <span className="text-xl">{provider.icon}</span>
+                  <span className="flex-shrink-0">{provider.icon}</span>
                   <div>
                     <p className="text-sm font-semibold text-brand-black">{provider.name}</p>
                     <p className="text-xs text-brand-gray-dark">{provider.desc}</p>

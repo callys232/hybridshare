@@ -8,6 +8,7 @@ export * from './social';
 export * from './organization';
 export * from './payments';
 export * from './admin';
+export * from './messages';
 
 export function isMockMode(): boolean {
   return process.env.NEXT_PUBLIC_MOCK_MODE === 'true' || process.env.NODE_ENV === 'development';

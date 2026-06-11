@@ -21,7 +21,7 @@ const PILLAR_CONFIG: Record<WorkspacePillar, { color: string; bg: string }> = {
   PERSONAL:    { color: 'text-brand-gray-dark', bg: 'bg-brand-white-soft dark:bg-dark-surface-2 border-brand-gray dark:border-dark-border' },
 };
 
-const MOCK_WS: LFSWorkspace = { id: 'w1', orgId: 'o1', name: 'Acme Business Hub', pillar: 'BIZ', description: 'Central workspace for all BIZ pillar documents, proposals, and reports.', iconEmoji: '💼', memberCount: 12, libraryCount: 6, createdAt: new Date(Date.now() - 86400000 * 60).toISOString() };
+const MOCK_WS: LFSWorkspace = { id: 'w1', orgId: 'o1', name: 'Acme Business Hub', pillar: 'BIZ', description: 'Central workspace for all BIZ pillar documents, proposals, and reports.', memberCount: 12, libraryCount: 6, createdAt: new Date(Date.now() - 86400000 * 60).toISOString() };
 
 const MOCK_LIBS: LFSLibrary[] = [
   { id: 'l1', workspaceId: 'w1', name: 'Business Proposals', description: 'Client proposals, pitch decks, and RFP responses', fileCount: 34, storageUsed: 1200000000, contentType: 'Business Proposal', updatedAt: new Date(Date.now() - 3600000).toISOString() },
@@ -96,8 +96,10 @@ export default function WorkspaceDetailPage() {
             <div className="bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-2xl p-6 hover:border-brand-black dark:hover:border-dark-border-soft transition-colors">
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div className="flex items-center gap-4">
-                  <div className={cn('w-14 h-14 rounded-2xl flex items-center justify-center text-3xl border', pc.bg)}>
-                    {workspace?.iconEmoji ?? '🏢'}
+                  <div className={cn('w-14 h-14 rounded-2xl flex items-center justify-center border', pc.bg)}>
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-0.5">
@@ -156,8 +158,8 @@ export default function WorkspaceDetailPage() {
                   <Link key={lib.id} href={`/workspaces/${id}/libraries/${lib.id}`} className="block group">
                     <div className="bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-2xl p-5 hover:border-brand-black dark:hover:border-dark-border-soft hover:shadow-card-hover transition-all duration-200">
                       <div className="flex items-start justify-between mb-3">
-                        <div className="w-9 h-9 rounded-xl bg-brand-white-soft dark:bg-dark-surface-2 border border-brand-gray dark:border-dark-border flex items-center justify-center text-base">
-                          📚
+                        <div className="w-9 h-9 rounded-xl bg-brand-white-soft dark:bg-dark-surface-2 border border-brand-gray dark:border-dark-border flex items-center justify-center">
+                          <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>
                         </div>
                         {lib.contentType && (
                           <span className="text-[10px] font-semibold text-brand-gray-dark dark:text-dark-text-muted bg-brand-white-soft dark:bg-dark-surface-2 border border-brand-gray dark:border-dark-border px-2 py-0.5 rounded-full">{lib.contentType}</span>
@@ -177,7 +179,7 @@ export default function WorkspaceDetailPage() {
               <div className="bg-white dark:bg-dark-surface-1 border border-brand-gray dark:border-dark-border rounded-2xl overflow-hidden hover:border-brand-black dark:hover:border-dark-border-soft transition-colors">
                 {libraries.map((lib, i) => (
                   <Link key={lib.id} href={`/workspaces/${id}/libraries/${lib.id}`} className={cn('flex items-center gap-4 px-5 py-3.5 hover:bg-brand-white-soft dark:hover:bg-dark-surface-2 transition-colors group', i > 0 && 'border-t border-brand-gray dark:border-dark-border')}>
-                    <div className="w-8 h-8 rounded-lg bg-brand-white-soft dark:bg-dark-surface-2 border border-brand-gray dark:border-dark-border flex items-center justify-center text-sm flex-shrink-0">📚</div>
+                    <div className="w-8 h-8 rounded-lg bg-brand-white-soft dark:bg-dark-surface-2 border border-brand-gray dark:border-dark-border flex items-center justify-center flex-shrink-0"><svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg></div>
                     <div className="flex-1 min-w-0">
                       <p className="font-semibold text-sm text-brand-black dark:text-dark-text group-hover:text-brand-red transition-colors truncate">{lib.name}</p>
                       {lib.description && <p className="text-xs text-brand-gray-dark dark:text-dark-text-muted truncate">{lib.description}</p>}

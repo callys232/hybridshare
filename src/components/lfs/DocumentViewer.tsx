@@ -70,7 +70,7 @@ export function DocumentViewer({ file, onClose }: Props) {
         ) : file.fileType === 'audio' ? (
           <div className="w-full max-w-md">
             <div className="bg-dark-surface-1 border border-dark-border rounded-2xl p-8 text-center">
-              <div className="text-6xl mb-4">🎵</div>
+              <div className="w-16 h-16 rounded-2xl bg-dark-surface-2 border border-dark-border flex items-center justify-center mb-4"><svg className="w-8 h-8 text-brand-gray-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg></div>
               <p className="text-white font-semibold mb-4">{file.name}</p>
               <audio src={file.previewUrl ?? file.downloadUrl ?? ''} controls className="w-full" />
             </div>
@@ -91,7 +91,7 @@ export function DocumentViewer({ file, onClose }: Props) {
           />
         ) : isPreviewable ? (
           <div className="bg-dark-surface-1 border border-dark-border rounded-2xl p-8 text-center max-w-sm">
-            <div className="text-5xl mb-4">📄</div>
+            <div className="w-14 h-14 rounded-2xl bg-dark-surface-2 border border-dark-border flex items-center justify-center mb-4"><svg className="w-7 h-7 text-brand-gray-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg></div>
             <p className="text-white font-semibold mb-2">{file.name}</p>
             <p className="text-dark-text-muted text-sm mb-6">Preview not available for this file type in the browser.</p>
             {!isGuest && (
@@ -100,7 +100,7 @@ export function DocumentViewer({ file, onClose }: Props) {
           </div>
         ) : (
           <div className="bg-dark-surface-1 border border-dark-border rounded-2xl p-8 text-center max-w-sm">
-            <div className="text-5xl mb-4">📦</div>
+            <div className="w-14 h-14 rounded-2xl bg-dark-surface-2 border border-dark-border flex items-center justify-center mb-4"><svg className="w-7 h-7 text-brand-gray-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg></div>
             <p className="text-white font-semibold mb-2">{file.name}</p>
             <p className="text-dark-text-muted text-sm">This file cannot be previewed in the browser.</p>
           </div>

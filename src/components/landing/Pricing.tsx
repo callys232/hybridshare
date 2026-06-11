@@ -69,7 +69,7 @@ const PLANS: PlanDef[] = [
     storage:      'Unlimited local',
     members:      'Unlimited',
     cta:          'Contact sales',
-    ctaHref:      'mailto:sales@hybridshare.io',
+    ctaHref:      'mailto:sales@lamidgroup.com',
     highlight:    false,
     enterprise:   true,
     accentColor:  '#EF4444',

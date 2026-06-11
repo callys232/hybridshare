@@ -29,11 +29,11 @@ const PILLAR_CONFIG: Record<WorkspacePillar, { label: string; color: string; bg:
 };
 
 const MOCK_WORKSPACES: LFSWorkspace[] = [
-  { id: 'w1', orgId: 'o1', name: 'Acme Business Hub', pillar: 'BIZ', description: 'Central workspace for all BIZ pillar documents, proposals, and reports.', iconEmoji: '💼', memberCount: 12, libraryCount: 6, createdAt: new Date(Date.now() - 86400000 * 60).toISOString() },
-  { id: 'w2', orgId: 'o1', name: 'Talent & Learning', pillar: 'HCD', description: 'Training materials, certificates, talent portfolios and HR documents.', iconEmoji: '🎓', memberCount: 8, libraryCount: 4, createdAt: new Date(Date.now() - 86400000 * 45).toISOString() },
-  { id: 'w3', orgId: 'o1', name: 'Community Impact', pillar: 'SDC', description: 'Grant documents, field reports, and community impact assessments.', iconEmoji: '🌍', memberCount: 5, libraryCount: 3, createdAt: new Date(Date.now() - 86400000 * 30).toISOString() },
-  { id: 'w4', orgId: 'o1', name: 'Marketplace Projects', pillar: 'MARKETPLACE', description: 'Project briefs, deliverables, invoices, and contracts.', iconEmoji: '🛒', memberCount: 15, libraryCount: 8, createdAt: new Date(Date.now() - 86400000 * 20).toISOString() },
-  { id: 'w5', orgId: 'o1', name: 'My Personal Space', pillar: 'PERSONAL', description: 'Personal files and private documents.', iconEmoji: '🙋', memberCount: 1, libraryCount: 2, createdAt: new Date(Date.now() - 86400000 * 10).toISOString() },
+  { id: 'w1', orgId: 'o1', name: 'Acme Business Hub', pillar: 'BIZ', description: 'Central workspace for all BIZ pillar documents, proposals, and reports.', memberCount: 12, libraryCount: 6, createdAt: new Date(Date.now() - 86400000 * 60).toISOString() },
+  { id: 'w2', orgId: 'o1', name: 'Talent & Learning', pillar: 'HCD', description: 'Training materials, certificates, talent portfolios and HR documents.', memberCount: 8, libraryCount: 4, createdAt: new Date(Date.now() - 86400000 * 45).toISOString() },
+  { id: 'w3', orgId: 'o1', name: 'Community Impact', pillar: 'SDC', description: 'Grant documents, field reports, and community impact assessments.', memberCount: 5, libraryCount: 3, createdAt: new Date(Date.now() - 86400000 * 30).toISOString() },
+  { id: 'w4', orgId: 'o1', name: 'Marketplace Projects', pillar: 'MARKETPLACE', description: 'Project briefs, deliverables, invoices, and contracts.', memberCount: 15, libraryCount: 8, createdAt: new Date(Date.now() - 86400000 * 20).toISOString() },
+  { id: 'w5', orgId: 'o1', name: 'My Personal Space', pillar: 'PERSONAL', description: 'Personal files and private documents.', memberCount: 1, libraryCount: 2, createdAt: new Date(Date.now() - 86400000 * 10).toISOString() },
 ];
 
 export default function WorkspacesPage() {

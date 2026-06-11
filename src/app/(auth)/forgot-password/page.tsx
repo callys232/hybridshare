@@ -36,7 +36,7 @@ function ForgotPasswordForm() {
             <div className="w-10 h-10 bg-brand-black rounded-xl flex items-center justify-center transition-transform duration-150 group-hover:scale-110 shadow-button">
               <div className="w-4 h-4 bg-brand-red rounded-sm" />
             </div>
-            <span className="font-bold text-xl text-brand-black tracking-tight">HybridShare</span>
+            <span className="font-bold text-xl text-brand-black tracking-tight">Lamid FileShare</span>
           </Link>
         </div>
 

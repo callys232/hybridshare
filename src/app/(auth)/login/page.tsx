@@ -93,7 +93,7 @@ function LoginForm() {
             <div className="w-10 h-10 bg-brand-black rounded-xl flex items-center justify-center transition-transform duration-150 group-hover:scale-110 shadow-button">
               <div className="w-4 h-4 bg-brand-red rounded-sm" />
             </div>
-            <span className="font-bold text-xl text-brand-black tracking-tight">HybridShare</span>
+            <span className="font-bold text-xl text-brand-black tracking-tight">Lamid FileShare</span>
           </Link>
         </div>
 
@@ -137,7 +137,7 @@ function LoginForm() {
           <p className="text-sm text-brand-gray-dark mb-6">
             {requiresTwoFactor
               ? 'Enter the 6-digit code from your authenticator app.'
-              : 'Sign in to your HybridShare workspace.'}
+              : 'Sign in to your Lamid FileShare workspace.'}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -286,7 +286,7 @@ function LoginForm() {
         </div>
 
         <p className="text-center text-[10px] text-brand-gray-dark mt-6">
-          Protected by HybridShare security. <Link href="/privacy" className="hover:underline">Privacy Policy</Link>
+          Protected by Lamid FileShare security. <Link href="/privacy" className="hover:underline">Privacy Policy</Link>
         </p>
 
         {/* Admin portal link — separated visually at the very bottom */}

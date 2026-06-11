@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = { title: 'Privacy Policy · HybridShare' };
+export const metadata: Metadata = { title: 'Privacy Policy · Lamid FileShare' };
 
 const LAST_UPDATED = 'May 27, 2026';
 
@@ -16,7 +16,7 @@ const sections = [
   },
   {
     title: '3. Data Sharing',
-    body: `We do not sell your personal data. We share data only with: (a) trusted service providers who process data on our behalf under strict confidentiality agreements (Stripe for payments, AWS for hosting, Resend for email, Mux for video); (b) instructors of courses you are enrolled in, limited to your name and progress data; (c) your organisation administrator, if you access HybridShare through an enterprise account; and (d) law enforcement or regulators when required by law.`,
+    body: `We do not sell your personal data. We share data only with: (a) trusted service providers who process data on our behalf under strict confidentiality agreements (Stripe for payments, AWS for hosting, Resend for email, Mux for video); (b) instructors of courses you are enrolled in, limited to your name and progress data; (c) your organisation administrator, if you access Lamid FileShare through an enterprise account; and (d) law enforcement or regulators when required by law.`,
   },
   {
     title: '4. Cookies and Tracking',
@@ -28,7 +28,7 @@ const sections = [
   },
   {
     title: '6. Your Rights',
-    body: `Depending on your location, you may have the right to: access the personal data we hold about you; correct inaccurate data; request deletion of your data ("right to be forgotten"); export your data in a portable format; object to certain processing; and withdraw consent where processing is based on consent. To exercise these rights, email privacy@hybridshare.io. We will respond within 30 days.`,
+    body: `Depending on your location, you may have the right to: access the personal data we hold about you; correct inaccurate data; request deletion of your data ("right to be forgotten"); export your data in a portable format; object to certain processing; and withdraw consent where processing is based on consent. To exercise these rights, email privacy@lamidgroup.com. We will respond within 30 days.`,
   },
   {
     title: '7. Security',
@@ -36,7 +36,7 @@ const sections = [
   },
   {
     title: '8. Children\'s Privacy',
-    body: `HybridShare is not directed at children under 13 years of age. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, please contact us immediately and we will delete it.`,
+    body: `Lamid FileShare is not directed at children under 13 years of age. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, please contact us immediately and we will delete it.`,
   },
   {
     title: '9. International Transfers',
@@ -48,7 +48,7 @@ const sections = [
   },
   {
     title: '11. Contact Us',
-    body: `For privacy-related questions or to exercise your rights, contact our Data Protection Officer at privacy@hybridshare.io. For urgent security concerns, email security@hybridshare.io. Postal address: HybridShare Privacy, 123 Learning Lane, Tech City, TC 10001.`,
+    body: `For privacy-related questions or to exercise your rights, contact our Data Protection Officer at privacy@lamidgroup.com. For urgent security concerns, email security@lamidgroup.com. Postal address: Lamid FileShare Privacy, 123 Learning Lane, Tech City, TC 10001.`,
   },
 ];
 
@@ -60,7 +60,7 @@ export default function PrivacyPage() {
           <div className="w-8 h-8 bg-brand-black rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
             <div className="w-3 h-3 bg-brand-red rounded-sm" />
           </div>
-          <span className="font-bold text-brand-black tracking-tight">HybridShare</span>
+          <span className="font-bold text-brand-black tracking-tight">Lamid FileShare</span>
         </Link>
         <Link href="/dashboard" className="text-sm text-brand-gray-dark hover:text-brand-black transition-colors">
           Back to app →
@@ -88,7 +88,7 @@ export default function PrivacyPage() {
 
         <div className="mt-12 pt-8 border-t border-brand-gray flex flex-col sm:flex-row gap-4 items-center justify-between">
           <p className="text-xs text-brand-gray-dark">
-            Questions? Email <a href="mailto:privacy@hybridshare.io" className="text-brand-red hover:underline">privacy@hybridshare.io</a>
+            Questions? Email <a href="mailto:privacy@lamidgroup.com" className="text-brand-red hover:underline">privacy@lamidgroup.com</a>
           </p>
           <div className="flex gap-4 text-xs">
             <Link href="/terms" className="text-brand-red hover:underline font-medium">Terms of Service</Link>
