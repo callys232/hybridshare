@@ -16,37 +16,37 @@ const FEATURES: FeatureDetail[] = [
   {
     title:   'File Storage',
     badge:   'Storage',
-    tagline: 'Upload, organise and version-control every file with enterprise-grade reliability.',
+    tagline: 'AES-256 encrypted file transfers with bulk uploads and full version history.',
     color:   'text-blue-600 bg-blue-50 border-blue-200',
     icon:    icon('M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z'),
-    desc:    'Upload, organise and version-control every file with enterprise-grade reliability.',
+    desc:    'AES-256 encrypted file transfers with bulk uploads and full version history.',
     videoId: null,
     videoTitle: 'File Storage Demo',
     description:
-      'HybridShare gives your team a single source of truth for all files. Every upload is encrypted in transit and at rest, automatically versioned, and backed up across multiple availability zones. Organise files into nested folders, tag them for fast retrieval, and lock individual files to prevent concurrent edits.',
+      'Lamid FileShare gives your team a single source of truth for all client documents. Every upload is AES-256 encrypted in transit and at rest, automatically versioned, and backed up across multiple availability zones. Bulk-upload entire folders, organise into nested structures, and lock files to prevent concurrent edits.',
     benefits: [
+      { title: 'Bulk uploads',     icon: 'M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12', desc: 'Upload entire folders in one go with drag-and-drop. Progress tracked per file.' },
       { title: 'Version history',  icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15', desc: 'Every save is a new version. Restore any previous state in one click.' },
-      { title: 'File locking',     icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z', desc: 'Lock a file while editing to prevent teammates from overwriting your in-progress changes.' },
       { title: 'Smart search',     icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z', desc: 'Search by filename, tag, workspace, or uploader. Results appear in milliseconds.' },
       { title: 'Virus scanning',   icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', desc: 'Every uploaded file is scanned for malware before it is stored.' },
     ],
   },
   {
-    title:   'Workspaces',
+    title:   'Collaboration Hub',
     badge:   'Collaboration',
-    tagline: 'Team, project and department workspaces with fine-grained member permissions.',
+    tagline: 'Chat, share files, co-create, and stay aligned.',
     color:   'text-violet-600 bg-violet-50 border-violet-200',
     icon:    icon('M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'),
-    desc:    'Team, project and department workspaces with fine-grained member permissions.',
+    desc:    'Chat, share files, co-create, and stay aligned.',
     videoId: null,
-    videoTitle: 'Workspaces Demo',
+    videoTitle: 'Collaboration Hub Demo',
     description:
-      'Create dedicated workspaces for teams, projects, departments, or clients. Each workspace has its own storage quota, member list, role hierarchy, and activity feed. Grant granular permissions — from read-only viewers to full editors — at the workspace, folder, or individual file level.',
+      'Create dedicated workrooms for teams, projects, departments, or clients. File sharing, versioning & collaboration in one place — with workrooms, milestones & messaging. Chat, share files, and coordinate with consultants in real time. Grant granular per-client access controls at the workspace, folder, or file level.',
     benefits: [
-      { title: 'Role-based access', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', desc: 'Assign Owner, Admin, Editor, Commenter, or Viewer roles per workspace.' },
-      { title: 'Storage quotas',    icon: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4', desc: 'Set per-workspace storage limits. Admins receive alerts when nearing the cap.' },
-      { title: 'Activity feeds',    icon: 'M13 10V3L4 14h7v7l9-11h-7z', desc: 'A timestamped feed shows every upload, edit, share, and delete across the workspace.' },
-      { title: 'Guest access',      icon: 'M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z', desc: 'Invite external collaborators as guests — they see only the folders you explicitly share.' },
+      { title: 'Real-time workrooms', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', desc: 'Real-time team workrooms with milestones, messaging, and task coordination.' },
+      { title: 'Workrooms & milestones', icon: 'M13 10V3L4 14h7v7l9-11h-7z', desc: 'Track project milestones and deadlines inside every workroom — linked to files and tasks.' },
+      { title: 'Per-client access',  icon: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4', desc: 'Granular per-client access controls. Each client sees only their workroom.' },
+      { title: 'Guest access',        icon: 'M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z', desc: 'Invite external collaborators as guests — they see only the folders you explicitly share.' },
     ],
   },
   {
@@ -59,7 +59,7 @@ const FEATURES: FeatureDetail[] = [
     videoId: null,
     videoTitle: 'Connectors Demo',
     description:
-      'Stop copying files between tools manually. HybridShare connectors pull assets from cloud drives, object storage, databases, CRMs, and spreadsheets into a unified view. Sync on a schedule, trigger manually, or stream live changes. Credentials are encrypted with AES-256 and never exposed in logs.',
+      'Stop copying files between tools manually. Lamid FileShare connectors pull assets from cloud drives, object storage, databases, CRMs, and spreadsheets into a unified view. Sync on a schedule, trigger manually, or stream live changes. Credentials are encrypted with AES-256 and never exposed in logs.',
     benefits: [
       { title: 'One-click connect', icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1', desc: 'OAuth or credential-based setup in under 2 minutes. No engineering work required.' },
       { title: 'Scheduled sync',    icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', desc: 'Set sync intervals from 5 minutes to daily. Each run logs assets added, updated, and removed.' },
@@ -70,19 +70,19 @@ const FEATURES: FeatureDetail[] = [
   {
     title:   'Secure Sharing',
     badge:   'Sharing',
-    tagline: 'Password-protected links, expiry dates, download limits and view analytics.',
+    tagline: 'AES-256 encrypted transfers, per-client access controls and download tracking.',
     color:   'text-amber-600 bg-amber-50 border-amber-200',
     icon:    icon('M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z'),
-    desc:    'Password-protected links, expiry dates, download limits and view analytics.',
+    desc:    'AES-256 encrypted transfers, per-client access controls and download tracking.',
     videoId: null,
     videoTitle: 'Secure Sharing Demo',
     description:
       'Generate shareable links with fine-grained controls: require a password, set an expiry date, cap downloads, and choose whether viewers can re-share. Every link visit is logged — you see the viewer\'s location, device, and time. Revoke access instantly with a single click.',
     benefits: [
-      { title: 'Password protection', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z', desc: 'Require a password before anyone can open the link.' },
-      { title: 'Expiry dates',         icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', desc: 'Links auto-expire after your chosen date. No more chasing people to delete old emails.' },
-      { title: 'View analytics',       icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z', desc: 'See who opened your link, from which country, and how many times — updated in real time.' },
-      { title: 'Instant revocation',   icon: 'M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636', desc: 'Revoke any link immediately. Active viewers lose access on their next reload.' },
+      { title: 'AES-256 encrypted transfers', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z', desc: 'Bank-level encryption on every file transfer. Require a password before anyone can open the link.' },
+      { title: 'Download tracking & audit trail', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z', desc: 'See who opened your link, from which country, and how many times — full audit trail.' },
+      { title: 'Granular per-client access',  icon: 'M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636', desc: 'Granular per-client access controls. Revoke any link instantly — active viewers lose access on reload.' },
+      { title: 'Expiry dates',                icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', desc: 'Links auto-expire after your chosen date. No more chasing people to delete old emails.' },
     ],
   },
   {
@@ -95,7 +95,7 @@ const FEATURES: FeatureDetail[] = [
     videoId: null,
     videoTitle: 'Security & Compliance Demo',
     description:
-      'HybridShare was built for enterprise compliance. Every user action is written to an immutable audit log. Enforce SAML SSO, require TOTP 2FA for all users, restrict access by IP range, classify files by sensitivity level, and export full audit reports to CSV for compliance reviews.',
+      'Lamid FileShare was built for enterprise compliance. Every user action is written to an immutable audit log. Enforce SAML SSO, require TOTP 2FA for all users, restrict access by IP range, classify files by sensitivity level, and export full audit reports to CSV for compliance reviews.',
     benefits: [
       { title: 'SAML / SSO',          icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', desc: 'Connect Okta, Azure AD, or any SAML 2.0 IdP. Users log in with existing company credentials.' },
       { title: 'Two-factor auth',      icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z', desc: 'Enforce TOTP 2FA platform-wide or per-role. Backup codes generated at setup.' },
@@ -131,30 +131,30 @@ const FEATURES: FeatureDetail[] = [
     videoId: null,
     videoTitle: 'API & Developer Tools Demo',
     description:
-      'Every HybridShare capability is available via a fully documented REST API. Create API keys with scoped permissions, configure webhooks to push events to your own systems, and use our official SDKs for Node.js, Python, and Go to integrate file infrastructure into any product you build.',
+      'Every Lamid FileShare capability is available via a fully documented REST API. Create API keys with scoped permissions, configure webhooks to push events to your own systems, and use our official SDKs for Node.js, Python, and Go to integrate file infrastructure into any product you build.',
     benefits: [
       { title: 'REST API',          icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4', desc: 'Full CRUD across files, workspaces, shares, connectors, and users — all paginated and documented.' },
       { title: 'Webhooks',          icon: 'M13 10V3L4 14h7v7l9-11h-7z', desc: 'Push events like file.uploaded, workspace.created, or share.revoked to any HTTPS endpoint in real time.' },
       { title: 'Scoped API keys',   icon: 'M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z', desc: 'Create keys limited to specific scopes (files:read, shares:write) — least-privilege by design.' },
-      { title: 'Official SDKs',     icon: 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 10H3m18-10h-2m2 10h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z', desc: 'Node.js, Python, and Go SDKs maintained by the HybridShare team and published to npm / PyPI.' },
+      { title: 'Official SDKs',     icon: 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 10H3m18-10h-2m2 10h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z', desc: 'Node.js, Python, and Go SDKs maintained by the Lamid FileShare team and published to npm / PyPI.' },
     ],
   },
   {
-    title:   'Enterprise SSO',
-    badge:   'Enterprise',
-    tagline: 'SAML 2.0, SCIM provisioning, custom domain and white-labeling for enterprises.',
+    title:   'Secure Cloud Workspace',
+    badge:   'Premium · Enterprise',
+    tagline: 'Work from anywhere with enterprise-grade security. SAML, SCIM and white-label.',
     color:   'text-orange-600 bg-orange-50 border-orange-200',
     icon:    icon('M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z'),
-    desc:    'SAML 2.0, SCIM provisioning, custom domain and white-labeling for enterprises.',
+    desc:    'Work from anywhere with enterprise-grade security. SAML, SCIM and white-label.',
     videoId: null,
-    videoTitle: 'Enterprise SSO Demo',
+    videoTitle: 'Secure Cloud Workspace Demo',
     description:
-      'Connect your identity provider once and let HybridShare handle the rest. SAML 2.0 SSO works with Okta, Azure AD, Google Workspace, and any standards-compliant IdP. SCIM provisioning automatically creates, updates, and deactivates user accounts as your directory changes — zero manual user management.',
+      'Connect your identity provider once and let Lamid FileShare handle the rest. Work from anywhere with enterprise-grade security and real-time team workrooms. SAML 2.0 SSO works with Okta, Azure AD, Google Workspace, and any standards-compliant IdP. SCIM provisioning automatically creates, updates, and deactivates user accounts as your directory changes.',
     benefits: [
       { title: 'SAML 2.0 SSO',      icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', desc: 'Plug in Okta, Azure AD, or any SAML 2.0 IdP. Employees log in with existing company credentials.' },
       { title: 'SCIM provisioning',  icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', desc: 'User accounts are auto-created and deactivated as your directory changes — no manual work.' },
-      { title: 'Custom domain',      icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9', desc: 'Host HybridShare on your own domain (files.yourcompany.com) with a full white-label experience.' },
-      { title: 'White-labeling',     icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01', desc: 'Replace the HybridShare logo, colours, and email templates with your own brand assets.' },
+      { title: 'Custom domain',      icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9', desc: 'Host Lamid FileShare on your own domain (files.yourcompany.com) with a full white-label experience.' },
+      { title: 'White-labeling',     icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01', desc: 'Replace the Lamid FileShare logo, colours, and email templates with your own brand assets.' },
     ],
   },
 ];
@@ -174,7 +174,7 @@ export function Features() {
             Everything your team needs
           </h2>
           <p className="text-zinc-600 text-lg max-w-xl mx-auto">
-            One platform replacing a stack of disconnected storage, sharing, and integration tools.
+            Secure document exchange for businesses — file sharing, versioning, collaboration, and compliance in one platform.
           </p>
           <p className="text-sm text-zinc-400 mt-2">
             Click any feature to see a detailed breakdown.

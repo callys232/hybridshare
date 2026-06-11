@@ -3,9 +3,9 @@ import { LinesPattern } from '@/components/ui/BackgroundPattern';
 const STEPS = [
   {
     number: '01',
-    title: 'Create your workspace',
-    desc: 'Sign up in under 60 seconds. Create a workspace for your team, project, or department — personalised with a name, colour, and storage quota.',
-    detail: ['No credit card required on free plan', 'Invite team members by email', 'Choose a workspace type: Team, Project, or Department'],
+    title: 'Create your workroom',
+    desc: 'Sign up in under 60 seconds. Create a secure workroom for your team or clients — with file sharing, versioning & collaboration built in from day one.',
+    detail: ['No credit card required on free plan', 'Invite clients and team members by email', 'Workrooms, milestones & messaging included'],
     color: 'bg-blue-50 border-blue-200 text-blue-600',
     icon: (
       <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -27,9 +27,9 @@ const STEPS = [
   },
   {
     number: '03',
-    title: 'Share with anyone',
-    desc: 'Generate a secure link in seconds. Set a password, expiry date, and download limit — then share with teammates, clients, or the public.',
-    detail: ['Password-protected links', 'Set link expiry and download caps', 'Track every view with geo and device data'],
+    title: 'Share with clients securely',
+    desc: 'Generate an AES-256 encrypted link in seconds. Set a password, expiry date, and download limit — then share sensitive documents with clients or teammates.',
+    detail: ['AES-256 encrypted file transfers', 'Per-client access controls & expiry', 'Download tracking & full audit trail'],
     color: 'bg-amber-50 border-amber-200 text-amber-600',
     icon: (
       <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,7 +74,7 @@ export function HowItWorks() {
             Up and running in minutes
           </h2>
           <p className="text-brand-gray-dark text-lg max-w-xl mx-auto">
-            No complex setup. No migration scripts. Four steps from sign-up to a fully working file platform.
+            No complex setup. Four steps from sign-up to a fully working secure document exchange platform for your clients.
           </p>
         </div>
 

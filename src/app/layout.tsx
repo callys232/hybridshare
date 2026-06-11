@@ -3,10 +3,10 @@ import './globals.css';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 
 export const metadata: Metadata = {
-  title: { default: 'HybridShare', template: '%s · HybridShare' },
-  description: 'Enterprise file sharing and workspace platform — the modern alternative to SharePoint.',
-  keywords: ['file sharing', 'workspace', 'collaboration', 'enterprise', 'documents'],
-  authors: [{ name: 'HybridShare' }],
+  title: { default: 'Lamid FileShare', template: '%s · Lamid FileShare' },
+  description: 'Secure document exchange for businesses — share, store and collaborate on sensitive client documents with confidence.',
+  keywords: ['file sharing', 'secure document exchange', 'client collaboration', 'consultants', 'advisors', 'enterprise', 'audit trail'],
+  authors: [{ name: 'Lamid Group' }],
   robots: 'noindex,nofollow',
   icons: {
     icon: [{ url: '/favicon.ico' }, { url: '/icon.svg', type: 'image/svg+xml' }],

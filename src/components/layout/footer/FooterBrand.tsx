@@ -19,10 +19,10 @@ export function FooterBrand() {
           <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center flex-shrink-0 shadow-md transition-transform duration-150 group-hover:scale-105">
             <div className="w-3.5 h-3.5 bg-brand-red rounded-sm" />
           </div>
-          <span className="text-white font-black text-lg tracking-tight">HybridShare</span>
+          <span className="text-white font-black text-lg tracking-tight">Lamid FileShare</span>
         </Link>
         <p className="text-sm text-zinc-500 leading-relaxed max-w-[220px]">
-          Enterprise hybrid file sharing — manage, share and connect your data from a single platform.
+          Secure document exchange for businesses — share, store and collaborate on sensitive client documents with confidence.
         </p>
       </div>
 

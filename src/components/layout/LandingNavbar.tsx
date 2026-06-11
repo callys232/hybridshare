@@ -29,7 +29,7 @@ export function LandingNavbar() {
           <div className="w-8 h-8 rounded-lg bg-brand-black dark:bg-white flex items-center justify-center flex-shrink-0 transition-transform duration-150 group-hover:scale-110">
             <div className="w-3 h-3 bg-brand-red rounded-sm" />
           </div>
-          <span className="text-lg font-black text-brand-black dark:text-white tracking-tight">HybridShare</span>
+          <span className="text-lg font-black text-brand-black dark:text-white tracking-tight">Lamid FileShare</span>
         </Link>
 
         {/* Desktop links */}

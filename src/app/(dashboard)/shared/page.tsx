@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -25,11 +25,40 @@ const MOCK_SHARED: SharedItem[] = [
   { id: '4', name: 'Design Team Workspace', type: 'workspace', sharedBy: { id: 'u4', name: 'Emeka Obi', avatar: null }, sharedAt: new Date(Date.now() - 86400000 * 10).toISOString(), accessLevel: 'edit', token: 'tok-4' },
 ];
 
-const TYPE_CONFIG = {
-  file: { icon: 'ðŸ“„', color: 'text-blue-600 bg-blue-50 border-blue-200' },
-  folder: { icon: 'ðŸ“', color: 'text-amber-600 bg-amber-50 border-amber-200' },
-  course: { icon: 'ðŸŽ“', color: 'text-emerald-600 bg-emerald-50 border-emerald-200' },
-  workspace: { icon: 'ðŸ¢', color: 'text-purple-600 bg-purple-50 border-purple-200' },
+const TYPE_CONFIG: Record<string, { icon: React.ReactNode; color: string }> = {
+  file: {
+    color: 'text-blue-600 bg-blue-50 border-blue-200',
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+    ),
+  },
+  folder: {
+    color: 'text-amber-600 bg-amber-50 border-amber-200',
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+      </svg>
+    ),
+  },
+  course: {
+    color: 'text-emerald-600 bg-emerald-50 border-emerald-200',
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 14l9-5-9-5-9 5 9 5z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+      </svg>
+    ),
+  },
+  workspace: {
+    color: 'text-purple-600 bg-purple-50 border-purple-200',
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+      </svg>
+    ),
+  },
 };
 
 const ACCESS_CONFIG = {
@@ -85,7 +114,11 @@ export default function SharedPage() {
         <div className="flex justify-center py-16"><Spinner size="lg" /></div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-20">
-          <p className="text-4xl mb-4">ðŸ”—</p>
+          <div className="w-14 h-14 rounded-full bg-brand-white-soft border border-brand-gray flex items-center justify-center mx-auto mb-4">
+            <svg className="w-7 h-7 text-brand-gray-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            </svg>
+          </div>
           <p className="font-semibold text-brand-black">Nothing shared yet</p>
           <p className="text-sm text-brand-gray-dark mt-1">Items shared with you will appear here</p>
         </div>
@@ -99,7 +132,7 @@ export default function SharedPage() {
                 key={item.id}
                 className={cn('flex items-center gap-4 px-5 py-4 hover:bg-brand-white-soft transition-colors group', i > 0 && 'border-t border-brand-gray')}
               >
-                <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center text-lg border flex-shrink-0', tc.color)}>
+                <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center border flex-shrink-0', tc.color)}>
                   {tc.icon}
                 </div>
                 <div className="flex-1 min-w-0">

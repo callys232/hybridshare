@@ -2,7 +2,7 @@ export function FooterBottomBar() {
   return (
     <div className="pt-8 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
       <p className="text-xs text-zinc-600">
-        &copy; {new Date().getFullYear()} HybridShare by Lamid. All rights reserved.
+        &copy; {new Date().getFullYear()} Lamid FileShare by Lamid Group. All rights reserved.
       </p>
       <div className="flex items-center gap-5 text-xs text-zinc-600">
         <div className="flex items-center gap-1.5">

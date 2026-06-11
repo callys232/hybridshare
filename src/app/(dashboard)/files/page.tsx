@@ -42,6 +42,7 @@ export default function FilesPage() {
   const [showUpload, setShowUpload] = useState(false);
   const [starredOnly, setStarredOnly] = useState(false);
   const [isBulkLoading, setIsBulkLoading] = useState(false);
+  const [showSignModal, setShowSignModal] = useState(false);
 
   useEffect(() => {
     if (isMockMode()) {
@@ -87,6 +88,32 @@ export default function FilesPage() {
           a.click();
         }
       } catch { /* skip failed */ }
+    }
+  };
+
+  const handleBulkZipDownload = async () => {
+    setIsBulkLoading(true);
+    try {
+      if (isMockMode()) {
+        await new Promise((r) => setTimeout(r, 1200));
+        const a = document.createElement('a');
+        a.href = 'data:application/zip;base64,UEsFBgAAAAAAAAAAAAAAAAAAAAAAAA==';
+        a.download = `files-${new Date().toISOString().slice(0, 10)}.zip`;
+        a.click();
+        return;
+      }
+      const res = await api.post<{ data: { url: string } }>('/files/bulk/zip', { fileIds: [...selected] });
+      const url = res.data.data?.url;
+      if (url) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `files-${new Date().toISOString().slice(0, 10)}.zip`;
+        a.click();
+      }
+    } catch {
+      alert('Failed to create ZIP. Please try again.');
+    } finally {
+      setIsBulkLoading(false);
     }
   };
 
@@ -163,15 +190,42 @@ export default function FilesPage() {
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             {selected.size > 0 && (
-              <div className="flex items-center gap-2 bg-brand-black text-white rounded-lg px-3 py-2">
+              <div className="flex items-center gap-2 bg-brand-black text-white rounded-lg px-3 py-2 flex-wrap">
                 <span className="text-xs font-bold">{selected.size} selected</span>
+                <span className="w-px h-3.5 bg-zinc-700" />
                 <button
                   type="button"
                   disabled={isBulkLoading}
                   onClick={handleBulkDownload}
+                  title="Download files individually"
                   className="text-xs text-zinc-400 hover:text-white transition-colors disabled:opacity-50"
                 >
                   Download
+                </button>
+                <button
+                  type="button"
+                  disabled={isBulkLoading}
+                  onClick={handleBulkZipDownload}
+                  title="Download as ZIP archive"
+                  className="flex items-center gap-1 text-xs text-zinc-400 hover:text-white transition-colors disabled:opacity-50"
+                >
+                  {isBulkLoading ? (
+                    <span className="w-3 h-3 border border-zinc-400 border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                  )}
+                  ZIP
+                </button>
+                <button
+                  type="button"
+                  disabled={isBulkLoading}
+                  onClick={() => setShowSignModal(true)}
+                  title="Send selected files for e-signature"
+                  className="text-xs text-zinc-400 hover:text-white transition-colors disabled:opacity-50"
+                >
+                  Sign
                 </button>
                 <button
                   type="button"
@@ -197,6 +251,17 @@ export default function FilesPage() {
                   ✕
                 </button>
               </div>
+            )}
+            {!isGuest && (
+              <Link
+                href="/file-requests"
+                className="flex items-center gap-2 px-4 py-2 border border-brand-gray rounded-lg text-sm font-medium text-brand-black hover:border-brand-black hover:bg-brand-white-soft transition-all"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                </svg>
+                Request Files
+              </Link>
             )}
             {!isGuest ? (
               <LockedButton feature="upload_file" onClick={() => setShowUpload((v) => !v)}>
@@ -299,6 +364,78 @@ export default function FilesPage() {
           </div>
         )}
       </div>
+
+      {/* E-Signature modal */}
+      {showSignModal && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md border border-brand-gray animate-fade-in">
+          <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-brand-gray">
+            <div>
+              <h2 className="text-base font-bold text-brand-black">Send for Signature</h2>
+              <p className="text-xs text-brand-gray-dark mt-0.5">{selected.size} file{selected.size !== 1 ? 's' : ''} selected</p>
+            </div>
+            <button type="button" aria-label="Close" onClick={() => setShowSignModal(false)} className="icon-btn">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div className="px-6 py-5 space-y-4">
+            <p className="text-sm text-brand-gray-dark">Choose an e-signature provider to send the selected documents for signing.</p>
+            <div className="space-y-2">
+              {[
+                {
+                  name: 'DocuSign',
+                  desc: 'Industry-leading e-signature platform',
+                  color: 'bg-yellow-50 border-yellow-200 hover:border-yellow-400',
+                  icon: '✍️',
+                },
+                {
+                  name: 'HelloSign',
+                  desc: 'Simple, fast e-signatures by Dropbox',
+                  color: 'bg-blue-50 border-blue-200 hover:border-blue-400',
+                  icon: '📝',
+                },
+                {
+                  name: 'Adobe Sign',
+                  desc: 'Enterprise e-signatures from Adobe',
+                  color: 'bg-red-50 border-red-200 hover:border-red-400',
+                  icon: '📄',
+                },
+              ].map((provider) => (
+                <button
+                  key={provider.name}
+                  type="button"
+                  onClick={() => {
+                    setShowSignModal(false);
+                    alert(`Integration with ${provider.name} coming soon. Contact enterprise@lamidgroup.com to set up your account.`);
+                  }}
+                  className={cn(
+                    'w-full flex items-center gap-3 px-4 py-3 border rounded-xl transition-all text-left',
+                    provider.color
+                  )}
+                >
+                  <span className="text-xl">{provider.icon}</span>
+                  <div>
+                    <p className="text-sm font-semibold text-brand-black">{provider.name}</p>
+                    <p className="text-xs text-brand-gray-dark">{provider.desc}</p>
+                  </div>
+                  <svg className="w-4 h-4 text-brand-gray-dark ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-brand-gray-dark text-center">
+              Need help setting up? Contact{' '}
+              <a href="mailto:enterprise@lamidgroup.com" className="text-brand-red hover:underline">
+                enterprise@lamidgroup.com
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    )}
     </div>
   );
 }

@@ -12,10 +12,10 @@ export function CtaBanner() {
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
         <h2 className="text-3xl sm:text-4xl font-black text-white mb-3">
-          Ready to simplify how your team works with files?
+          Ready to exchange files securely with your clients?
         </h2>
         <p className="text-red-100 text-lg mb-8 leading-relaxed">
-          Set up your workspace in under 2 minutes. No credit card required.
+          Purpose-built for consultants and advisors who handle critical data. Set up in under 2 minutes.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
@@ -33,8 +33,8 @@ export function CtaBanner() {
         </div>
         <p className="mt-5 text-red-200/70 text-xs">
           Enterprise? Contact us at{' '}
-          <a href="mailto:enterprise@hybridshare.io" className="underline hover:text-white transition-colors">
-            enterprise@hybridshare.io
+          <a href="mailto:enterprise@lamidgroup.com" className="underline hover:text-white transition-colors">
+            enterprise@lamidgroup.com
           </a>
         </p>
       </div>
