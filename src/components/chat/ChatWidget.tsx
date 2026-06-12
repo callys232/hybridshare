@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
+import { Avatar } from '@/components/ui/Avatar';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 interface BotAction { label: string; href: string; }
@@ -213,13 +214,22 @@ function matchRule(input: string) {
   return null;
 }
 
-// ── Bot avatar ───────────────────────────────────────────────────────────────
+// ── Bot avatar — mirrors the floating button icon ────────────────────────────
 function BotAvatar({ size = 'sm' }: { size?: 'xs' | 'sm' }) {
   const sz = size === 'xs' ? 'w-6 h-6' : 'w-8 h-8';
-  const iconSz = size === 'xs' ? 'w-3 h-3' : 'w-4 h-4';
+  const iconSz = size === 'xs' ? 'w-3.5 h-3.5' : 'w-4 h-4';
   return (
-    <div className={cn('rounded-full bg-brand-red flex items-center justify-center flex-shrink-0', sz)}>
-      <SparklesIcon className={cn('text-white', iconSz)} />
+    <div className={cn(
+      'rounded-full flex items-center justify-center flex-shrink-0',
+      'bg-gradient-to-br from-brand-red-light via-brand-red to-brand-red-dark',
+      sz,
+    )}>
+      <svg className={cn('text-white', iconSz)} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6}
+          d="M9 12h6m-6 4h4m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.4}
+          d="M19 2l.4 1.2 1.2.4-1.2.4L19 5.2l-.4-1.2-1.2-.4 1.2-.4L19 2z" />
+      </svg>
     </div>
   );
 }
@@ -356,8 +366,14 @@ export function ChatWidget() {
           {/* Messages */}
           <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin">
             {msgs.map((msg) => (
-              <div key={msg.id} className={cn('flex gap-2', msg.role === 'user' && 'flex-row-reverse')}>
-                {msg.role === 'bot' && <BotAvatar size="xs" />}
+              <div key={msg.id} className={cn('flex gap-2 items-end', msg.role === 'user' && 'flex-row-reverse')}>
+                {msg.role === 'bot' ? (
+                  <BotAvatar size="xs" />
+                ) : (
+                  <div className="flex-shrink-0">
+                    <Avatar name={user?.name ?? 'Me'} src={user?.avatar ?? undefined} size="xs" />
+                  </div>
+                )}
                 <div className={cn('flex flex-col max-w-[82%]', msg.role === 'user' && 'items-end')}>
                   <div className={cn(
                     'px-3 py-2.5 text-xs leading-relaxed',

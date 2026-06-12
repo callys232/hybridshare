@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from 'react';
 import Link from 'next/link';
+import { Logo } from '@/components/ui/Logo';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
 import { Button } from '@/components/ui/Button';
@@ -61,12 +62,7 @@ function ResetPasswordForm() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 bg-brand-black rounded-xl flex items-center justify-center transition-transform duration-150 group-hover:scale-110 shadow-button">
-              <div className="w-4 h-4 bg-brand-red rounded-sm" />
-            </div>
-            <span className="font-bold text-xl text-brand-black tracking-tight">Lamid FileShare</span>
-          </Link>
+          <Logo href="/" size="md" markClassName="shadow-button" />
         </div>
 
         <div className="card p-8 animate-slide-up">

@@ -9,6 +9,7 @@ import { useWorkspaceStore } from '@/store/workspace.store';
 import { useMessageStore } from '@/store/message.store';
 import { Avatar } from '../ui/Avatar';
 import { Tooltip } from '../ui/Tooltip';
+import { Logo } from '../ui/Logo';
 
 interface NavItem {
   href: string;
@@ -238,14 +239,7 @@ export function Sidebar() {
     <aside className="w-60 bg-white dark:bg-dark-surface-1 border-r border-brand-gray dark:border-dark-border flex flex-col h-full shadow-sidebar">
       {/* Logo */}
       <div className="h-16 flex items-center px-5 border-b border-brand-gray dark:border-dark-border flex-shrink-0">
-        <Link href="/dashboard" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 bg-brand-black rounded-lg flex items-center justify-center transition-transform duration-150 group-hover:scale-110">
-            <div className="w-3 h-3 bg-brand-red rounded-sm" />
-          </div>
-          <span className="font-bold text-base text-brand-black tracking-tight">
-            Lamid FileShare
-          </span>
-        </Link>
+        <Logo href="/dashboard" size="sm" />
       </div>
 
       {/* Navigation */}

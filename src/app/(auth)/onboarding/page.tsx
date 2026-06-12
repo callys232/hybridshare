@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Logo } from '@/components/ui/Logo';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
 import { ShapesPattern } from '@/components/ui/BackgroundPattern';
@@ -52,12 +53,7 @@ export default function OnboardingPage() {
 
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 bg-brand-black rounded-xl flex items-center justify-center shadow-button">
-              <div className="w-4 h-4 bg-brand-red rounded-sm" />
-            </div>
-            <span className="font-bold text-xl text-brand-black tracking-tight">Lamid FileShare</span>
-          </div>
+          <Logo size="md" markClassName="shadow-button" />
         </div>
 
         {/* Step progress */}

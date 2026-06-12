@@ -4,14 +4,13 @@ import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
 import { useHydrated } from '@/hooks/useHydrated';
+import { LogoMark } from '@/components/ui/Logo';
 
 function Loader() {
   return (
     <div className="flex h-screen w-full items-center justify-center bg-brand-white-off dark:bg-dark-bg">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-10 h-10 bg-brand-black rounded-xl flex items-center justify-center animate-pulse">
-          <div className="w-4 h-4 bg-brand-red rounded-sm" />
-        </div>
+        <LogoMark size="md" animate />
         <div className="flex gap-1.5 items-center">
           <div className="w-1.5 h-1.5 rounded-full bg-brand-gray-dark animate-bounce [animation-delay:-0.3s]" />
           <div className="w-1.5 h-1.5 rounded-full bg-brand-gray-dark animate-bounce [animation-delay:-0.15s]" />

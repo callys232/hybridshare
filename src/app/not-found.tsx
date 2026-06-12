@@ -1,15 +1,13 @@
 import Link from 'next/link';
+import { Logo } from '@/components/ui/Logo';
 
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-brand-white-off dark:bg-dark-surface flex items-center justify-center p-6">
       <div className="text-center max-w-md">
-        <Link href="/" className="inline-flex items-center gap-2.5 mb-8">
-          <div className="w-10 h-10 bg-brand-black dark:bg-white rounded-xl flex items-center justify-center">
-            <div className="w-4 h-4 bg-brand-red rounded-sm" />
-          </div>
-          <span className="font-bold text-xl text-brand-black dark:text-dark-text tracking-tight">Lamid FileShare</span>
-        </Link>
+        <div className="inline-flex mb-8">
+          <Logo href="/" size="md" />
+        </div>
 
         <p className="text-8xl font-black text-brand-black dark:text-dark-text mb-4">404</p>
         <h1 className="text-2xl font-bold text-brand-black dark:text-dark-text mb-2">Page not found</h1>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
+import { Logo } from '@/components/ui/Logo';
 import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { isMockMode } from '@/mocks';
@@ -410,12 +411,7 @@ function PageShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-brand-white-off flex flex-col">
       <header className="bg-white border-b border-brand-gray px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-brand-black rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
-            <div className="w-3 h-3 bg-brand-red rounded-sm" />
-          </div>
-          <span className="font-bold text-brand-black text-sm">Lamid FileShare</span>
-        </Link>
+        <Logo href="/" size="sm" />
         <Link href="/register" className="btn-primary text-xs px-4 py-1.5">Sign up free</Link>
       </header>
       <main className="flex-1 max-w-2xl w-full mx-auto px-4 py-10">
