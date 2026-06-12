@@ -10,6 +10,7 @@ import { useAuthStore } from '@/store/auth.store';
 import { useWorkspaceStore } from '@/store/workspace.store';
 import { useNotificationStore } from '@/store/notification.store';
 import { connectSocket, onNotification } from '@/lib/socket';
+import { ChatWidget } from '@/components/chat/ChatWidget';
 
 function DashboardShell({ children }: { children: React.ReactNode }) {
   const { accessToken } = useAuthStore();
@@ -43,6 +44,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
           </div>
         </main>
       </div>
+      <ChatWidget />
     </div>
   );
 }
