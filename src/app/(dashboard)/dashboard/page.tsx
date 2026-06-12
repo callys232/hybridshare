@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api, type ApiResponse } from '@/lib/api';
 import { useAuthStore } from '@/store/auth.store';
+import { useTourStore } from '@/store/tour.store';
 import { useFileStore } from '@/store/file.store';
 import { useWorkspaceStore } from '@/store/workspace.store';
 import { StickmanPattern } from '@/components/ui/BackgroundPattern';
@@ -114,14 +115,22 @@ export default function DashboardPage() {
   const { user } = useAuthStore();
   const { files, fetchFiles } = useFileStore();
   const { workspaces, fetchWorkspaces } = useWorkspaceStore();
+  const { start: startTour } = useTourStore();
 
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [isLoadingStats, setIsLoadingStats] = useState(true);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [showUploader, setShowUploader] = useState(false);
+  const [tourDismissed, setTourDismissed] = useState(true); // true = hidden on SSR
   // Initialise to '' so SSR and first client render match, then set on mount
   const [greeting, setGreeting] = useState('');
   useEffect(() => { setGreeting(getGreeting()); }, []);
+
+  // Show tour prompt only if user hasn't dismissed it this session
+  useEffect(() => {
+    const dismissed = sessionStorage.getItem('tour-banner-dismissed');
+    if (!dismissed) setTourDismissed(false);
+  }, []);
 
   useEffect(() => {
     fetchFiles({ limit: '8', sortBy: 'createdAt', sortOrder: 'desc' });
@@ -182,6 +191,38 @@ export default function DashboardPage() {
   return (
     <div className="relative space-y-8 animate-fade-in">
       <StickmanPattern opacity={0.45} />
+
+      {/* Tour banner */}
+      {!tourDismissed && (
+        <div className="relative z-10 flex items-center gap-4 px-4 py-3 rounded-xl bg-gradient-to-r from-brand-black to-brand-black/90 text-white shadow-button">
+          <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-brand-red/20 border border-brand-red/30 flex items-center justify-center">
+            <svg className="w-4 h-4 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            </svg>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold">New here? Take the guided tour</p>
+            <p className="text-xs text-white/60">16 steps · covers every feature · 2 minutes</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => { startTour(); setTourDismissed(true); sessionStorage.setItem('tour-banner-dismissed', '1'); }}
+            className="flex-shrink-0 px-4 py-1.5 bg-brand-red text-white text-xs font-bold rounded-lg hover:bg-brand-red-dark transition-colors"
+          >
+            Start tour →
+          </button>
+          <button
+            type="button"
+            onClick={() => { setTourDismissed(true); sessionStorage.setItem('tour-banner-dismissed', '1'); }}
+            aria-label="Dismiss"
+            className="flex-shrink-0 text-white/40 hover:text-white/80 transition-colors p-1"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      )}
 
       {/* Header */}
       <div className="relative z-10 flex items-start justify-between flex-wrap gap-4">

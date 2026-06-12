@@ -7,6 +7,7 @@ import { cn, formatBytes, storagePercentage } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth.store';
 import { useWorkspaceStore } from '@/store/workspace.store';
 import { useMessageStore } from '@/store/message.store';
+import { useTourStore } from '@/store/tour.store';
 import { Avatar } from '../ui/Avatar';
 import { Tooltip } from '../ui/Tooltip';
 import { Logo } from '../ui/Logo';
@@ -136,6 +137,15 @@ const PLATFORM_ITEMS: NavItem[] = [
       </svg>
     ),
   },
+  {
+    href: '/guide',
+    label: 'User Guide',
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+    ),
+  },
 ];
 
 const ADMIN_ITEMS: NavItem[] = [
@@ -188,9 +198,12 @@ const ADMIN_ITEMS: NavItem[] = [
 
 function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
   const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(`${item.href}/`));
+  // derive tour id from href: /file-requests → file-requests
+  const tourId = item.href.replace(/^\//, '').replace(/\//g, '-');
   return (
     <Link
       href={item.href}
+      data-tour={tourId}
       className={cn(
         isActive ? 'sidebar-item-active' : 'sidebar-item',
         'relative group'
@@ -221,6 +234,7 @@ export function Sidebar() {
   const { user, logout } = useAuthStore();
   const { workspaces } = useWorkspaceStore();
   const { totalUnread: msgUnread } = useMessageStore();
+  const { start: startTour } = useTourStore();
   const [signingOut, setSigningOut] = useState(false);
 
   const handleLogout = async () => {
@@ -292,6 +306,20 @@ export function Sidebar() {
           </div>
         )}
       </nav>
+
+      {/* Take a tour */}
+      <div className="px-3 pb-1">
+        <button
+          type="button"
+          onClick={startTour}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-brand-gray-dark hover:text-brand-black dark:hover:text-dark-text hover:bg-brand-white-soft dark:hover:bg-dark-surface-2 w-full transition-all duration-150 group"
+        >
+          <svg className="w-3.5 h-3.5 flex-shrink-0 text-brand-gray-dark group-hover:text-brand-black dark:group-hover:text-dark-text transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+          </svg>
+          Take a tour
+        </button>
+      </div>
 
       {/* Upgrade CTA */}
       <div className="px-3 pb-2">

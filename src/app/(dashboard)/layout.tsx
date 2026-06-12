@@ -11,6 +11,7 @@ import { useWorkspaceStore } from '@/store/workspace.store';
 import { useNotificationStore } from '@/store/notification.store';
 import { connectSocket, onNotification } from '@/lib/socket';
 import { ChatWidget } from '@/components/chat/ChatWidget';
+import { TourOverlay } from '@/components/tour/TourOverlay';
 
 function DashboardShell({ children }: { children: React.ReactNode }) {
   const { accessToken } = useAuthStore();
@@ -45,6 +46,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
         </main>
       </div>
       <ChatWidget />
+      <TourOverlay />
     </div>
   );
 }
